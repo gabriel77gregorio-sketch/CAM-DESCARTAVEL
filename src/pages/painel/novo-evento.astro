@@ -1,0 +1,12 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import EventForm from '../../components/dashboard/EventForm';
+---
+
+<DashboardLayout title="Criar Evento" activeLink="novo-evento">
+  <div style="margin-bottom: 1.5rem;">
+    <h2 style="font-size: 2rem; font-family: var(--font-display); color: var(--text-primary); margin-bottom: 0.25rem;">Configurar Novo Evento</h2>
+    <p style="color: var(--text-secondary);">Defina as regras do seu evento digital.</p>
+  </div>
+  <EventForm client:load />
+</DashboardLayout>

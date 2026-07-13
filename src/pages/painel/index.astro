@@ -1,0 +1,12 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import EventList from '../../components/dashboard/EventList';
+---
+
+<DashboardLayout title="Meus Eventos" activeLink="dashboard">
+  <div style="margin-bottom: 1.5rem;">
+    <h2 style="font-size: 2rem; font-family: var(--font-display); color: var(--text-primary); margin-bottom: 0.25rem;">Seu Painel</h2>
+    <p style="color: var(--text-secondary);">Gerencie seus casamentos, festas e eventos criados.</p>
+  </div>
+  <EventList client:load />
+</DashboardLayout>

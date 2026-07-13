@@ -1,0 +1,25 @@
+---
+import '../styles/global.css';
+import '../styles/camera.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- viewport-fit=cover e user-scalable=no são essenciais para uma PWA/Experiência mobile fluida de câmera -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title} | Cam Descartável</title>
+  </head>
+  <body style="background-color: #efede6; overflow: hidden; margin: 0; padding: 0; height: 100vh;">
+    <div class="grain-overlay"></div>
+    <slot />
+  </body>
+</html>

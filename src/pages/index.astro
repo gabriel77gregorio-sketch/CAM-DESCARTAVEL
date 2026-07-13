@@ -1,0 +1,1835 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Cam Descartável — Um QR Code, todas as fotos do seu evento">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="/" class="logo">Cam <span>Descartável</span></a>
+      <nav class="nav-links">
+        <a href="#como-funciona">Como Funciona</a>
+        <a href="#celular">O Aplicativo</a>
+        <a href="#depoimentos">Depoimentos</a>
+        <a href="#precos">Preços</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="auth-buttons">
+        <a href="/painel" class="btn-ghost">Entrar</a>
+        <a href="/painel" class="btn-primary">Criar Evento</a>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#como-funciona">Como Funciona</a>
+      <a href="#celular">O Aplicativo</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#precos">Preços</a>
+      <a href="#faq">FAQ</a>
+      <hr />
+      <a href="/painel" style="padding: 0.5rem 0;">Entrar</a>
+      <a href="/painel" class="btn-primary" style="text-align:center; margin-top: 0.5rem;">Criar Evento</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content animate-fade-in">
+      <h1>Um código QR: todas as fotos do casamento, de <span class="highlight">todos os convidados</span>.</h1>
+      <p class="hero-subtitle">Configure um único código QR e todas as fotos do dia serão salvas em sua galeria privada — com qualidade original, diretamente dos celulares dos seus convidados, sem precisar instalar nada.</p>
+      
+      <a href="/painel" class="btn-primary btn-large">Comece sua galeria</a>
+      
+      <div class="trust-signals">
+        <div class="trust-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8318A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Configuração em 3 etapas</span>
+        </div>
+        <div class="trust-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8318A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Não há aplicativo para hóspedes.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Visual Mockup -->
+    <div class="hero-visual animate-fade-in">
+      <div class="visual-wrapper">
+        <!-- Mockup do celular com fotos de casamento reais -->
+        <div class="phone-mockup">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-header">
+              <span>Ivy & Noah</span>
+              <small>22 de Agosto de 2025</small>
+            </div>
+            <div class="phone-stats">
+              <div><strong>573</strong><span>Fotos</span></div>
+              <div><strong>88</strong><span>Convidados</span></div>
+            </div>
+            <div class="phone-gallery-grid">
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=300&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=300&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=300&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1519225495810-7512c696505a?w=300&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1507504038482-762102124e18?w=300&auto=format&fit=crop&q=80')"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Plaqueta de Mesa QR flutuante -->
+        <div class="floating-qr-card">
+          <div class="qr-header">
+            <h4>Ivy & Noah</h4>
+            <p>22 de Agosto de 2025</p>
+          </div>
+          <div class="qr-code-placeholder">
+            <!-- Representação gráfica de QR Code -->
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="1.5"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="10" y="10" width="4" height="4" rx="0.5"/><path d="M10 2h4M2 10v4M14 10h4M10 14v4M16 16h6v6h-6zM22 10v4M10 22h4"/></svg>
+          </div>
+          <p class="qr-scan-text">Escaneie para adicionar suas fotos</p>
+          <span class="qr-domain">pixwedding.com</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Polaroid Overlapping Strip -->
+  <section class="polaroid-strip">
+    <div class="polaroid-wrapper">
+      <div class="polaroid-card" style="transform: rotate(-6deg) translateY(10px);">
+        <div class="polaroid-photo" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=400&auto=format&fit=crop&q=80')"></div>
+        <p class="polaroid-caption">Ivy & Noah</p>
+      </div>
+      <div class="polaroid-card" style="transform: rotate(4deg) translateY(-5px);">
+        <div class="polaroid-photo" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&auto=format&fit=crop&q=80')"></div>
+        <p class="polaroid-caption">Primeira Dança 🤍</p>
+      </div>
+      <div class="polaroid-card" style="transform: rotate(-3deg) translateY(5px);">
+        <div class="polaroid-photo" style="background-image: url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&auto=format&fit=crop&q=80')"></div>
+        <p class="polaroid-caption">Pista de Dança</p>
+      </div>
+      <div class="polaroid-card" style="transform: rotate(5deg) translateY(15px);">
+        <div class="polaroid-photo" style="background-image: url('https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=400&auto=format&fit=crop&q=80')"></div>
+        <p class="polaroid-caption">Momentos Espontâneos</p>
+      </div>
+      <div class="polaroid-card" style="transform: rotate(-4deg) translateY(-8px);">
+        <div class="polaroid-photo" style="background-image: url('https://images.unsplash.com/photo-1507504038482-762102124e18?w=400&auto=format&fit=crop&q=80')"></div>
+        <p class="polaroid-caption">Brinde aos Noivos 🥂</p>
+      </div>
+      <div class="polaroid-card" style="transform: rotate(2deg) translateY(2px);">
+        <div class="polaroid-photo" style="background-image: url('https://images.unsplash.com/photo-1519225495810-7512c696505a?w=400&auto=format&fit=crop&q=80')"></div>
+        <p class="polaroid-caption">Os Detalhes ✨</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como Funciona Section -->
+  <section id="como-funciona" class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge">Como funciona</span>
+        <h2>Configure tudo <span class="highlight">hoje à noite</span>. No dia seguinte, todas as fotos estarão na galeria.</h2>
+        <p>Nada para instalar — nem para você, nem para os seus convidados. Veja as 3 etapas simples:</p>
+      </div>
+
+      <div class="steps-container">
+        <!-- Passo 1 -->
+        <div class="step-row">
+          <div class="step-info">
+            <span class="step-number">01</span>
+            <h3>Nomeie sua galeria</h3>
+            <p>Digite os nomes do casal e a data do evento. Nós criamos sua galeria privada e um código QR exclusivo na hora — sem necessidade de configurar plug-ins ou integrações complexas.</p>
+          </div>
+          <div class="step-preview">
+            <div class="preview-card-form">
+              <div class="form-header">
+                <span>Nova galeria de casamento</span>
+              </div>
+              <div class="form-body-preview">
+                <div class="input-preview-group">
+                  <label>O CASAL</label>
+                  <div class="input-preview-box">Ivy & Noah</div>
+                </div>
+                <div class="input-preview-group">
+                  <label>DATA DO CASAMENTO</label>
+                  <div class="input-preview-box">22 de Agosto de 2025</div>
+                </div>
+                <button type="button" class="btn-primary-preview">Criar Galeria</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Passo 2 -->
+        <div class="step-row reverse">
+          <div class="step-info">
+            <span class="step-number">02</span>
+            <h3>Imprima o QR Code</h3>
+            <p>Baixe placas prontas para impressão ou cartões de mesa personalizados com os nomes dos noivos. Coloque uma placa de recepção na entrada do salão ou pequenos cartões em cada mesa dos convidados.</p>
+          </div>
+          <div class="step-preview">
+            <div class="preview-card-print">
+              <div class="card-print-frame">
+                <div class="card-print-logo">IVY & NOAH</div>
+                <div class="card-print-sub">Escaneie para adicionar suas fotos</div>
+                <div class="card-print-qr">
+                  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#E8318A" stroke-width="1.5"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="10" y="10" width="4" height="4" rx="0.5"/><path d="M10 2h4M2 10v4M14 10h4M10 14v4M16 16h6v6h-6zM22 10v4M10 22h4"/></svg>
+                </div>
+                <div class="card-print-footer">pixwedding.com</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Passo 3 -->
+        <div class="step-row">
+          <div class="step-info">
+            <span class="step-number">03</span>
+            <h3>Baixe a galeria inteira</h3>
+            <p>Os convidados apontam a câmera, tiram fotos ou fazem o upload direto e voltam para curtir a festa. No dia seguinte, você pode baixar todas as fotos em qualidade original de uma única vez.</p>
+          </div>
+          <div class="step-preview">
+            <div class="preview-card-download">
+              <div class="download-title">Fotos prontas para baixar</div>
+              <div class="download-count">573</div>
+              <div class="download-label">Fotos coletadas com qualidade original</div>
+              <button class="btn-primary-preview">Baixar Galeria (ZIP)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Um Único Código, de qualquer celular (Visual Showroom) -->
+  <section id="celular" class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge">Experiência Completa</span>
+        <h2>Um único código, <span class="highlight">em qualquer celular</span>.</h2>
+        <p>A experiência do convidado é otimizada para navegadores móveis, sem download de aplicativos. E o painel administrativo oferece controle total em tempo real.</p>
+      </div>
+
+      <div class="showroom-grid">
+        <!-- View 1: Camera do Convidado -->
+        <div class="showroom-item">
+          <div class="showroom-phone">
+            <div class="phone-screen camera-bg">
+              <div class="camera-lens-view">
+                <div class="viewfinder-grid"></div>
+              </div>
+              <div class="camera-lcd">10 FOTOS RESTANTES</div>
+              <div class="camera-controls">
+                <div class="flash-btn">⚡</div>
+                <div class="shutter-btn"></div>
+                <div class="filter-btn">🎨</div>
+              </div>
+            </div>
+          </div>
+          <h4>Câmera do Convidado</h4>
+          <p>Visual retrô de câmera descartável com flash e filtros vintage automáticos diretamente no navegador.</p>
+        </div>
+
+        <!-- View 2: Galeria Pública -->
+        <div class="showroom-item">
+          <div class="showroom-phone">
+            <div class="phone-screen gallery-bg">
+              <div class="gallery-header">Galeria ao Vivo 📸</div>
+              <div class="gallery-pics">
+                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=200&auto=format&fit=crop&q=80')"></div>
+                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=200&auto=format&fit=crop&q=80')"></div>
+                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=200&auto=format&fit=crop&q=80')"></div>
+                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=200&auto=format&fit=crop&q=80')"></div>
+              </div>
+            </div>
+          </div>
+          <h4>Galeria Digital Coletiva</h4>
+          <p>Um feed atualizado em tempo real para os convidados acompanharem e relembrarem os cliques do evento.</p>
+        </div>
+
+        <!-- View 3: Painel Administrativo -->
+        <div class="showroom-item">
+          <div class="showroom-phone">
+            <div class="phone-screen admin-bg">
+              <div class="admin-header">Painel do Casal ⚙️</div>
+              <div class="admin-stats-box">
+                <div><strong>573</strong><span>Fotos</span></div>
+                <div><strong>88</strong><span>Pessoas</span></div>
+              </div>
+              <div class="admin-actions-preview">
+                <div class="action-row-preview">📥 Baixar Tudo (ZIP)</div>
+                <div class="action-row-preview">📄 Gerar Kit de Mesa A4</div>
+                <div class="action-row-preview">📦 Encomendar Revelações</div>
+              </div>
+            </div>
+          </div>
+          <h4>Painel do Casal</h4>
+          <p>Acesse estatísticas, faça downloads em alta definição e gerencie as fotos e limites do evento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="depoimentos" class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge">Feedback dos Casais</span>
+        <h2>O que os noivos <span class="highlight">nos contam depois</span>.</h2>
+        <p>Relatos sinceros de casais que substituíram as câmeras descartáveis tradicionais em suas festas.</p>
+      </div>
+
+      <div class="testimonials-masonry">
+        <div class="testimonial-card">
+          <p>“Tivemos um casamento enorme e eu já estava temendo a parte de passar semanas pedindo fotos para todo mundo. Sinceramente, não precisei. As pessoas escanearam a plaquinha nas mesas e pronto, tudo apareceu em um só lugar. Coletamos mais de 800 fotos. Muito feliz por ter feito isso.”</p>
+          <div class="testimonial-meta">
+            <strong>Niamh & Conor</strong>
+            <span>803 fotos · 124 convidados</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p>“Minha foto favorita de todo o casamento não veio do fotógrafo profissional, veio da galeria dos convidados. É uma foto do meu pai rindo no meio do discurso dele. Eu nem sabia que ela existia até abrir o painel na semana seguinte.”</p>
+          <div class="testimonial-meta">
+            <strong>Mei & Riku</strong>
+            <span>624 fotos · 96 guests</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p>“Não tínhamos certeza se os convidados realmente usariam, mas usaram muito! Até os amigos mais velhos dos meus pais conseguiram usar sem problemas. As fotos espontâneas e levemente desfocadas do final da noite são as melhores!”</p>
+          <div class="testimonial-meta">
+            <strong>Brooke & Cole</strong>
+            <span>461 fotos · 69 convidados</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p>“Colocamos as plaquinhas de QR Code nas mesas, esquecemos disso durante a festa e acordamos no dia seguinte com centenas de fotos na galeria privada. Foi a coisa mais simples e sem complicação que contratamos para todo o casamento.”</p>
+          <div class="testimonial-meta">
+            <strong>Thandi & Sam</strong>
+            <span>372 fotos · 58 convidados</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p>“Nossa fotógrafa foi fantástica, mas ela não podia estar em todos os lugares ao mesmo tempo. A galeria coletiva capturou os momentos que ela não alcançou: as crianças brincando sob as mesas, minha tia emocionada, os amigos dançando descalços. Detalhes incríveis.”</p>
+          <div class="testimonial-meta">
+            <strong>Lucía & Mateo</strong>
+            <span>556 fotos · 83 convidados</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p>“Estávamos em dúvida se valia a pena pagar, mas superou as expectativas. Apenas uma plaquinha em cada mesa e os convidados fizeram o resto. Não precisamos ficar perseguindo ninguém no WhatsApp para nos enviar as fotos.”</p>
+          <div class="testimonial-meta">
+            <strong>Freja & Anders</strong>
+            <span>410 fotos · 64 convidados</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Um Único Código Para Toda a Celebração -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge">Casos de Uso</span>
+        <h2>Um único código para <span class="highlight">toda a celebração</span>.</h2>
+        <p>O mesmo QR Code funciona desde o jantar de ensaio até o brunch de despedida — coletando todos os momentos do fim de semana em um único álbum.</p>
+      </div>
+
+      <div class="use-cases-grid">
+        <div class="use-case-card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1519741497674-611481863552?w=500&auto=format&fit=crop&q=80')">
+          <div class="use-case-content">
+            <h4>Os Votos</h4>
+            <p>Cada lágrima de felicidade e a troca de alianças, capturada do ponto de vista único dos convidados que os fotógrafos contratados não conseguem registrar.</p>
+          </div>
+        </div>
+
+        <div class="use-case-card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=500&auto=format&fit=crop&q=80')">
+          <div class="use-case-content">
+            <h4>A Festa</h4>
+            <p>Os discursos emocionantes na mesa principal, a primeira dança do casal e os convidados se divertindo na pista de dança até tarde da noite.</p>
+          </div>
+        </div>
+
+        <div class="use-case-card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=500&auto=format&fit=crop&q=80')">
+          <div class="use-case-content">
+            <h4>Tarde da Noite</h4>
+            <p>Depois que os profissionais de foto e vídeo já foram para casa — os registros descontraídos, espontâneos e divertidos da pista de dança.</p>
+          </div>
+        </div>
+
+        <div class="use-case-card" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1507504038482-762102124e18?w=500&auto=format&fit=crop&q=80')">
+          <div class="use-case-content">
+            <h4>O Dia Anterior</h4>
+            <p>O jantar de ensaio com a família, os momentos espontâneos de preparação e os drinques de boas-vindas — tudo alimentando o mesmo álbum.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Placas de mesa prontas para impressão -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge">Kit de Mesa</span>
+        <h2>Placas de mesa prontas, <span class="highlight">feitas para você</span>.</h2>
+        <p>Nós geramos automaticamente placas e cartões de mesa elegantes em PDF A4. Basta adicionar seus nomes, baixar o documento e imprimir!</p>
+      </div>
+
+      <div class="print-templates-row">
+        <div class="template-item">
+          <div class="template-box">
+            <div class="template-box-content">
+              <h5>Seja Bem-vindo</h5>
+              <p>Escaneie e envie suas fotos</p>
+              <div class="template-qr-mini">QR</div>
+            </div>
+          </div>
+          <span>Placa de Recepção</span>
+        </div>
+
+        <div class="template-item">
+          <div class="template-box dark">
+            <div class="template-box-content">
+              <h5>Compartilhe os Momentos</h5>
+              <p>Escaneie para abrir a câmera</p>
+              <div class="template-qr-mini">QR</div>
+            </div>
+          </div>
+          <span>Cartão de Mesa Minimalista</span>
+        </div>
+
+        <div class="template-item">
+          <div class="template-box">
+            <div class="template-box-content">
+              <h5>Ajude-nos a Lembrar</h5>
+              <p>Tire fotos vintage da festa</p>
+              <div class="template-qr-mini">QR</div>
+            </div>
+          </div>
+          <span>Cartão de Mesa Vintage</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preços Section -->
+  <section id="precos" class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge">Valores</span>
+        <h2>Planos sem pegadinha: <span class="highlight">menos que um buquê de flores</span>.</h2>
+        <p>Pague uma única vez pelo seu evento. Sem assinaturas recorrentes, cobranças adicionais ou pegadinhas.</p>
+      </div>
+
+      <div class="pricing-container">
+        <!-- Plano Starter -->
+        <div class="pricing-card">
+          <h3>Starter</h3>
+          <div class="price">R$ 49<span>/evento</span></div>
+          <p class="price-desc">Ideal para pequenas festas ou eventos de um único dia.</p>
+          <ul class="price-features">
+            <li>Fotos e vídeos ilimitados</li>
+            <li>Quantidade ilimitada de convidados</li>
+            <li>Prazo de 3 meses para envios</li>
+            <li>Armazenamento de 6 meses</li>
+            <li>Todos os recursos inclusos</li>
+          </ul>
+          <a href="/painel" class="btn-outline">Escolher Starter</a>
+        </div>
+
+        <!-- Plano Standard -->
+        <div class="pricing-card popular">
+          <div class="popular-tag">Mais Escolhido</div>
+          <h3>Standard</h3>
+          <div class="price">R$ 97<span>/evento</span></div>
+          <p class="price-desc">A melhor opção para o dia do seu casamento.</p>
+          <ul class="price-features">
+            <li>Fotos e vídeos ilimitados</li>
+            <li>Quantidade ilimitada de convidados</li>
+            <li>Prazo de 6 meses para envios</li>
+            <li>Armazenamento de 1 ano</li>
+            <li>Kit de mesa PDF pronto para imprimir</li>
+            <li>Todos os recursos inclusos</li>
+          </ul>
+          <a href="/painel" class="btn-primary" style="text-align:center">Escolher Standard</a>
+        </div>
+
+        <!-- Plano Pro -->
+        <div class="pricing-card">
+          <h3>Pro</h3>
+          <div class="price">R$ 197<span>/evento</span></div>
+          <p class="price-desc">Tudo o que você precisa, guardado por mais tempo.</p>
+          <ul class="price-features">
+            <li>Fotos e vídeos ilimitados</li>
+            <li>Quantidade ilimitada de convidados</li>
+            <li>Prazo de 1 ano para envios</li>
+            <li>Armazenamento de 2 anos</li>
+            <li>Kit de mesa PDF pronto para imprimir</li>
+            <li>Suporte prioritário e customização</li>
+          </ul>
+          <a href="/painel" class="btn-outline">Escolher Pro</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <span class="section-badge">Dúvidas</span>
+        <h2>Perguntas <span class="highlight">frequentes</span>.</h2>
+        <p>Se tiver mais alguma dúvida, estamos à disposição para te ajudar por e-mail.</p>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Os convidados precisam baixar algum aplicativo?</summary>
+          <p>Não! Eles apenas apontam a câmera para o QR Code e a câmera do navegador abre instantaneamente. Funciona direto no Safari, Chrome ou qualquer navegador móvel, sem criar conta ou fazer login.</p>
+        </details>
+        <details class="faq-item">
+          <summary>As fotos mantêm a qualidade original?</summary>
+          <p>Sim! Diferente de enviar fotos pelo WhatsApp, as fotos enviadas no Cam Descartável mantêm a qualidade e resolução originais da câmera do celular do convidado.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Como faço para imprimir as fotos após o evento?</summary>
+          <p>Você pode baixar todas as fotos em alta resolução do seu painel em um único arquivo compactado (ZIP) e revelar em qualquer laboratório ou aproveitar nosso checkout integrado de impressões físicas para recebê-las em casa estilo Polaroid.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Posso colocar limites de fotos por convidado?</summary>
+          <p>Sim! No painel de controle do evento você pode configurar se os convidados têm fotos ilimitadas ou um limite padrão (ex: 10 ou 15 fotos) para simular ainda mais o clima nostálgico das câmeras físicas.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <a href="/" class="logo">Cam <span>Descartável</span></a>
+      <p>&copy; 2026 Cam Descartável. Todos os direitos reservados. Feito com amor para momentos eternos.</p>
+    </div>
+  </footer>
+</BaseLayout>
+
+<style>
+  /* ===== HEADER ===== */
+  .header {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--bg-tertiary);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .logo span {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.2rem;
+  }
+
+  .nav-links a {
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    position: relative;
+    transition: color 0.25s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
+  }
+
+  .auth-buttons {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    padding: 0.25rem;
+  }
+
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem 1.5rem;
+    background: white;
+    border-bottom: 1px solid var(--bg-tertiary);
+  }
+
+  .mobile-menu a {
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 0.5rem 0;
+  }
+
+  .mobile-menu hr {
+    border: none;
+    border-top: 1px solid var(--bg-tertiary);
+  }
+
+  .mobile-menu.open {
+    display: flex;
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn-primary {
+    background: var(--accent);
+    color: white !important;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    transition: var(--transition-normal);
+    display: inline-block;
+    border: 2px solid var(--accent);
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(232, 49, 138, 0.25);
+  }
+
+  .btn-outline {
+    background: white;
+    color: var(--accent);
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    transition: var(--transition-normal);
+    display: inline-block;
+    border: 2px solid var(--accent);
+    text-align: center;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  .btn-outline:hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    color: var(--text-primary);
+    font-weight: 500;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-full);
+    transition: var(--transition-fast);
+  }
+
+  .btn-ghost:hover {
+    background: var(--bg-secondary);
+  }
+
+  .btn-large {
+    padding: 1.1rem 2.8rem;
+    font-size: 1.1rem;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem 6rem;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.8rem;
+  }
+
+  .hero-content h1 {
+    font-size: 3.8rem;
+    line-height: 1.1;
+    color: var(--text-primary);
+    letter-spacing: -0.04em;
+  }
+
+  .highlight {
+    color: var(--accent);
+  }
+
+  .hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 540px;
+  }
+
+  .trust-signals {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .visual-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    padding: 2rem 0;
+  }
+
+  /* Mockup de celular realista */
+  .phone-mockup {
+    width: 260px;
+    height: 520px;
+    background: #09090b;
+    border: 10px solid #27272a;
+    border-radius: 36px;
+    box-shadow: var(--shadow-premium), 0 30px 60px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  .phone-notch {
+    width: 110px;
+    height: 18px;
+    background: #27272a;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    z-index: 10;
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem;
+  }
+
+  .phone-header {
+    padding: 0.8rem;
+    text-align: center;
+    border-bottom: 1px solid var(--bg-tertiary);
+  }
+
+  .phone-header span {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .phone-header small {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+  }
+
+  .phone-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.6rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--bg-tertiary);
+  }
+
+  .phone-stats div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .phone-stats strong {
+    font-size: 1rem;
+    color: var(--accent);
+  }
+
+  .phone-stats span {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+  }
+
+  .phone-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 4px;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .grid-img {
+    aspect-ratio: 1;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+  }
+
+  /* Placa de mesa QR flutuante */
+  .floating-qr-card {
+    position: absolute;
+    bottom: 5%;
+    right: -10%;
+    width: 180px;
+    background: #ffffff;
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 5;
+    animation: float 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes float {
+    from { transform: translateY(0px) rotate(2deg); }
+    to { transform: translateY(-12px) rotate(4deg); }
+  }
+
+  .qr-header h4 {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+  }
+
+  .qr-header p {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .qr-code-placeholder {
+    padding: 0.5rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+
+  .qr-scan-text {
+    font-size: 0.65rem;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .qr-domain {
+    font-size: 0.6rem;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ===== POLAROID STRIP ===== */
+  .polaroid-strip {
+    background: var(--bg-secondary);
+    padding: 3rem 1rem;
+    overflow-x: auto;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    display: flex;
+    justify-content: center;
+    box-shadow: inset 0 10px 30px rgba(0,0,0,0.02), inset 0 -10px 30px rgba(0,0,0,0.02);
+  }
+
+  .polaroid-wrapper {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem 2rem;
+  }
+
+  .polaroid-card {
+    background: white;
+    padding: 1rem 1rem 2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+    transition: transform var(--transition-normal);
+  }
+
+  .polaroid-card:hover {
+    transform: scale(1.08) rotate(0deg) !important;
+    z-index: 10;
+  }
+
+  .polaroid-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    background-size: cover;
+    background-position: center;
+    border-radius: 2px;
+  }
+
+  .polaroid-caption {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    padding: 6rem 0;
+  }
+
+  .section-alt {
+    background-color: var(--bg-secondary);
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 4.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .section-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+  }
+
+  .section-badge {
+    display: inline-block;
+    background: var(--bg-tertiary);
+    color: var(--accent);
+    padding: 0.35rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== STEPS ===== */
+  .steps-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .step-row {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  .step-row.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .step-info {
+    flex: 1.1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .step-number {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.35;
+    line-height: 1;
+  }
+
+  .step-info h3 {
+    font-size: 1.8rem;
+    color: var(--text-primary);
+  }
+
+  .step-info p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .step-preview {
+    flex: 0.9;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Step Visuals Previews */
+  .preview-card-form {
+    background: white;
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 16px;
+    padding: 1.5rem;
+    width: 280px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .form-header {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .form-body-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .input-preview-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .input-preview-group label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-tertiary);
+  }
+
+  .input-preview-box {
+    border: 2px solid var(--bg-tertiary);
+    border-radius: 20px;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+  }
+
+  .btn-primary-preview {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.65rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+
+  .preview-card-print {
+    background: #fdfaf7;
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-print-frame {
+    border: 2px dashed var(--accent);
+    border-radius: 8px;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    text-align: center;
+    background: white;
+  }
+
+  .card-print-logo {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .card-print-sub {
+    font-size: 0.55rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+  }
+
+  .card-print-qr {
+    padding: 0.5rem;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-print-footer {
+    font-size: 0.5rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .preview-card-download {
+    background: white;
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 16px;
+    padding: 1.5rem;
+    width: 280px;
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .download-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  .download-count {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .download-label {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+
+  /* ===== SHOWROOM (MOCKUPS CELULAR) ===== */
+  .showroom-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .showroom-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  .showroom-phone {
+    width: 250px;
+    height: 480px;
+    background: #09090b;
+    border: 8px solid #27272a;
+    border-radius: 32px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .showroom-phone .phone-screen {
+    padding-top: 0.5rem;
+  }
+
+  .camera-bg {
+    background: #111 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem !important;
+  }
+
+  .camera-lens-view {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: #222;
+    border: 2px solid #333;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .viewfinder-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 33.33% 33.33%;
+  }
+
+  .camera-lcd {
+    background: #111;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 0.4rem;
+    border-radius: 4px;
+  }
+
+  .camera-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+  }
+
+  .flash-btn, .filter-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: white;
+  }
+
+  .shutter-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 4px solid #fff;
+  }
+
+  .gallery-bg {
+    background: #fafafc !important;
+    padding: 0.5rem !important;
+  }
+
+  .gallery-header {
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--bg-tertiary);
+    margin-bottom: 0.5rem;
+  }
+
+  .gallery-pics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .pic-box {
+    aspect-ratio: 1;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+  }
+
+  .admin-bg {
+    background: #ffffff !important;
+    padding: 1rem !important;
+  }
+
+  .admin-header {
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .admin-stats-box {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.6rem;
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .admin-stats-box div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .admin-stats-box strong {
+    font-size: 1.1rem;
+    color: var(--accent);
+  }
+
+  .admin-stats-box span {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+  }
+
+  .admin-actions-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-row-preview {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: left;
+  }
+
+  .showroom-item h4 {
+    font-size: 1.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .showroom-item p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    max-width: 280px;
+    line-height: 1.5;
+  }
+
+  /* ===== TESTIMONIALS (MASONRY) ===== */
+  .testimonials-masonry {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .testimonial-card {
+    background: white;
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 16px;
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: space-between;
+    transition: transform var(--transition-normal);
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .testimonial-card p {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    font-style: italic;
+  }
+
+  .testimonial-meta {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--bg-secondary);
+    padding-top: 1rem;
+  }
+
+  .testimonial-meta strong {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+  }
+
+  .testimonial-meta span {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+  }
+
+  /* ===== USE CASES GRID ===== */
+  .use-cases-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .use-case-card {
+    border-radius: 16px;
+    height: 340px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.5rem;
+    transition: transform var(--transition-normal);
+  }
+
+  .use-case-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .use-case-content {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 2;
+  }
+
+  .use-case-content h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .use-case-content p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+
+  /* ===== PRINT TEMPLATES ===== */
+  .print-templates-row {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+
+  .template-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .template-box {
+    background: white;
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    box-shadow: var(--shadow-sm);
+    width: 170px;
+    aspect-ratio: 1 / 1.41; /* Proporção A4 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .template-box.dark {
+    background: #1a1a2e;
+    color: white;
+  }
+
+  .template-box-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    border: 1px dashed rgba(0,0,0,0.15);
+    padding: 1rem 0.5rem;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+  }
+
+  .template-box.dark .template-box-content {
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .template-box-content h5 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .template-box-content p {
+    font-size: 0.55rem;
+    opacity: 0.8;
+  }
+
+  .template-qr-mini {
+    width: 36px;
+    height: 36px;
+    border: 1px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.5rem;
+    font-weight: 700;
+  }
+
+  .template-item span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  /* ===== PRICING ===== */
+  .pricing-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .pricing-card {
+    background: white;
+    border: 1px solid var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: relative;
+    transition: transform var(--transition-normal);
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .pricing-card.popular {
+    border: 2px solid var(--accent);
+    box-shadow: var(--shadow-premium);
+    transform: scale(1.03);
+  }
+
+  .pricing-card.popular:hover {
+    transform: scale(1.03) translateY(-6px);
+  }
+
+  .popular-tag {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: white;
+    padding: 0.35rem 1.5rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  .price {
+    font-family: var(--font-display);
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .price span {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  .price-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .price-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1rem 0;
+    flex: 1;
+  }
+
+  .price-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .price-features li::before {
+    content: "✓";
+    color: var(--accent);
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+
+  /* ===== FAQ ===== */
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    background: white;
+    border: 1px solid var(--bg-tertiary);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .faq-item[open] {
+    box-shadow: var(--shadow-md);
+    border-color: rgba(232, 49, 138, 0.2);
+  }
+
+  .faq-item summary {
+    padding: 1.4rem 1.8rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.05rem;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: "+";
+    font-size: 1.4rem;
+    color: var(--accent);
+    font-weight: 700;
+    transition: transform 0.2s;
+  }
+
+  .faq-item[open] summary::after {
+    content: "−";
+  }
+
+  .faq-item p {
+    padding: 0 1.8rem 1.4rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.98rem;
+  }
+
+  /* ===== FOOTER ===== */
+  .main-footer {
+    background-color: var(--bg-secondary);
+    padding: 4rem 1.5rem;
+    border-top: 1px solid var(--bg-tertiary);
+  }
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .footer-content p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .hero {
+      gap: 3rem;
+    }
+    .hero-content h1 {
+      font-size: 3rem;
+    }
+    .use-cases-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .showroom-grid {
+      grid-template-columns: 1fr;
+      gap: 4rem;
+    }
+    .testimonials-masonry {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 968px) {
+    .nav-links, .auth-buttons {
+      display: none;
+    }
+
+    .menu-toggle {
+      display: flex;
+    }
+
+    .hero {
+      grid-template-columns: 1fr;
+      text-align: left;
+      gap: 3.5rem;
+      padding: 3rem 1.25rem 4rem;
+    }
+
+    .hero-content {
+      align-items: stretch;
+    }
+
+    .hero-subtitle {
+      max-width: none;
+    }
+
+    .hero-visual {
+      order: -1;
+    }
+
+    .step-row, .step-row.reverse {
+      flex-direction: column;
+      gap: 2rem;
+      align-items: stretch;
+    }
+
+    .step-preview {
+      justify-content: flex-start;
+    }
+
+    .pricing-container {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+
+    .pricing-card.popular {
+      transform: none;
+    }
+
+    .pricing-card.popular:hover {
+      transform: translateY(-6px);
+    }
+
+    .print-templates-row {
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .section-header h2 {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .testimonials-masonry {
+      grid-template-columns: 1fr;
+    }
+    .use-cases-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-content h1 {
+      font-size: 2.4rem;
+    }
+    .polaroid-strip {
+      padding: 2rem 0;
+    }
+    .polaroid-wrapper {
+      gap: 1rem;
+    }
+    .polaroid-card {
+      width: 140px;
+      padding: 0.75rem 0.75rem 1.5rem;
+    }
+    .polaroid-caption {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-content h1 {
+      font-size: 2.1rem;
+    }
+    .btn-large {
+      width: 100%;
+      text-align: center;
+    }
+    .floating-qr-card {
+      right: 0;
+      width: 150px;
+      padding: 1rem;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const menu = document.getElementById('mobileMenu');
+  toggle?.addEventListener('click', () => {
+    menu?.classList.toggle('open');
+  });
+  // Close menu on link click
+  menu?.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => menu?.classList.remove('open'));
+  });
+</script>

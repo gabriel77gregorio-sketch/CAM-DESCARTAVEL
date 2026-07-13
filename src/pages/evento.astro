@@ -1,0 +1,85 @@
+---
+import CameraLayout from '../layouts/CameraLayout.astro';
+---
+
+<CameraLayout title="Carregando Câmera...">
+  <div id="camera-loading" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #efede6; padding: 2rem; text-align: center; font-family: var(--font-sans);">
+    <div style="width: 40px; height: 40px; border: 4px solid var(--bg-tertiary); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite"></div>
+    <p style="color: var(--text-secondary); margin-top: 1rem;">Conectando ao evento...</p>
+  </div>
+
+  <div id="camera-error" style="display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; background-color: #efede6; padding: 2rem; text-align: center; font-family: var(--font-sans);">
+    <div style="font-size: 4rem; margin-bottom: 1.5rem;">🔒</div>
+    <h2 style="font-family: var(--font-display); font-size: 1.75rem; color: var(--text-primary); margin-bottom: 0.5rem;">Câmera Indisponível</h2>
+    <p id="error-text" style="color: var(--text-secondary); max-width: 400px; line-height: 1.5;"></p>
+    <a href="/" class="btn-secondary" style="margin-top: 2rem; padding: 0.6rem 1.5rem; text-decoration: none;">Voltar ao início</a>
+  </div>
+
+  <div id="camera-container-root" style="display: none; height: 100vh;"></div>
+
+  <script>
+    import React from 'react';
+    import ReactDOM from 'react-dom/client';
+    import CameraView from '../components/camera/CameraView';
+    import { supabase } from '../lib/supabase';
+
+    async function init() {
+      const url = new URL(window.location.href);
+      const slug = url.searchParams.get('slug');
+
+      const loadingEl = document.getElementById('camera-loading');
+      const errorEl = document.getElementById('camera-error');
+      const errorTextEl = document.getElementById('error-text');
+      const containerEl = document.getElementById('camera-container-root');
+
+      if (!slug) {
+        showError('Link inválido. O link da câmera deve conter o identificador do evento.');
+        return;
+      }
+
+      try {
+        const { data: event, error } = await supabase
+          .from('events')
+          .select('*')
+          .eq('slug', slug)
+          .single();
+
+        if (error || !event) {
+          showError('Evento não encontrado ou já encerrado.');
+          return;
+        }
+
+        if (!event.is_active) {
+          showError('A câmera deste evento foi fechada pelos organizadores.');
+          return;
+        }
+
+        // Renderizar o componente React
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (containerEl) {
+          containerEl.style.display = 'block';
+          const root = ReactDOM.createRoot(containerEl);
+          root.render(React.createElement(CameraView, { event }));
+          document.title = `Câmera - ${event.event_name} | Cam Descartável`;
+        }
+      } catch (err) {
+        showError('Erro de conexão ao carregar o evento.');
+      }
+
+      function showError(msg: string) {
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (errorEl) errorEl.style.display = 'flex';
+        if (errorTextEl) errorTextEl.innerText = msg;
+        document.title = 'Câmera Indisponível | Cam Descartável';
+      }
+    }
+
+    init();
+  </script>
+</CameraLayout>
+
+<style>
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
