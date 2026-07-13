@@ -38,13 +38,30 @@ import CameraLayout from '../layouts/CameraLayout.astro';
       }
 
       try {
-        const { data: event, error } = await supabase
+        let event = null;
+
+        // 1. Tentar carregar do Supabase
+        const { data: dbEvent, error } = await supabase
           .from('events')
           .select('*')
           .eq('slug', slug)
           .single();
 
-        if (error || !event) {
+        if (dbEvent) {
+          event = dbEvent;
+        } else {
+          // 2. Fallback para LocalStorage (caso o usuário esteja testando localmente sem login)
+          const localRaw = localStorage.getItem('local_events');
+          if (localRaw) {
+            const localEvents = JSON.parse(localRaw);
+            event = localEvents.find((e: any) => e.slug === slug);
+            if (event) {
+              event.isLocal = true;
+            }
+          }
+        }
+
+        if (!event) {
           showError('Evento não encontrado ou já encerrado.');
           return;
         }
