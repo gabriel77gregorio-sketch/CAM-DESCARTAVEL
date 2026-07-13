@@ -478,7 +478,7 @@ export default function EventList() {
         </p>
 
         {/* Abas / Filtro exatos como no mockup (Pill Preto para Ativo) */}
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
           <button
             onClick={() => setActiveTab('placas')}
             style={{
@@ -578,7 +578,7 @@ export default function EventList() {
         </div>
 
         {/* Grid de Placas de Mesa exatamente como a Mockup */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '2rem', justifyContent: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '2rem', justifyContent: 'center' }}>
           
           {/* Card 1: Clássico */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center' }}>
@@ -711,7 +711,7 @@ export default function EventList() {
       {/* 3. MODAL DE CRIAÇÃO DE ÁLBUM */}
       {showCreateModal && (
         <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem', backdropFilter: 'blur(4px)' }}>
-          <div style={{ background: 'white', borderRadius: '30px', padding: '2.5rem', width: '100%', maxWidth: '540px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column', gap: '1.5rem', position: 'relative' }} className="animate-fade-in">
+          <div style={{ background: 'white', borderRadius: '30px', padding: '1.5rem', width: '100%', maxWidth: '540px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column', gap: '1.5rem', position: 'relative' }} className="animate-fade-in">
             
             {/* Botão Fechar */}
             <button
@@ -774,8 +774,8 @@ export default function EventList() {
                 />
               </div>
 
-              {/* Data e Vibração (Lado a lado) */}
-              <div style={{ display: 'flex', gap: '1rem' }}>
+              {/* Data e Vibração (Lado a lado, empilha no mobile via flexWrap) */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
                 
                 {/* Data */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>

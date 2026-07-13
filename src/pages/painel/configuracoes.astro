@@ -1,0 +1,10 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import SettingsManager from '../../components/dashboard/SettingsManager';
+---
+
+<DashboardLayout title="Ajustes - Cam Descartável" activeLink="configuracoes">
+  <div class="dashboard-container">
+    <SettingsManager client:load />
+  </div>
+</DashboardLayout>

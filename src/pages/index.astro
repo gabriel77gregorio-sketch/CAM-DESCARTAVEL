@@ -484,6 +484,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </section>
 
+  <!-- Presente e Lista de Casamento (Split Sections) -->
+  <section id="presentes-lista" class="section">
+    <div class="section-inner gifts-container">
+      
+      <!-- Presentear Casal -->
+      <div class="gift-card give-gift">
+        <div class="gift-content">
+          <span class="gift-badge">Surpreenda</span>
+          <h3>Dê de <span class="highlight">Presente</span></h3>
+          <p>
+            Cansado das tradicionais listas de panelas? Dê aos noivos o presente mais valioso: as memórias da festa. Compre o plano Standard ou Pro em formato de Vale-Presente para um casal especial.
+          </p>
+          <a href="#" class="btn-primary" onclick="alert('Em breve! Integração de presentes em desenvolvimento.'); return false;">
+            Presentear um Casal 🎁
+          </a>
+        </div>
+        <div class="gift-visual gift-box-img">
+          <div class="gift-overlay"></div>
+          <div class="emoji-float">✨</div>
+        </div>
+      </div>
+
+      <!-- Lista de Casamento -->
+      <div class="gift-card wedding-registry">
+        <div class="gift-content">
+          <span class="gift-badge">Para Noivos</span>
+          <h3>Lista de <span class="highlight">Casamento</span></h3>
+          <p>
+            Vão casar? Adicione o pacote completo do Cam Descartável (App + Fotos Reveladas + Álbum Físico) na sua lista de presentes e deixe seus padrinhos comprarem para você!
+          </p>
+          <a href="#" class="btn-outline" onclick="alert('Em breve! Integração com ICasei e Zankyou em desenvolvimento.'); return false;">
+            Criar minha lista 📋
+          </a>
+        </div>
+        <div class="gift-visual registry-img">
+          <div class="gift-overlay"></div>
+          <div class="emoji-float">🥂</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- FAQ Section -->
   <section id="faq" class="section section-alt">
     <div class="section-inner">
@@ -586,27 +629,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .mobile-menu {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding: 1rem 1.5rem 1.5rem;
-    background: white;
+    padding: 0 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--bg-tertiary);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.05);
   }
 
   .mobile-menu a {
-    font-weight: 500;
-    color: var(--text-secondary);
-    padding: 0.5rem 0;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding: 0.75rem 0;
+    font-size: 1.05rem;
   }
 
   .mobile-menu hr {
     border: none;
     border-top: 1px solid var(--bg-tertiary);
+    margin: 0.5rem 0;
   }
 
   .mobile-menu.open {
-    display: flex;
+    max-height: 500px;
+    padding: 1.5rem 1.5rem 2rem;
   }
 
   /* ===== BUTTONS ===== */
@@ -1699,6 +1755,109 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--text-secondary);
   }
 
+  /* ===== GIFTS & REGISTRY ===== */
+  .gifts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .gift-card {
+    background: white;
+    border-radius: 24px;
+    border: 1px solid var(--bg-tertiary);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: var(--transition-normal);
+  }
+
+  .gift-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+  }
+
+  .gift-content {
+    flex: 1;
+    padding: 3rem;
+  }
+
+  .gift-badge {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .gift-content h3 {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+
+  .gift-content p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+  }
+
+  .gift-visual {
+    flex: 1;
+    min-height: 350px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  .give-gift .gift-visual {
+    background-image: url('https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+  }
+
+  .wedding-registry .gift-visual {
+    background-image: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+  }
+
+  .gift-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 25%);
+  }
+
+  .wedding-registry {
+    flex-direction: row-reverse;
+  }
+
+  .wedding-registry .gift-overlay {
+    background: linear-gradient(270deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 25%);
+  }
+
+  .emoji-float {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 3rem;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .wedding-registry .emoji-float {
+    left: 2rem;
+    right: auto;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
   /* ===== RESPONSIVE ===== */
   @media (max-width: 1024px) {
     .hero {
@@ -1720,6 +1879,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   @media (max-width: 968px) {
+    .gift-card, .wedding-registry {
+      flex-direction: column;
+    }
+    .gift-content {
+      padding: 2rem;
+      order: 2;
+    }
+    .gift-visual {
+      width: 100%;
+      min-height: 250px;
+      order: 1;
+    }
+    .gift-overlay, .wedding-registry .gift-overlay {
+      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+    }
+
     .nav-links, .auth-buttons {
       display: none;
     }
@@ -1744,7 +1919,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
 
     .hero-visual {
-      order: -1;
+      margin-top: 1.5rem;
     }
 
     .step-row, .step-row.reverse {

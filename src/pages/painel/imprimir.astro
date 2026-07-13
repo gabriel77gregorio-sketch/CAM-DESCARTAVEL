@@ -1,0 +1,8 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import PrintManager from '../../components/dashboard/PrintManager';
+---
+
+<DashboardLayout title="Imprimir fotos" activeLink="imprimir">
+  <PrintManager client:load />
+</DashboardLayout>

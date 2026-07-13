@@ -1,0 +1,8 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import AlbumManager from '../../components/dashboard/AlbumManager';
+---
+
+<DashboardLayout title="Álbum de Fotos" activeLink="album">
+  <AlbumManager client:load />
+</DashboardLayout>

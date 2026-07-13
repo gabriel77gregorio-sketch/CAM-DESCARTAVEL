@@ -82,15 +82,107 @@
   .dashboard-container {
     flex-direction: column;
   }
+  
+  /* Sidebar vira Bottom Nav */
   .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    height: auto;
-    position: relative;
-    padding: 1rem;
+    height: 75px;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 0.5rem;
+    border-right: none;
+    border-top: 1px solid var(--bg-tertiary);
+    z-index: 1000;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
+
+  .sidebar-brand {
+    display: none !important; 
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    gap: 0;
+    align-items: center;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .sidebar-link {
+    flex-direction: column;
+    padding: 0.5rem 0.25rem;
+    gap: 0.35rem;
+    border-left: none !important;
+    font-size: 0.65rem;
+    text-align: center;
+    border-radius: 12px;
+    justify-content: center;
+    width: 22%;
+    color: var(--text-tertiary);
+  }
+  
+  /* Texto da nav no mobile só mostra se houver espaço ou corta com ellipsis */
+  .sidebar-link span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+  }
+
+  .sidebar-link svg {
+    width: 22px;
+    height: 22px;
+    margin-bottom: 2px;
+  }
+
+  .sidebar-link.active {
+    border-left: none !important;
+    color: var(--accent);
+    background-color: transparent !important;
+  }
+
+  .sidebar-link.active svg {
+    stroke-width: 3;
+    filter: drop-shadow(0 2px 4px rgba(232,49,138,0.3));
+  }
+
+  .user-profile-nav {
+    display: none !important;
+  }
+
+  /* Topbar Mobile (Aparece apenas no celular) */
+  .mobile-topbar {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--bg-tertiary);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+
   .main-content {
-    padding: 1.5rem 1rem;
+    padding: 1.25rem 1rem;
+    padding-bottom: 90px; /* Dá espaço para a nav embaixo */
+    gap: 1.5rem;
   }
+}
+
+/* Ocultar topbar no desktop por padrão */
+.mobile-topbar {
+  display: none;
 }
 
 /* Cards de Métricas */
