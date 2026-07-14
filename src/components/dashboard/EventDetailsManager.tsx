@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
 import { generateKitMesaPDF } from '../../lib/qrcode';
+import QRCode from 'qrcode';
 
 interface Event {
   id: string;
@@ -11,6 +12,8 @@ interface Event {
   is_active: boolean;
   cover_photo_url?: string;
   theme_color?: string;
+  photo_goal?: number | null;
+  gamification_enabled?: boolean;
 }
 
 interface Photo {
@@ -25,6 +28,9 @@ interface Props {
   slug: string;
 }
 
+// URL de produção — sempre fixa para o QR Code funcionar para qualquer convidado
+const PRODUCTION_URL = 'https://cam-descartavel.vercel.app';
+
 export default function EventDetailsManager({ slug }: Props) {
   const [event, setEvent] = useState<Event | null>(null);
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -32,11 +38,35 @@ export default function EventDetailsManager({ slug }: Props) {
   const [activeTab, setActiveTab] = useState<'gallery' | 'kit' | 'engagement' | 'checkout'>('gallery');
   const [checkoutPackage, setCheckoutPackage] = useState<'kit10' | 'kit30' | 'kit50'>('kit30');
   const [generatingPdf, setGeneratingPdf] = useState(false);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
+  const [copied, setCopied] = useState(false);
 
   // Estados de Gamificação
   const [ranking, setRanking] = useState<any[]>([]);
   const [challenges, setChallenges] = useState<any[]>([]);
   const [completions, setCompletions] = useState<any[]>([]);
+
+  // Gerar QR Code assim que o evento for carregado
+  useEffect(() => {
+    if (!event) return;
+    const cameraUrl = `${PRODUCTION_URL}/evento?slug=${event.slug}`;
+    QRCode.toDataURL(cameraUrl, {
+      errorCorrectionLevel: 'H',
+      margin: 2,
+      width: 400,
+      color: { dark: '#111827', light: '#ffffff' },
+    }).then(setQrCodeDataUrl).catch(console.error);
+  }, [event]);
+
+  // Copiar link da câmera para clipboard
+  const handleCopyLink = () => {
+    if (!event) return;
+    const url = `${PRODUCTION_URL}/evento?slug=${event.slug}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    });
+  };
 
   // Carregar detalhes do evento e fotos
   useEffect(() => {
@@ -229,13 +259,12 @@ export default function EventDetailsManager({ slug }: Props) {
     }
   };
 
-  // Gerar PDF do Kit de Mesa
+  // Gerar PDF do Kit de Mesa — sempre usa URL de produção
   const handleGeneratePdf = async () => {
     if (!event) return;
     setGeneratingPdf(true);
     try {
-      // O link dinâmico da câmera
-      const cameraUrl = `${window.location.origin}/evento?slug=${event.slug}`;
+      const cameraUrl = `${PRODUCTION_URL}/evento?slug=${event.slug}`;
       await generateKitMesaPDF(event.event_name, cameraUrl);
     } catch (error) {
       console.error('Erro ao gerar PDF:', error);
@@ -633,66 +662,122 @@ export default function EventDetailsManager({ slug }: Props) {
         </div>
       )}
  
-      {/* Aba Kit de Mesa: Layout Polido */}
+      {/* Aba Kit de Mesa: QR Code Real + Download PDF */}
       {activeTab === 'kit' && (
-        <div className="kit-preview-container" style={{ background: 'white', borderRadius: '24px', border: '1px solid #f0edf0', boxShadow: '0 4px 15px rgba(0,0,0,0.01)' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-serif)', color: '#1a1a2e', fontWeight: 700 }}>Imprima o Kit de Mesa</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>
-              Geramos automaticamente um design padrão em PDF pronto para você colocar nas mesas dos convidados. Ele ensina o passo a passo com o QR Code exclusivo do seu evento para que ninguém fique de fora.
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+
+          {/* Card principal: QR Code real e link */}
+          <div style={{
+            background: 'white',
+            borderRadius: '24px',
+            border: '1px solid #f0edf0',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
+            padding: '2.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '1.75rem',
+          }}>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{ fontSize: '0.7rem', color: currentTheme.accent, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>🔳 QR CODE DO EVENTO</span>
+              <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-serif)', color: '#1a1a2e', fontWeight: 700, marginTop: '0.3rem' }}>Escaneie para acessar a câmera</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.4rem' }}>
+                Aponte qualquer câmera de celular para este QR Code — sem app, sem login.
+              </p>
+            </div>
+
+            {/* QR Code real */}
+            {qrCodeDataUrl ? (
+              <div style={{
+                background: 'white',
+                border: `3px solid ${currentTheme.accent}`,
+                borderRadius: '20px',
+                padding: '1.25rem',
+                boxShadow: `0 8px 32px ${currentTheme.accent}22`,
+              }}>
+                <img
+                  src={qrCodeDataUrl}
+                  alt={`QR Code - ${event.event_name}`}
+                  style={{ width: '220px', height: '220px', display: 'block', borderRadius: '8px' }}
+                />
+              </div>
+            ) : (
+              <div style={{ width: '220px', height: '220px', borderRadius: '20px', background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: '32px', height: '32px', border: '3px solid #ddd', borderTopColor: currentTheme.accent, borderRadius: '50%', animation: 'spin 0.9s linear infinite' }} />
+              </div>
+            )}
+
+            {/* Link copiável */}
+            <div style={{ width: '100%', maxWidth: '420px', display: 'flex', flexDirection: 'column', gap: '0.6rem', alignItems: 'center' }}>
+              <div style={{
+                width: '100%',
+                background: '#f8f8f8',
+                border: '1.5px solid #e8e8e8',
+                borderRadius: '12px',
+                padding: '0.7rem 1rem',
+                fontFamily: 'monospace',
+                fontSize: '0.78rem',
+                color: '#555',
+                wordBreak: 'break-all',
+                textAlign: 'center',
+              }}>
+                {`${PRODUCTION_URL}/evento?slug=${event.slug}`}
+              </div>
+              <button
+                onClick={handleCopyLink}
+                style={{
+                  padding: '0.6rem 1.75rem',
+                  borderRadius: '50px',
+                  border: 'none',
+                  background: copied ? '#10b981' : currentTheme.accent,
+                  color: 'white',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  transition: 'background 0.25s',
+                  boxShadow: `0 4px 12px ${currentTheme.accent}33`,
+                }}
+              >
+                {copied ? '✓ Link Copiado!' : '📋 Copiar Link'}
+              </button>
+            </div>
+          </div>
+
+          {/* Card secundário: PDF de Impressão */}
+          <div style={{
+            background: 'white',
+            borderRadius: '24px',
+            border: '1px solid #f0edf0',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.01)',
+            padding: '2rem 2.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}>
+            <h4 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-serif)', color: '#1a1a2e', fontWeight: 700, margin: 0 }}>🖨️ Kit de Mesa para Impressão</h4>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.55, margin: 0 }}>
+              Baixe o PDF com o QR Code formatado para imprimir e colocar nas mesas. Inclui instruções em português para convidados de todas as idades.
             </p>
-            <ul style={{ paddingLeft: '1.2rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.92rem' }}>
-              <li>Geração instantânea e 100% no navegador.</li>
-              <li>QR Code com alta definição para leitura rápida por smartphones.</li>
-              <li>Instruções claras em português adequadas para todas as idades.</li>
-            </ul>
             <button
               onClick={handleGeneratePdf}
               disabled={generatingPdf}
               style={{
-                width: 'fit-content',
-                padding: '0.8rem 2rem',
-                marginTop: '1rem',
-                cursor: 'pointer',
-                backgroundColor: currentTheme.accent,
-                color: 'white',
-                border: 'none',
+                alignSelf: 'flex-start',
+                padding: '0.75rem 1.75rem',
+                cursor: generatingPdf ? 'not-allowed' : 'pointer',
+                backgroundColor: generatingPdf ? '#ccc' : 'white',
+                color: generatingPdf ? '#999' : currentTheme.accent,
+                border: `2px solid ${generatingPdf ? '#ccc' : currentTheme.accent}`,
                 borderRadius: '50px',
-                fontWeight: 600,
-                fontSize: '0.95rem',
-                boxShadow: `0 4px 12px ${currentTheme.accent}33`,
-                transition: 'all 0.2s'
+                fontWeight: 700,
+                fontSize: '0.88rem',
+                transition: 'all 0.2s',
               }}
-              onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-1px)'}
-              onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              onMouseOver={(e) => { if (!generatingPdf) e.currentTarget.style.background = currentTheme.light; }}
+              onMouseOut={(e) => { if (!generatingPdf) e.currentTarget.style.background = 'white'; }}
             >
-              {generatingPdf ? 'Gerando PDF...' : 'Baixar PDF para Impressão'}
+              {generatingPdf ? '⏳ Gerando PDF...' : '⬇️ Baixar PDF para Impressão'}
             </button>
-          </div>
- 
-          {/* Mockup visual do PDF */}
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div className="pdf-mockup" style={{ borderRadius: '12px', border: '1px solid #e3e0d5', background: 'white' }}>
-              <div style={{ fontSize: '0.8rem', fontWeight: 700, color: currentTheme.accent, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                📸 Cam Descartável
-              </div>
-              <div style={{ margin: '1.2rem 0' }}>
-                <h4 style={{ fontSize: '1.25rem', marginBottom: '0.25rem', fontFamily: 'var(--font-serif)' }}>{event.event_name}</h4>
-                <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>Data: {formatDate(event.event_date)}</div>
-              </div>
-              {/* QR Code Mock */}
-              <div style={{ width: '130px', height: '130px', border: '1px solid var(--bg-tertiary)', padding: '0.5rem', display: 'flex', alignItems: 'center', justifySelf: 'center', background: 'white' }}>
-                <div style={{ width: '100%', height: '100%', backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%25\' height=\'100%25\' viewBox=\'0 0 100 100\'%3E%3Cpath d=\'M0 0h30v10H10v20H0V0zm70 0h30v30H90V10H70V0zM0 70h10v20h20v10H0V70zm100 0v30H70v-10h20V70h10zM30 30h40v40H30V30zm10 10v20h20V40H40z\' fill=\'%23111827\'/%3E%3C/svg%3E")', backgroundSize: 'cover' }}></div>
-              </div>
-              <div style={{ marginTop: '1.2rem' }}>
-                <div style={{ fontSize: '0.7rem', fontWeight: 700, marginBottom: '0.25rem' }}>COMO FOTOGRAFAR:</div>
-                <div style={{ fontSize: '0.55rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                  <span>1. Aponte a câmera do celular para o QR Code</span>
-                  <span>2. Não é necessário baixar aplicativos</span>
-                  <span>3. Capture os melhores momentos!</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       )}
