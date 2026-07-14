@@ -3,8 +3,8 @@
 :root {
   /* Cores Base */
   --bg-primary: #ffffff;
-  --bg-secondary: #fef2f6;
-  --bg-tertiary: #fce4ec;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f5f5f5;
   
   --text-primary: #1a1a2e;
   --text-secondary: #555555;
@@ -13,7 +13,7 @@
   /* Cores de Destaque (Pink/Magenta) */
   --accent: #E8318A;
   --accent-hover: #d42a7d;
-  --accent-light: #fef2f6;
+  --accent-light: #fafafa;
   
   --success: #10b981;
   --error: #ef4444;
@@ -21,7 +21,7 @@
   
   /* Efeitos */
   --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(252, 228, 236, 0.6);
+  --glass-border: rgba(0, 0, 0, 0.05);
   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 12px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.08);

@@ -9,14 +9,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <a href="/" class="logo">Cam <span>Descartável</span></a>
       <nav class="nav-links">
         <a href="#como-funciona">Como Funciona</a>
-        <a href="#celular">O Aplicativo</a>
-        <a href="#depoimentos">Depoimentos</a>
         <a href="#precos">Preços</a>
         <a href="#faq">FAQ</a>
+        <a href="#presentes-lista">Para presente</a>
       </nav>
       <div class="auth-buttons">
         <a href="/painel" class="btn-ghost">Entrar</a>
-        <a href="/painel" class="btn-primary">Criar Evento</a>
+        <a href="/painel" class="btn-red">Criar Evento</a>
       </div>
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menu">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -25,13 +24,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <!-- Mobile menu -->
     <div class="mobile-menu" id="mobileMenu">
       <a href="#como-funciona">Como Funciona</a>
-      <a href="#celular">O Aplicativo</a>
-      <a href="#depoimentos">Depoimentos</a>
       <a href="#precos">Preços</a>
       <a href="#faq">FAQ</a>
+      <a href="#presentes-lista">Para presente</a>
       <hr />
       <a href="/painel" style="padding: 0.5rem 0;">Entrar</a>
-      <a href="/painel" class="btn-primary" style="text-align:center; margin-top: 0.5rem;">Criar Evento</a>
+      <a href="/painel" class="btn-red" style="text-align:center; margin-top: 0.5rem;">Criar Evento</a>
     </div>
   </header>
 
@@ -71,12 +69,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <div><strong>88</strong><span>Convidados</span></div>
             </div>
             <div class="phone-gallery-grid">
-              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=300&auto=format&fit=crop&q=80')"></div>
-              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=300&auto=format&fit=crop&q=80')"></div>
-              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=300&auto=format&fit=crop&q=80')"></div>
-              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop&q=80')"></div>
-              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1519225495810-7512c696505a?w=300&auto=format&fit=crop&q=80')"></div>
-              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1507504038482-762102124e18?w=300&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1519225495810-7512c696505a?w=800&auto=format&fit=crop&q=80')"></div>
+              <div class="grid-img" style="background-image: url('https://images.unsplash.com/photo-1507504038482-762102124e18?w=800&auto=format&fit=crop&q=80')"></div>
             </div>
           </div>
         </div>
@@ -107,7 +105,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="polaroid-card" style="transform: rotate(4deg) translateY(-5px);">
         <div class="polaroid-photo" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&auto=format&fit=crop&q=80')"></div>
-        <p class="polaroid-caption">Primeira Dança 🤍</p>
+        <p class="polaroid-caption">Primeira Dança</p>
       </div>
       <div class="polaroid-card" style="transform: rotate(-3deg) translateY(5px);">
         <div class="polaroid-photo" style="background-image: url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&auto=format&fit=crop&q=80')"></div>
@@ -119,11 +117,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="polaroid-card" style="transform: rotate(-4deg) translateY(-8px);">
         <div class="polaroid-photo" style="background-image: url('https://images.unsplash.com/photo-1507504038482-762102124e18?w=400&auto=format&fit=crop&q=80')"></div>
-        <p class="polaroid-caption">Brinde aos Noivos 🥂</p>
+        <p class="polaroid-caption">Brinde aos Noivos</p>
       </div>
       <div class="polaroid-card" style="transform: rotate(2deg) translateY(2px);">
         <div class="polaroid-photo" style="background-image: url('https://images.unsplash.com/photo-1519225495810-7512c696505a?w=400&auto=format&fit=crop&q=80')"></div>
-        <p class="polaroid-caption">Os Detalhes ✨</p>
+        <p class="polaroid-caption">Os Detalhes</p>
       </div>
     </div>
   </section>
@@ -170,7 +168,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div class="step-info">
             <span class="step-number">02</span>
             <h3>Imprima o QR Code</h3>
-            <p>Baixe placas prontas para impressão ou cartões de mesa personalizados com os nomes dos noivos. Coloque uma placa de recepção na entrada do salão ou pequenos cartões em cada mesa dos convidados.</p>
+            <p>Baixe placas prontas para impressão ou cartões de mesa personalizados. Ao escanear o código, seus convidados podem usar a câmera vintage do app ou <strong>fazer o upload de fotos normais da galeria do próprio celular</strong>.</p>
           </div>
           <div class="step-preview">
             <div class="preview-card-print">
@@ -239,12 +237,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="showroom-item">
           <div class="showroom-phone">
             <div class="phone-screen gallery-bg">
-              <div class="gallery-header">Galeria ao Vivo 📸</div>
+              <div class="gallery-header">Galeria ao Vivo</div>
               <div class="gallery-pics">
-                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=200&auto=format&fit=crop&q=80')"></div>
-                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=200&auto=format&fit=crop&q=80')"></div>
-                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=200&auto=format&fit=crop&q=80')"></div>
-                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=200&auto=format&fit=crop&q=80')"></div>
+                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800&auto=format&fit=crop&q=80')"></div>
+                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&auto=format&fit=crop&q=80')"></div>
+                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&auto=format&fit=crop&q=80')"></div>
+                <div class="pic-box" style="background-image: url('https://images.unsplash.com/photo-1523438885200-e635ba2c371e?w=800&auto=format&fit=crop&q=80')"></div>
               </div>
             </div>
           </div>
@@ -256,15 +254,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="showroom-item">
           <div class="showroom-phone">
             <div class="phone-screen admin-bg">
-              <div class="admin-header">Painel do Casal ⚙️</div>
+              <div class="admin-header">Painel do Casal</div>
               <div class="admin-stats-box">
                 <div><strong>573</strong><span>Fotos</span></div>
                 <div><strong>88</strong><span>Pessoas</span></div>
               </div>
               <div class="admin-actions-preview">
-                <div class="action-row-preview">📥 Baixar Tudo (ZIP)</div>
-                <div class="action-row-preview">📄 Gerar Kit de Mesa A4</div>
-                <div class="action-row-preview">📦 Encomendar Revelações</div>
+                <div class="action-row-preview">Baixar Tudo (ZIP)</div>
+                <div class="action-row-preview">Gerar Kit de Mesa A4</div>
+                <div class="action-row-preview">Encomendar Revelações</div>
               </div>
             </div>
           </div>
@@ -497,12 +495,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             Cansado das tradicionais listas de panelas? Dê aos noivos o presente mais valioso: as memórias da festa. Compre o plano Standard ou Pro em formato de Vale-Presente para um casal especial.
           </p>
           <a href="#" class="btn-primary" onclick="alert('Em breve! Integração de presentes em desenvolvimento.'); return false;">
-            Presentear um Casal 🎁
+            Presentear um Casal
           </a>
         </div>
         <div class="gift-visual gift-box-img">
           <div class="gift-overlay"></div>
-          <div class="emoji-float">✨</div>
         </div>
       </div>
 
@@ -515,12 +512,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             Vão casar? Adicione o pacote completo do Cam Descartável (App + Fotos Reveladas + Álbum Físico) na sua lista de presentes e deixe seus padrinhos comprarem para você!
           </p>
           <a href="#" class="btn-outline" onclick="alert('Em breve! Integração com ICasei e Zankyou em desenvolvimento.'); return false;">
-            Criar minha lista 📋
+            Criar minha lista
           </a>
         </div>
         <div class="gift-visual registry-img">
           <div class="gift-overlay"></div>
-          <div class="emoji-float">🥂</div>
         </div>
       </div>
 
@@ -569,7 +565,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <style>
   /* ===== HEADER ===== */
   .header {
-    background-color: #ffffff;
+    background-color: var(--bg-primary);
     border-bottom: 1px solid var(--bg-tertiary);
     position: sticky;
     top: 0;
@@ -668,7 +664,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   /* ===== BUTTONS ===== */
   .btn-primary {
     background: var(--accent);
-    color: white !important;
+    color: #000 !important;
     padding: 0.75rem 1.75rem;
     border-radius: var(--radius-full);
     font-weight: 600;
@@ -683,13 +679,33 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     background: var(--accent-hover);
     border-color: var(--accent-hover);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(232, 49, 138, 0.25);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
+  }
+
+  .btn-red {
+    background: #e63946;
+    color: #000 !important;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    transition: var(--transition-normal);
+    display: inline-block;
+    border: 2px solid #e63946;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  .btn-red:hover {
+    background: #d62828;
+    border-color: #d62828;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(230, 57, 70, 0.4);
   }
 
   .btn-outline {
-    background: white;
-    color: var(--accent);
-    padding: 0.75rem 1.75rem;
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--bg-tertiary);
     border-radius: var(--radius-full);
     font-weight: 600;
     transition: var(--transition-normal);
@@ -782,14 +798,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .visual-wrapper {
     position: relative;
     width: 100%;
-    max-width: 380px;
+    max-width: 500px;
     padding: 2rem 0;
   }
 
   /* Mockup de celular realista */
   .phone-mockup {
-    width: 260px;
-    height: 520px;
+    width: 360px;
+    height: 720px;
     background: #09090b;
     border: 10px solid #27272a;
     border-radius: 36px;
@@ -815,7 +831,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .phone-screen {
     width: 100%;
     height: 100%;
-    background: #ffffff;
+    background: #000000;
     display: flex;
     flex-direction: column;
     padding-top: 1.5rem;
@@ -882,10 +898,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   /* Placa de mesa QR flutuante */
   .floating-qr-card {
     position: absolute;
-    bottom: 5%;
+    bottom: -5%;
     right: -10%;
     width: 180px;
-    background: #ffffff;
+    background: var(--bg-tertiary);
     border: 1px solid var(--bg-tertiary);
     border-radius: 16px;
     padding: 1.25rem;
@@ -956,7 +972,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .polaroid-card {
-    background: white;
+    background: var(--bg-tertiary);
     padding: 1rem 1rem 2rem;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     border-radius: 4px;
@@ -1089,7 +1105,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   /* Step Visuals Previews */
   .preview-card-form {
-    background: white;
+    background: var(--bg-tertiary);
     border: 1px solid var(--bg-tertiary);
     border-radius: 16px;
     padding: 1.5rem;
@@ -1162,7 +1178,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     align-items: center;
     width: 200px;
     text-align: center;
-    background: white;
+    background: var(--bg-tertiary);
   }
 
   .card-print-logo {
@@ -1191,7 +1207,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .preview-card-download {
-    background: white;
+    background: var(--bg-tertiary);
     border: 1px solid var(--bg-tertiary);
     border-radius: 16px;
     padding: 1.5rem;
@@ -1240,10 +1256,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .showroom-phone {
-    width: 250px;
-    height: 480px;
+    width: 340px;
+    height: 660px;
     background: #09090b;
-    border: 8px solid #27272a;
+    border: 10px solid #27272a;
     border-radius: 32px;
     box-shadow: var(--shadow-lg);
     overflow: hidden;
@@ -1310,11 +1326,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .shutter-btn {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: var(--accent);
-    border: 4px solid #fff;
+    border: 4px solid var(--bg-tertiary);
   }
 
   .gallery-bg {
@@ -1347,7 +1363,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .admin-bg {
-    background: #ffffff !important;
+    background: var(--bg-primary) !important;
     padding: 1rem !important;
   }
 
@@ -1421,7 +1437,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .testimonial-card {
-    background: white;
+    background: var(--bg-tertiary);
     border: 1px solid var(--bg-tertiary);
     border-radius: 16px;
     padding: 1.8rem;
@@ -1520,7 +1536,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .template-box {
-    background: white;
+    background: var(--bg-tertiary);
     border: 1px solid var(--bg-tertiary);
     border-radius: 12px;
     padding: 1.5rem 1rem;
@@ -1592,7 +1608,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .pricing-card {
-    background: white;
+    background: var(--bg-tertiary);
     border: 1px solid var(--bg-tertiary);
     border-radius: var(--radius-lg);
     padding: 3rem 2rem;
@@ -1686,7 +1702,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .faq-item {
-    background: white;
+    background: var(--bg-tertiary);
     border: 1px solid var(--bg-tertiary);
     border-radius: 12px;
     overflow: hidden;
@@ -1763,7 +1779,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .gift-card {
-    background: white;
+    background: var(--bg-tertiary);
     border-radius: 24px;
     border: 1px solid var(--bg-tertiary);
     overflow: hidden;
@@ -1994,6 +2010,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       width: 150px;
       padding: 1rem;
     }
+  }
+</style>
+
+<style is:global>
+  :root {
+    --bg-primary: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-tertiary: #171717;
+    
+    --text-primary: #ffffff;
+    --text-secondary: #a3a3a3;
+    --text-tertiary: #737373;
+    
+    --accent: #ffffff;
+    --accent-hover: #e5e5e5;
+    --accent-light: #171717;
+    
+    --glass-bg: rgba(0, 0, 0, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px -1px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.8);
+    --shadow-premium: 0 20px 40px -8px rgba(255, 255, 255, 0.05);
   }
 </style>
 

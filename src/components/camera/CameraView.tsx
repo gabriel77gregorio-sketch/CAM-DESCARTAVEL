@@ -17,6 +17,8 @@ interface Event {
   photo_limit_per_user: number;
   slug: string;
   is_active: boolean;
+  gamification_enabled?: boolean;
+  photo_goal?: number | null;
 }
 
 interface Props {
@@ -41,6 +43,7 @@ export default function CameraView({ event }: Props) {
   const [errorMsg, setErrorMsg] = useState('');
   const [cameraReady, setCameraReady] = useState(false);
   const [flashOn, setFlashOn] = useState(false);
+  const [zoom, setZoom] = useState<0.5 | 1.0 | 2.0>(1.0);
 
   // Estados de Gamificação
   const [gamificationEnabled, setGamificationEnabled] = useState(false);
@@ -808,142 +811,175 @@ export default function CameraView({ event }: Props) {
     );
   }
 
-  // STEP 3: VISUALIZADOR DA CÂMERA LIVE
+  // STEP 3: VISUALIZADOR DA CÂMERA LIVE — Fullscreen 9:16
   if (viewStep === 'live_camera') {
     return (
-      <div className="camera-container animate-fade-in" style={{ backgroundColor: '#111', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
-        <div className="camera-body" style={{ position: 'relative' }}>
-          <div className="camera-stripes"></div>
-          <div className="camera-wheel"></div>
-          
-          {/* Botão de Fechar / Voltar */}
-          <button
-            onClick={() => setViewStep('choose_action')}
+      <div className="camera-fullscreen">
+
+        {/* ── Vídeo fullscreen ── */}
+        {!errorMsg && (
+          <video
+            ref={videoRef}
+            className={`camera-video ${facingMode === 'user' ? 'front' : ''}`}
             style={{
-              position: 'absolute',
-              top: '12px',
-              right: '12px',
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              background: 'rgba(0,0,0,0.6)',
-              color: 'white',
-              border: '1px solid rgba(255,255,255,0.2)',
-              fontSize: '1rem',
-              cursor: 'pointer',
-              zIndex: 20,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              filter: getVideoFilterStyle(),
+              transform: `${facingMode === 'user' ? 'scaleX(-1) ' : ''}scale(${zoom})`,
+              transition: 'transform 0.2s ease',
             }}
-          >
-            ✕
+            playsInline
+            muted
+            autoPlay
+          />
+        )}
+        <canvas ref={canvasRef} style={{ display: 'none' }} />
+
+        {/* ── Flash de captura ── */}
+        <div className={`flash-effect ${isCapturing ? 'flash-active' : ''}`} />
+
+        {/* ── Erro de câmera ── */}
+        {errorMsg && (
+          <div style={{
+            position: 'absolute', inset: 0, zIndex: 5,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '2rem', textAlign: 'center', color: 'white', fontSize: '0.9rem',
+          }}>
+            {errorMsg}
+          </div>
+        )}
+
+        {/* ── Preview da última foto (breve) ── */}
+        {previewUrl && !isUploading && (
+          <div className="cam-preview-flash">
+            <img src={previewUrl} alt="Preview" />
+            <span className="cam-preview-badge">Revelando... 📸</span>
+          </div>
+        )}
+
+        {/* ── Overlay de upload/revelando ── */}
+        {isUploading && (
+          <div className="cam-overlay">
+            <div className="cam-overlay-spinner" />
+            <span className="cam-overlay-text">Revelando...</span>
+          </div>
+        )}
+
+        {/* ── TopBar ── */}
+        <div className="cam-topbar">
+          <button className="cam-icon-btn" onClick={() => setViewStep('choose_action')}>
+            ←
           </button>
 
-          {/* Shutter wrapper para design de botão físico */}
-          <div className="shutter-btn-wrapper">
-            <button 
-              className="shutter-btn"
-              onClick={handleCapture}
-              disabled={!cameraReady || isUploading || remainingPhotos <= 0}
-              title="Disparador físico"
+          <div className="cam-topbar-center">
+            <span className="cam-topbar-title">{event.event_name}</span>
+            <span className="cam-topbar-sub">{remainingPhotos} foto{remainingPhotos !== 1 ? 's' : ''} restante{remainingPhotos !== 1 ? 's' : ''}</span>
+          </div>
+
+          {/* Indicador de câmera pronta */}
+          <div className="cam-icon-btn" style={{
+            background: cameraReady ? 'rgba(34,197,94,0.25)' : 'rgba(0,0,0,0.35)',
+            borderColor: cameraReady ? 'rgba(34,197,94,0.6)' : 'rgba(255,255,255,0.18)',
+          }}>
+            <span style={{ fontSize: '0.65rem', fontWeight: 800, color: cameraReady ? '#4ade80' : 'rgba(255,255,255,0.5)' }}>
+              {cameraReady ? '●' : '○'}
+            </span>
+          </div>
+        </div>
+
+        {/* ── Seletor de filtros (pills acima da bottombar) ── */}
+        <div className="cam-filters-row">
+          <button
+            onClick={() => setFilter('disposable')}
+            className={`cam-filter-pill ${filter === 'disposable' ? 'active' : ''}`}
+          >
+            🎞️ Disposable
+          </button>
+          <button
+            onClick={() => setFilter('kodak_gold')}
+            className={`cam-filter-pill ${filter === 'kodak_gold' ? 'active' : ''}`}
+          >
+            💛 Kodak
+          </button>
+          <button
+            onClick={() => setFilter('fuji_superia')}
+            className={`cam-filter-pill ${filter === 'fuji_superia' ? 'active' : ''}`}
+          >
+            💚 Fuji
+          </button>
+        </div>
+
+        {/* ── Controles flutuantes (flash · zoom · flip) ── */}
+        <div className="cam-floating-controls">
+          {/* Flash toggle */}
+          <button
+            className="cam-icon-btn"
+            onClick={() => setFlashOn((v) => !v)}
+            style={{ fontSize: '1.1rem', background: flashOn ? 'rgba(255,210,0,0.3)' : 'rgba(0,0,0,0.35)', borderColor: flashOn ? 'rgba(255,210,0,0.7)' : 'rgba(255,255,255,0.18)' }}
+            title="Flash"
+          >
+            {flashOn ? '⚡' : '🔕'}
+          </button>
+
+          {/* Zoom pills */}
+          <div className="cam-zoom-pills">
+            <button
+              className={`cam-zoom-pill ${zoom === 0.5 ? 'active' : ''}`}
+              onClick={() => setZoom(0.5)}
+            >
+              0.5×
+            </button>
+            <button
+              className={`cam-zoom-pill ${zoom === 1.0 ? 'active' : ''}`}
+              onClick={() => setZoom(1.0)}
+            >
+              1×
+            </button>
+            <button
+              className={`cam-zoom-pill ${zoom === 2.0 ? 'active' : ''}`}
+              onClick={() => setZoom(2.0)}
+            >
+              2×
+            </button>
+          </div>
+
+          {/* Flip câmera */}
+          <button
+            className="cam-icon-btn"
+            onClick={handleSwitchCamera}
+            disabled={!cameraReady || isUploading}
+            title="Alternar câmera"
+            style={{ fontSize: '1.1rem' }}
+          >
+            🔄
+          </button>
+        </div>
+
+        {/* ── BottomBar ── */}
+        <div className="cam-bottombar">
+          {/* Contador de fotos estilo rolo */}
+          <div className="cam-film-counter">
+            <span className="cam-film-icon">🎞️</span>
+            <span className="cam-film-number">{String(photosTaken).padStart(2, '0')}</span>
+            <span className="cam-film-label">fotos</span>
+          </div>
+
+          {/* Shutter */}
+          <button
+            className="cam-shutter"
+            onClick={handleCapture}
+            disabled={!cameraReady || isUploading || remainingPhotos <= 0}
+            title="Tirar foto"
+          />
+
+          {/* Thumbnail da última foto */}
+          {previewUrl ? (
+            <img
+              src={previewUrl}
+              className="cam-last-thumb"
+              alt="Última foto"
             />
-          </div>
-
-          {/* Viewfinder (Visor da câmera) */}
-          <div className="camera-viewfinder-wrapper">
-            <div className={`flash-effect ${isCapturing ? 'flash-active' : ''}`} />
-
-            {isUploading && (
-              <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'white', zIndex: 11, gap: '0.5rem' }}>
-                <div style={{ width: '30px', height: '30px', border: '3px solid rgba(255,255,255,0.3)', borderTopColor: 'var(--accent)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-                <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-display)', fontWeight: 600, letterSpacing: '0.05em' }}>Revelando...</span>
-              </div>
-            )}
-
-            {previewUrl && !isUploading && (
-              <div style={{ position: 'absolute', inset: 0, zIndex: 11, animation: 'fadeIn 0.2s' }}>
-                <img src={previewUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Preview" />
-                <div style={{ position: 'absolute', bottom: '10px', left: '10px', background: 'rgba(0,0,0,0.6)', color: 'white', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem' }}>
-                  Desenvolvida! 📸
-                </div>
-              </div>
-            )}
-
-            {errorMsg ? (
-              <div style={{ color: 'white', padding: '1.5rem', textAlign: 'center', fontSize: '0.85rem', display: 'flex', height: '100%', alignItems: 'center' }}>
-                {errorMsg}
-              </div>
-            ) : (
-              <video
-                ref={videoRef}
-                className={`camera-preview ${facingMode === 'user' ? '' : 'rear'}`}
-                style={{ filter: getVideoFilterStyle() }}
-                playsInline
-                muted
-                autoPlay
-              />
-            )}
-
-            <canvas ref={canvasRef} style={{ display: 'none' }} />
-          </div>
-
-          {/* LCD Fotos Restantes */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem', padding: '0 0.5rem', zIndex: 2 }}>
-            <div>
-              <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontWeight: 700, textTransform: 'uppercase', marginBottom: '2px' }}>
-                Restantes
-              </div>
-              <div className="camera-counter-lcd">
-                {String(remainingPhotos).padStart(2, '0')}
-              </div>
-            </div>
-
-            <div className="flash-led-container">
-              <span className={`flash-led ${cameraReady ? 'ready' : ''}`} />
-              <span>Ready</span>
-            </div>
-          </div>
-
-          {/* Seleção de Filtros Vintage */}
-          <div className="filter-selector-container">
-            <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px', textAlign: 'center' }}>
-              Filme Analógico
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '0.5rem', overflowX: 'auto', padding: '2px' }}>
-              <button
-                onClick={() => setFilter('disposable')}
-                className={`filter-option ${filter === 'disposable' ? 'active' : ''}`}
-              >
-                🎞️ Disposable
-              </button>
-              <button
-                onClick={() => setFilter('kodak_gold')}
-                className={`filter-option ${filter === 'kodak_gold' ? 'active' : ''}`}
-              >
-                💛 Kodak Gold
-              </button>
-              <button
-                onClick={() => setFilter('fuji_superia')}
-                className={`filter-option ${filter === 'fuji_superia' ? 'active' : ''}`}
-              >
-                💚 Fuji
-              </button>
-            </div>
-          </div>
-
-          {/* Controles de Disparo */}
-          <div className="camera-controls-bottom">
-            <button className="control-circle-btn" onClick={handleSwitchCamera} disabled={!cameraReady || isUploading}>
-              🔄
-            </button>
-            <button className="capture-btn-trigger" onClick={handleCapture} disabled={!cameraReady || isUploading || remainingPhotos <= 0}>
-              <span style={{ color: 'white', fontSize: '1.5rem' }}>📷</span>
-            </button>
-            <button className="control-circle-btn" onClick={() => setViewStep('choose_action')}>
-              🔙
-            </button>
-          </div>
+          ) : (
+            <div className="cam-thumb-empty" />
+          )}
         </div>
       </div>
     );
