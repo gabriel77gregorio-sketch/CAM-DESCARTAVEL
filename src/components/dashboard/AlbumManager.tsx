@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 // ─── Interfaces ────────────────────────────────────────────────
 interface Event {
@@ -253,6 +255,53 @@ export default function AlbumManager() {
   const selectedEvent = events.find(e => e.id === selectedEventId);
   const theme = themeMap[selectedEvent?.theme_color || 'rosa'] || themeMap.rosa;
 
+  const [isDownloadingZip, setIsDownloadingZip] = useState(false);
+
+  const downloadAllAsZip = async () => {
+    if (photos.length === 0) return;
+    setIsDownloadingZip(true);
+    try {
+      const zip = new JSZip();
+      const imgFolder = zip.folder("fotos");
+      
+      if (!imgFolder) throw new Error("Não foi possível criar a pasta no ZIP");
+
+      // Baixa cada foto e adiciona ao ZIP
+      await Promise.all(photos.map(async (photo, index) => {
+        try {
+          const url = getPhotoUrl(photo.storage_path);
+          let blob: Blob;
+          
+          if (url.startsWith('data:image')) {
+            // Converte base64 para blob
+            const res = await fetch(url);
+            blob = await res.blob();
+          } else {
+            // Busca da URL pública
+            const res = await fetch(url);
+            blob = await res.blob();
+          }
+          
+          const fileName = `foto_${index + 1}_${photo.id.substring(0,6)}.jpg`;
+          imgFolder.file(fileName, blob);
+        } catch (err) {
+          addLog(`Erro ao adicionar foto ${photo.id} ao ZIP: ${err}`);
+        }
+      }));
+
+      // Gera o arquivo final
+      const content = await zip.generateAsync({ type: "blob" });
+      const currentEvent = events.find(e => e.id === selectedEventId);
+      const zipName = currentEvent ? `${currentEvent.slug}-fotos.zip` : 'cam-descartavel-fotos.zip';
+      saveAs(content, zipName);
+    } catch (err) {
+      console.error("Erro ao gerar ZIP", err);
+      alert("Ocorreu um erro ao gerar o arquivo ZIP.");
+    } finally {
+      setIsDownloadingZip(false);
+    }
+  };
+
   const getPhotoUrl = (storagePath: string) => {
     if (!storagePath) return '';
     if (storagePath.startsWith('data:image') || storagePath.startsWith('blob:')) return storagePath;
@@ -468,10 +517,35 @@ export default function AlbumManager() {
           </p>
         </div>
 
-        {/* Seletor de Evento */}
+        {/* Seletor de Evento e Botões */}
         {events.length > 0 && (
-          <div style={{ position: 'relative' }}>
-            <select
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            {photos.length > 0 && (
+              <button
+                onClick={downloadAllAsZip}
+                disabled={isDownloadingZip}
+                style={{
+                  padding: '0.7rem 1.5rem',
+                  borderRadius: '50px',
+                  background: theme.accent,
+                  color: 'white',
+                  border: 'none',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  cursor: isDownloadingZip ? 'not-allowed' : 'pointer',
+                  opacity: isDownloadingZip ? 0.7 : 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  boxShadow: `0 4px 12px ${theme.accent}40`
+                }}
+              >
+                {isDownloadingZip ? 'Compactando...' : '↓ Baixar Álbum (ZIP)'}
+              </button>
+            )}
+
+            <div style={{ position: 'relative' }}>
+              <select
               value={selectedEventId}
               onChange={(e) => {
                 setSelectedEventId(e.target.value);

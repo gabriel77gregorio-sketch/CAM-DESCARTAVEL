@@ -251,12 +251,38 @@ export default function PrintManager() {
     setCheckoutStep('payment');
   };
 
-  const handlePaymentSubmit = () => {
+  const handlePaymentSubmit = async () => {
     setIsPaying(true);
-    setTimeout(() => {
-      setIsPaying(false);
+    try {
+      // Simula o tempo de processamento do cartão/pix
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      const currentEvent = events.find(e => e.id === selectedEventId);
+      const eventName = currentEvent ? currentEvent.event_name : 'Cam Descartável';
+
+      // Pega o e-mail do usuário logado (ou usa um padrão para teste)
+      const sessionRes = await supabase.auth.getSession();
+      const userEmail = sessionRes.data?.session?.user?.email || 'teste@camdescartavel.com.br';
+
+      // Dispara o e-mail transacional chamando a nossa API
+      await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: userEmail,
+          subject: `Pagamento Confirmado - ${eventName}`,
+          type: 'receipt',
+          data: { eventName }
+        })
+      });
+      
       setCheckoutStep('success');
-    }, 2000);
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao processar o pagamento ou enviar o recibo.');
+    } finally {
+      setIsPaying(false);
+    }
   };
 
   // ─── RENDER ───────────────────────────────────────────────
