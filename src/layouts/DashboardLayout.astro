@@ -30,7 +30,7 @@ const { title, activeLink = 'dashboard' } = Astro.props;
         </div>
         <!-- User initial circle avatar (Mobile) -->
         <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <div style="width: 28px; height: 28px; border-radius: 50%; background-color: #E8318A; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-display); font-size: 0.85rem; box-shadow: 0 2px 8px rgba(232, 49, 138, 0.3);">
+          <div id="user-avatar-mobile" style="width: 28px; height: 28px; border-radius: 50%; background-color: #E8318A; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-display); font-size: 0.85rem; box-shadow: 0 2px 8px rgba(232, 49, 138, 0.3); background-size: cover; background-position: center;">
             C
           </div>
         </div>
@@ -65,12 +65,17 @@ const { title, activeLink = 'dashboard' } = Astro.props;
         <div class="user-profile-nav" style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; width: 100%;">
           <!-- User initial circle avatar -->
           <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 1rem;">
-            <div style="width: 32px; height: 32px; border-radius: 50%; background-color: #E8318A; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-display); font-size: 0.95rem; box-shadow: 0 2px 8px rgba(232, 49, 138, 0.3);">
+            <div id="user-avatar-desktop" style="width: 32px; height: 32px; border-radius: 50%; background-color: #E8318A; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: var(--font-display); font-size: 0.95rem; box-shadow: 0 2px 8px rgba(232, 49, 138, 0.3); background-size: cover; background-position: center; flex-shrink: 0;">
               C
             </div>
-            <button id="logout-btn" style="border: none; background: none; color: #999; font-size: 0.85rem; font-weight: 500; cursor: pointer; padding: 0;">
-              Sair
-            </button>
+            <div style="display: flex; flex-direction: column; align-items: flex-start; overflow: hidden;">
+              <span id="user-name-display" style="font-size: 0.85rem; font-weight: 600; color: #1a1a2e; margin-bottom: -2px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; max-width: 130px;">
+                Usuário
+              </span>
+              <button id="logout-btn" style="border: none; background: none; color: #999; font-size: 0.75rem; font-weight: 500; cursor: pointer; padding: 0;">
+                Sair
+              </button>
+            </div>
           </div>
         </div>
       </aside>
@@ -84,10 +89,34 @@ const { title, activeLink = 'dashboard' } = Astro.props;
     <script>
       import { supabase } from '../lib/supabase';
 
-      // Proteção de Rota: Redirecionar para login se não estiver autenticado
+      // Proteção de Rota e Dados do Usuário
       supabase.auth.getSession().then(({ data: { session } }) => {
         if (!session) {
           window.location.href = '/login';
+        } else {
+          // Extrair informações do provedor (Google)
+          const user = session.user;
+          const meta = user.user_metadata || {};
+          const name = meta.full_name || meta.name || user.email?.split('@')[0] || 'Usuário';
+          const avatarUrl = meta.avatar_url || meta.picture;
+          const initial = name.charAt(0).toUpperCase();
+
+          // Atualizar DOM
+          const avatarMobile = document.getElementById('user-avatar-mobile');
+          const avatarDesktop = document.getElementById('user-avatar-desktop');
+          const nameDisplay = document.getElementById('user-name-display');
+
+          if (nameDisplay) nameDisplay.textContent = name;
+
+          [avatarMobile, avatarDesktop].forEach(el => {
+            if (!el) return;
+            if (avatarUrl) {
+              el.style.backgroundImage = `url('${avatarUrl}')`;
+              el.textContent = ''; // Limpa a letra "C"
+            } else {
+              el.textContent = initial;
+            }
+          });
         }
       });
       
