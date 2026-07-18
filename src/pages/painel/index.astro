@@ -4,9 +4,9 @@ import EventList from '../../components/dashboard/EventList';
 ---
 
 <DashboardLayout title="Meus Eventos" activeLink="dashboard">
-  <div style="margin-bottom: 1.5rem;">
-    <h2 style="font-size: 2rem; font-family: var(--font-display); color: var(--text-primary); margin-bottom: 0.25rem;">Seu Painel</h2>
-    <p style="color: var(--text-secondary);">Gerencie seus casamentos, festas e eventos criados.</p>
+  <div style="margin-bottom: 1.25rem;">
+    <h2 style="font-size: clamp(1.5rem, 5vw, 2rem); font-family: var(--font-display); color: var(--text-primary); margin-bottom: 0.25rem;">Seu Painel</h2>
+    <p style="color: var(--text-secondary); font-size: 0.95rem;">Gerencie seus casamentos, festas e eventos criados.</p>
   </div>
   <EventList client:load />
 </DashboardLayout>

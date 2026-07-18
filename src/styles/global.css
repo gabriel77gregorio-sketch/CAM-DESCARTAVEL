@@ -3,45 +3,64 @@
 :root {
   /* Cores Base */
   --bg-primary: #ffffff;
-  --bg-secondary: #fafafa;
-  --bg-tertiary: #f5f5f5;
+  --bg-secondary: #f5f5f7;
+  --bg-tertiary: #f0edf0;
   
-  --text-primary: #1a1a2e;
-  --text-secondary: #555555;
-  --text-tertiary: #999999;
+  --text-primary: #1d1d1f;
+  --text-secondary: #515154;
+  --text-tertiary: #86868b;
   
-  /* Cores de Destaque (Pink/Magenta) */
-  --accent: #E8318A;
-  --accent-hover: #d42a7d;
-  --accent-light: #fafafa;
+  /* Cores de Destaque (Apple Black & Wedding Gold) */
+  --accent: #1d1d1f;
+  --accent-hover: #000000;
+  --accent-light: #f5f5f7;
+  --accent-wedding: #c5a880;
+  --accent-wedding-hover: #b3966f;
   
   --success: #10b981;
   --error: #ef4444;
   --warning: #f59e0b;
   
   /* Efeitos */
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
-  --shadow-premium: 0 20px 40px -8px rgba(232, 49, 138, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.08);
+  --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.06);
   
   /* Fontes */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Space Grotesk', var(--font-sans);
+  --font-display: 'Inter', var(--font-sans);
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-mono: 'Share Tech Mono', monospace;
 
   /* Bordas */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 24px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
   --radius-full: 9999px;
   
   /* Transições */
-  --transition-fast: 150ms ease;
-  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 100ms ease;
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Espaçamento Mobile-First */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* Touch target mínimo */
+  --touch-target: 44px;
+
+  /* Safe Area (para iPhones com notch) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 }
 
 /* Reset */
@@ -51,20 +70,35 @@
   padding: 0;
 }
 
+html {
+  /* Previne zoom de texto no iOS ao focar em inputs */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Scroll suave em toda a página */
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height para iOS */
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  /* Melhor scroll em iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: -0.02em;
+  /* Quebra de linha inteligente em mobile */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 a {
@@ -77,6 +111,20 @@ button, input, select, textarea {
   font-family: inherit;
   font-size: inherit;
   color: inherit;
+  /* Previne zoom automático em iOS (mínimo 16px) */
+  font-size: max(16px, 1em);
+}
+
+/* Inputs com tamanho correto no iOS (sem zoom) */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  font-size: 16px;
 }
 
 /* Remove grain overlay - clean modern design */
@@ -97,15 +145,18 @@ button, input, select, textarea {
   background: white;
   border: 1px solid var(--bg-tertiary);
   border-radius: var(--radius-md);
-  padding: 1.5rem;
+  padding: 1.25rem;
   box-shadow: var(--shadow-sm);
   transition: var(--transition-normal);
 }
 
-.glass-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: rgba(232, 49, 138, 0.2);
+/* Hover apenas em dispositivos com pointer fino (não touch) */
+@media (hover: hover) and (pointer: fine) {
+  .glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(232, 49, 138, 0.2);
+  }
 }
 
 /* Animations */
@@ -126,7 +177,8 @@ button, input, select, textarea {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-secondary);
@@ -137,4 +189,89 @@ button, input, select, textarea {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-tertiary);
+}
+
+/* ─── Utilitários Mobile ──────────────────────────────────── */
+
+/* Ocultar scrollbar mas manter funcional */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Touch targets acessíveis */
+.touch-target {
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Container responsivo padrão */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container { padding: 0 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .container { padding: 0 2rem; }
+}
+
+/* Grid responsivo */
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid-auto { gap: 1.5rem; }
+}
+
+/* Stack em mobile, row em desktop */
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .flex-responsive {
+    flex-direction: row;
+  }
+}
+
+/* Texto truncado para mobile */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Focus visible para acessibilidade */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Área segura para padding inferior em iOS */
+.safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Melhor tap highlight em mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Seletores interativos com feedback de toque */
+button, a, [role="button"] {
+  cursor: pointer;
+  touch-action: manipulation;
 }

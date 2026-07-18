@@ -438,37 +438,37 @@ export default function EventList() {
       
       {/* 1. SEÇÃO PRINCIPAL: Comece seu primeiro álbum */}
       <div>
-        <span style={{ fontSize: '0.72rem', color: '#E8318A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: '0.4rem' }}>
+        <span style={{ fontSize: '0.72rem', color: 'var(--accent-wedding)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: '0.4rem' }}>
           • PAINEL
         </span>
-        <h2 style={{ fontSize: '2.6rem', fontFamily: 'var(--font-serif)', fontWeight: 700, color: '#1a1a2e', marginBottom: '2rem', letterSpacing: '-0.02em' }}>
+        <h2 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.6rem)', fontFamily: 'var(--font-serif)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '2rem', letterSpacing: '-0.02em' }}>
           Comece seu primeiro álbum
         </h2>
 
         {/* Card: Três coisas e você está ao vivo */}
-        <div style={{ background: 'white', border: '1px dashed #dcdad0', borderRadius: '24px', padding: '2.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', position: 'relative' }}>
+        <div style={{ background: 'white', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '2.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', position: 'relative', boxShadow: 'var(--shadow-sm)' }}>
           <div>
-            <span style={{ fontSize: '0.7rem', color: '#E8318A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            <span style={{ fontSize: '0.7rem', color: 'var(--accent-wedding)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
               • PRIMEIRO ÁLBUM · 60 SEGUNDOS
             </span>
-            <h3 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', fontWeight: 700, color: '#1a1a2e', marginTop: '0.4rem', marginBottom: '0.2rem' }}>
-              Três coisas e você está ao vivo.
+            <h3 style={{ fontSize: '2rem', fontFamily: 'var(--font-serif)', fontWeight: 700, color: 'var(--text-primary)', marginTop: '0.4rem', marginBottom: '0.2rem' }}>
+              Três passos simples para iniciar.
             </h3>
           </div>
 
           {/* Lista de Passos numerados como no mockup */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', color: '#1a1a2e', fontSize: '0.95rem', fontWeight: 500 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', color: 'var(--text-primary)', fontSize: '0.95rem', fontWeight: 500 }}>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '26px', height: '26px', borderRadius: '50%', background: '#FFF0F5', color: '#E8318A', fontSize: '0.85rem', fontWeight: 700 }}>1</span>
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '26px', height: '26px', borderRadius: '50%', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.85rem', fontWeight: 700 }}>1</span>
               <span>Dê um nome ao casal e marque a data.</span>
             </div>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '26px', height: '26px', borderRadius: '50%', background: '#FFF0F5', color: '#E8318A', fontSize: '0.85rem', fontWeight: 700 }}>2</span>
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '26px', height: '26px', borderRadius: '50%', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.85rem', fontWeight: 700 }}>2</span>
               <span>Escolha uma foto de capa e uma paleta de cores.</span>
             </div>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '26px', height: '26px', borderRadius: '50%', background: '#FFF0F5', color: '#E8318A', fontSize: '0.85rem', fontWeight: 700 }}>3</span>
-              <span>Baixe o código QR e cole-o na placa de boas-vindas. Pronto.</span>
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '26px', height: '26px', borderRadius: '50%', background: 'var(--bg-secondary)', color: 'var(--text-primary)', fontSize: '0.85rem', fontWeight: 700 }}>3</span>
+              <span>Baixe o código QR e cole-o na placa de boas-vindas do casamento.</span>
             </div>
           </div>
 
@@ -476,21 +476,20 @@ export default function EventList() {
             <button
               onClick={() => setShowCreateModal(true)}
               style={{
-                padding: '0.9rem 2.2rem',
-                backgroundColor: '#E8318A',
+                padding: '0.85rem 2rem',
+                backgroundColor: 'var(--accent)',
                 color: 'white',
                 border: 'none',
-                borderRadius: '50px',
+                borderRadius: '8px',
                 fontWeight: 600,
                 fontSize: '0.95rem',
                 cursor: 'pointer',
-                boxShadow: '0 4px 15px rgba(232, 49, 138, 0.25)',
-                transition: 'all 0.2s',
+                transition: 'all 0.15s ease',
               }}
-              onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-1px)'}
-              onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-hover)'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--accent)'}
             >
-              + Primeiro álbum do Spin Up
+              Criar Álbum de Casamento
             </button>
           </div>
         </div>
@@ -499,27 +498,30 @@ export default function EventList() {
       {/* Exibição rápida de álbuns ativos se existirem */}
       {events.length > 0 && (
         <div style={{ marginTop: '0.5rem' }}>
-          <h3 style={{ fontSize: '1.3rem', fontFamily: 'var(--font-serif)', fontWeight: 700, color: '#1a1a2e', marginBottom: '1rem' }}>
+          <h3 style={{ fontSize: '1.3rem', fontFamily: 'var(--font-serif)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1.25rem' }}>
             Álbuns Criados ({events.length})
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.25rem' }}>
             {events.map((event) => (
-              <div key={event.id} style={{ background: 'white', border: '1px solid #f0edf0', borderRadius: '16px', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
+              <div key={event.id} style={{ background: 'white', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem', boxShadow: 'var(--shadow-sm)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div>
-                    <h4 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>{event.event_name}</h4>
-                    <span style={{ fontSize: '0.8rem', color: '#999' }}>📅 {formatDate(event.event_date)}</span>
+                    <h4 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.2rem' }}>{event.event_name}</h4>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      {formatDate(event.event_date)}
+                    </span>
                   </div>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '0.25rem 0.5rem', borderRadius: '50px', backgroundColor: '#FFF0F5', color: '#E8318A' }}>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 700, padding: '0.25rem 0.5rem', borderRadius: '4px', backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--glass-border)' }}>
                     Ativo
                   </span>
                 </div>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  <a href={`/painel/evento?slug=${event.slug}`} style={{ flex: 1, padding: '0.5rem', border: '1px solid #e8c8d4', borderRadius: '50px', color: '#E8318A', fontSize: '0.85rem', fontWeight: 600, textAlign: 'center', textDecoration: 'none' }}>
+                  <a href={`/painel/evento?slug=${event.slug}`} style={{ flex: 1, padding: '0.5rem 1rem', border: '1px solid #d1d1d6', borderRadius: '8px', color: 'var(--text-primary)', fontSize: '0.85rem', fontWeight: 600, textAlign: 'center', textDecoration: 'none', transition: 'all 0.15s ease' }}>
                     Ver Álbum
                   </a>
-                  <a href={`/evento?slug=${event.slug}`} target="_blank" rel="noopener noreferrer" style={{ padding: '0.5rem 0.75rem', backgroundColor: '#E8318A', color: 'white', borderRadius: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    📷
+                  <a href={`/evento?slug=${event.slug}`} target="_blank" rel="noopener noreferrer" style={{ padding: '0.5rem 0.75rem', backgroundColor: 'var(--accent)', color: 'white', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s ease' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                   </a>
                 </div>
               </div>
@@ -529,11 +531,11 @@ export default function EventList() {
       )}
 
       {/* 2. SEÇÃO: Modelos de código QR, prontos para imprimir */}
-      <div style={{ borderTop: '1px solid #f0edf0', paddingTop: '2.5rem' }}>
-        <span style={{ fontSize: '0.72rem', color: '#E8318A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: '0.4rem' }}>
+      <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '2.5rem' }}>
+        <span style={{ fontSize: '0.72rem', color: 'var(--accent-wedding)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: '0.4rem' }}>
           • PRONTO PARA IMPRESSÃO
         </span>
-        <h3 style={{ fontSize: '2.4rem', fontFamily: 'var(--font-serif)', fontWeight: 700, color: '#1a1a2e', marginBottom: '0.4rem', letterSpacing: '-0.02em' }}>
+        <h3 style={{ fontSize: '2.4rem', fontFamily: 'var(--font-serif)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.4rem', letterSpacing: '-0.02em' }}>
           Modelos de código QR, prontos para imprimir.
         </h3>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.98rem', marginBottom: '2rem', maxWidth: '800px', lineHeight: 1.5 }}>
@@ -541,27 +543,28 @@ export default function EventList() {
         </p>
 
         {/* Abas / Filtro exatos como no mockup (Pill Preto para Ativo) */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2rem' }}>
           <button
             onClick={() => setActiveTab('placas')}
             style={{
-              padding: '0.5rem 1.2rem',
-              background: activeTab === 'placas' ? '#1a1a2e' : 'transparent',
-              color: activeTab === 'placas' ? 'white' : '#555',
-              border: 'none',
-              borderRadius: '50px',
+              padding: '0.5rem 1rem',
+              background: activeTab === 'placas' ? 'var(--accent)' : 'transparent',
+              color: activeTab === 'placas' ? 'white' : '#515154',
+              border: activeTab === 'placas' ? 'none' : '1px solid #d1d1d6',
+              borderRadius: '8px',
               fontWeight: 600,
               fontSize: '0.85rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '0.5rem',
-              transition: 'all 0.2s',
+              transition: 'all 0.15s ease',
+              minHeight: '36px',
             }}
           >
             Placas de boas-vindas
             <span style={{ fontSize: '0.75rem', fontWeight: 400, opacity: activeTab === 'placas' ? 0.8 : 0.6 }}>
-              5x7 polegadas
+              5x7 pol
             </span>
           </button>
 
@@ -570,35 +573,36 @@ export default function EventList() {
               alert('Os cartões de lugar (3.5x2 polegadas) estarão disponíveis em breve!');
             }}
             style={{
-              padding: '0.5rem 1.2rem',
+              padding: '0.5rem 1rem',
               background: 'transparent',
-              color: '#555',
-              border: 'none',
-              borderRadius: '50px',
+              color: '#515154',
+              border: '1px solid #d1d1d6',
+              borderRadius: '8px',
               fontWeight: 500,
               fontSize: '0.85rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '0.5rem',
+              minHeight: '36px',
             }}
           >
             Cartões de lugar
-            <span style={{ fontSize: '0.75rem', fontWeight: 400, color: '#999' }}>
-              de 3,5 × 2 polegadas
+            <span style={{ fontSize: '0.75rem', fontWeight: 400, color: '#86868b' }}>
+              3,5 × 2 pol
             </span>
           </button>
         </div>
 
         {/* Ferramenta Funcional de QR Code / Personalização */}
-        <div style={{ background: '#fafafc', border: '1px solid #f0edf0', borderRadius: '16px', padding: '1.5rem', marginBottom: '2.5rem', display: 'flex', flexWrap: 'wrap', gap: '1.5rem', alignItems: 'center' }}>
+        <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '1.5rem', marginBottom: '2.5rem', display: 'flex', flexWrap: 'wrap', gap: '1.5rem', alignItems: 'center' }}>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', minWidth: '220px' }}>
-            <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#555', letterSpacing: '0.05em' }}>VINCULAR AO ÁLBUM</label>
+            <label style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>VINCULAR AO ÁLBUM</label>
             <select
               value={selectedEventId}
               onChange={(e) => setSelectedEventId(e.target.value)}
-              style={{ padding: '0.65rem 1rem', borderRadius: '50px', border: '1px solid #e8c8d4', fontSize: '0.85rem', color: '#1a1a2e', outline: 'none', background: 'white' }}
+              style={{ padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #d1d1d6', fontSize: '0.85rem', color: 'var(--text-primary)', outline: 'none', background: 'white', minHeight: '38px' }}
             >
               {events.map(e => (
                 <option key={e.id} value={e.id}>{e.event_name}</option>
@@ -610,31 +614,31 @@ export default function EventList() {
           {selectedEventId === 'manual' && (
             <>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', flex: 1, minWidth: '180px' }}>
-                <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#555', letterSpacing: '0.05em' }}>NOMES DO CASAL</label>
+                <label style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>NOMES DO CASAL</label>
                 <input
                   type="text"
                   value={manualCoupleName}
                   onChange={(e) => setManualCoupleName(e.target.value)}
-                  placeholder="Ex: Ivy e Noah"
-                  style={{ padding: '0.65rem 1rem', borderRadius: '50px', border: '1px solid #e8c8d4', fontSize: '0.85rem', color: '#1a1a2e', outline: 'none', background: 'white' }}
+                  placeholder="Ex: Ivy & Noah"
+                  style={{ padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #d1d1d6', fontSize: '0.85rem', color: 'var(--text-primary)', outline: 'none', background: 'white', minHeight: '38px' }}
                 />
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', minWidth: '150px' }}>
-                <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#555', letterSpacing: '0.05em' }}>DATA DO CASAMENTO</label>
+                <label style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-secondary)', letterSpacing: '0.05em' }}>DATA DO CASAMENTO</label>
                 <input
                   type="date"
                   value={manualEventDate}
                   onChange={(e) => setManualEventDate(e.target.value)}
-                  style={{ padding: '0.65rem 1rem', borderRadius: '50px', border: '1px solid #e8c8d4', fontSize: '0.85rem', color: '#1a1a2e', outline: 'none', background: 'white' }}
+                  style={{ padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #d1d1d6', fontSize: '0.85rem', color: 'var(--text-primary)', outline: 'none', background: 'white', minHeight: '38px' }}
                 />
               </div>
             </>
           )}
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem', paddingLeft: '0.5rem' }}>
-            <span style={{ fontSize: '0.7rem', color: '#999', fontWeight: 700 }}>LINK DE LEITURA DO QR CODE:</span>
-            <code style={{ fontSize: '0.75rem', color: '#E8318A', fontWeight: 600, wordBreak: 'break-all' }}>
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', fontWeight: 700 }}>LINK DE LEITURA DO QR CODE:</span>
+            <code style={{ fontSize: '0.75rem', color: 'var(--text-primary)', fontWeight: 600, wordBreak: 'break-all' }}>
               {activeConfig.cameraUrl}
             </code>
           </div>
@@ -700,7 +704,9 @@ export default function EventList() {
               onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.15rem' }}>
-                <span style={{ fontSize: '0.85rem' }}>📷</span>
+                <span style={{ display: 'flex', color: 'var(--text-secondary)', marginBottom: '0.2rem' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                </span>
                 <span style={{ fontWeight: 800, fontSize: '0.85rem', color: '#1a1a2e' }}>cabine de fotos</span>
                 <span style={{ fontSize: '0.4rem', color: '#777', letterSpacing: '0.04em' }}>FOTOGRAFE. DIGITALIZE. ENVIE.</span>
               </div>
@@ -726,7 +732,9 @@ export default function EventList() {
               onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
-                <span style={{ fontSize: '0.85rem', color: '#E8318A' }}>❤️</span>
+                <span style={{ display: 'flex', color: 'var(--accent-wedding)', marginBottom: '0.25rem' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </span>
                 <span style={{ fontSize: '0.4rem', color: '#999', letterSpacing: '0.04em' }}>UM PEQUENO DESEJO</span>
                 <span style={{ fontStyle: 'italic', fontFamily: 'serif', fontSize: '0.8rem', color: '#1a1a2e', fontWeight: 600 }}>Deixe-nos suas lembranças.</span>
               </div>
@@ -773,15 +781,41 @@ export default function EventList() {
 
       {/* 3. MODAL DE CRIAÇÃO DE ÁLBUM */}
       {showCreateModal && (
-        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem', backdropFilter: 'blur(4px)' }}>
-          <div style={{ background: 'white', borderRadius: '30px', padding: '1.5rem', width: '100%', maxWidth: '540px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column', gap: '1.5rem', position: 'relative' }} className="animate-fade-in">
+        <div style={{ 
+          position: 'fixed', inset: 0, 
+          backgroundColor: 'rgba(0,0,0,0.4)', 
+          display: 'flex', 
+          alignItems: window.innerWidth < 640 ? 'flex-end' : 'center', 
+          justifyContent: 'center', 
+          zIndex: 100, 
+          padding: window.innerWidth < 640 ? '0' : '1rem', 
+          backdropFilter: 'blur(8px)' 
+        }}>
+          <div style={{ 
+            background: 'white', 
+            borderRadius: window.innerWidth < 640 ? '16px 16px 0 0' : '16px', 
+            padding: '2rem 1.5rem', 
+            paddingBottom: `max(2rem, env(safe-area-inset-bottom, 2rem))`,
+            width: '100%', 
+            maxWidth: '480px', 
+            maxHeight: window.innerWidth < 640 ? '90dvh' : '85vh', 
+            overflowY: 'auto', 
+            boxShadow: 'var(--shadow-lg)', 
+            display: 'flex', flexDirection: 'column', gap: '1.5rem', 
+            position: 'relative' 
+          }} className="animate-fade-in">
+
+            {/* Drag handle (mobile) */}
+            {window.innerWidth < 640 && (
+              <div style={{ width: '36px', height: '4px', background: '#e5e5e7', borderRadius: '999px', margin: '0 auto -0.75rem' }} />
+            )}
             
             {/* Botão Fechar */}
             <button
               onClick={() => setShowCreateModal(false)}
-              style={{ position: 'absolute', top: '24px', right: '24px', background: 'none', border: 'none', fontSize: '1.25rem', cursor: 'pointer', color: '#999', transition: 'color 0.2s' }}
-              onMouseOver={(e) => e.currentTarget.style.color = '#333'}
-              onMouseOut={(e) => e.currentTarget.style.color = '#999'}
+              style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', fontSize: '1rem', cursor: 'pointer', color: '#86868b', transition: 'color 0.15s ease' }}
+              onMouseOver={(e) => e.currentTarget.style.color = '#1d1d1f'}
+              onMouseOut={(e) => e.currentTarget.style.color = '#86868b'}
             >
               ✕
             </button>
@@ -789,15 +823,15 @@ export default function EventList() {
             {/* Cabeçalho do Modal com Ícone */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <div style={{
-                width: '45px',
-                height: '45px',
-                borderRadius: '50%',
-                backgroundColor: '#FFF0F5',
+                width: '40px',
+                height: '40px',
+                borderRadius: '8px',
+                backgroundColor: 'var(--bg-secondary)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8318A" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 12v10H4V12" />
                   <path d="m2 7 10 5 10-5" />
                   <path d="M22 7a2 2 0 0 0-2-2h-3.5a3 3 0 0 0-5 0H8a2 2 0 0 0-2 2" />
@@ -805,13 +839,13 @@ export default function EventList() {
                 </svg>
               </div>
               <div>
-                <span style={{ fontSize: '0.62rem', color: '#E8318A', fontWeight: 800, letterSpacing: '0.08em', display: 'block', textTransform: 'uppercase' }}>NOVO ÁLBUM</span>
-                <h3 style={{ fontSize: '1.45rem', fontFamily: 'var(--font-serif)', fontWeight: 700, color: '#1a1a2e', margin: 0 }}>Abra o envelope.</h3>
+                <span style={{ fontSize: '0.65rem', color: 'var(--accent-wedding)', fontWeight: 800, letterSpacing: '0.08em', display: 'block', textTransform: 'uppercase' }}>Configurações</span>
+                <h3 style={{ fontSize: '1.3rem', fontFamily: 'var(--font-serif)', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>Criar novo álbum</h3>
               </div>
             </div>
 
             {createError && (
-              <div style={{ padding: '0.75rem 1rem', backgroundColor: '#fee2e2', border: '1px solid #fca5a5', color: '#b91c1c', borderRadius: '12px', fontSize: '0.85rem' }}>
+              <div style={{ padding: '0.75rem 1rem', backgroundColor: '#fdf2f2', border: '1px solid #fde8e8', color: '#c81e1e', borderRadius: '8px', fontSize: '0.85rem' }}>
                 {createError}
               </div>
             )}
@@ -819,118 +853,119 @@ export default function EventList() {
             <form onSubmit={handleCreateEvent} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               
               {/* Nome do Casal */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <label style={{ fontSize: '0.65rem', fontWeight: 800, color: '#E8318A', letterSpacing: '0.05em' }}>CASAL</label>
-                  <span style={{ fontSize: '0.62rem', color: '#bbb' }}>{newEventName.length}/40</span>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>NOME DO CASAL / EVENTO</label>
+                  <span style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)' }}>{newEventName.length}/40</span>
                 </div>
                 <input
                   type="text"
                   required
                   maxLength={40}
-                  placeholder="Gabriel e Amanda"
+                  placeholder="Ex: Gabriel & Amanda"
                   value={newEventName}
                   onChange={(e) => setNewEventName(e.target.value)}
-                  style={{ padding: '0.75rem 1.25rem', borderRadius: '50px', border: '2px solid #e8c8d4', fontSize: '0.95rem', color: '#1a1a2e', outline: 'none', transition: 'border-color 0.2s' }}
-                  onFocus={(e) => e.target.style.borderColor = '#E8318A'}
-                  onBlur={(e) => e.target.style.borderColor = '#e8c8d4'}
+                  style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid #d1d1d6', fontSize: '16px', color: 'var(--text-primary)', outline: 'none', transition: 'border-color 0.15s ease', minHeight: '44px', width: '100%', backgroundColor: 'white' }}
+                  onFocus={(e) => e.target.style.borderColor = 'var(--text-primary)'}
+                  onBlur={(e) => e.target.style.borderColor = '#d1d1d6'}
                 />
               </div>
 
-              {/* Data e Vibração (Lado a lado, empilha no mobile via flexWrap) */}
+              {/* Data e Vibração */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
                 
                 {/* Data */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
-                  <label style={{ fontSize: '0.65rem', fontWeight: 800, color: '#E8318A', letterSpacing: '0.05em' }}>O GRANDE DIA</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', flex: 1 }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>DATA DO CASAMENTO</label>
                   <input
                     type="date"
                     required
                     value={newEventDate}
                     onChange={(e) => setNewEventDate(e.target.value)}
-                    style={{ padding: '0.75rem 1.25rem', borderRadius: '50px', border: '2px solid #e8c8d4', fontSize: '0.95rem', color: '#1a1a2e', outline: 'none', background: 'white' }}
+                    style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid #d1d1d6', fontSize: '16px', color: 'var(--text-primary)', outline: 'none', background: 'white', minHeight: '44px', width: '100%' }}
                   />
                 </div>
 
                 {/* Vibração */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1, position: 'relative' }}>
-                  <label style={{ fontSize: '0.65rem', fontWeight: 800, color: '#E8318A', letterSpacing: '0.05em' }}>VIBRAÇÃO</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', flex: 1, position: 'relative' }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>TEMA VISUAL</label>
                   <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                     <div style={{
                       position: 'absolute',
-                      left: '16px',
+                      left: '14px',
                       width: '12px',
                       height: '12px',
                       borderRadius: '50%',
-                      backgroundColor: newThemeColor === 'lavanda' ? '#8E44AD' :
-                                       newThemeColor === 'rosa' ? '#FFB6C1' :
-                                       newThemeColor === 'menta' ? '#2ECC71' :
-                                       newThemeColor === 'azul' ? '#3498DB' : '#E67E22',
-                      transition: 'background-color 0.2s'
+                      backgroundColor: newThemeColor === 'lavanda' ? '#1d1d1f' :
+                                       newThemeColor === 'rosa' ? '#c5a880' :
+                                       newThemeColor === 'menta' ? '#8fa89b' :
+                                       newThemeColor === 'azul' ? '#e5e5e7' : '#b8a18f',
+                      transition: 'background-color 0.15s ease'
                     }} />
                     <select
                       value={newThemeColor}
                       onChange={(e) => setNewThemeColor(e.target.value)}
                       style={{
                         width: '100%',
-                        padding: '0.75rem 1.25rem 0.75rem 2.5rem',
-                        borderRadius: '50px',
-                        border: '2px solid #e8c8d4',
+                        padding: '0.75rem 1rem 0.75rem 2.25rem',
+                        borderRadius: '8px',
+                        border: '1px solid #d1d1d6',
                         fontSize: '0.95rem',
-                        color: '#1a1a2e',
+                        color: 'var(--text-primary)',
                         outline: 'none',
                         background: 'white',
                         appearance: 'none',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        minHeight: '44px'
                       }}
                     >
-                      <option value="lavanda">Lavanda</option>
-                      <option value="rosa">Rosa Blush</option>
-                      <option value="menta">Verde Menta</option>
-                      <option value="azul">Azul Serenity</option>
-                      <option value="sol">Pôr do Sol</option>
+                      <option value="lavanda">Classic Black</option>
+                      <option value="rosa">Champagne Gold</option>
+                      <option value="menta">Sage Green</option>
+                      <option value="azul">Silk White</option>
+                      <option value="sol">Earth Oak</option>
                     </select>
-                    <div style={{ position: 'absolute', right: '15px', pointerEvents: 'none', fontSize: '0.8rem', color: '#999' }}>▼</div>
+                    <div style={{ position: 'absolute', right: '12px', pointerEvents: 'none', fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>▼</div>
                   </div>
                 </div>
 
               </div>
 
               {/* Configurações de Tempo e Suspensense */}
-              <div style={{ padding: '1rem', backgroundColor: '#fafafc', border: '1px solid #f0edf0', borderRadius: '16px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <label style={{ fontSize: '0.8rem', fontWeight: 800, color: '#1a1a2e', letterSpacing: '0.05em' }}>⏱️ JANELA DA CÂMERA & REVELAÇÃO</label>
+              <div style={{ padding: '1.25rem', backgroundColor: 'var(--bg-secondary)', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '1rem', border: '1px solid var(--glass-border)' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.02em' }}>JANELA DA CÂMERA & REVELAÇÃO</label>
                 
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
-                    <label style={{ fontSize: '0.65rem', fontWeight: 700, color: '#555' }}>HORA INÍCIO (Opcional)</label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flex: 1 }}>
+                    <label style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-secondary)' }}>HORA INÍCIO (OPCIONAL)</label>
                     <input
                       type="time"
                       value={cameraStartTime}
                       onChange={(e) => setCameraStartTime(e.target.value)}
-                      style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid #e3e0d5', fontSize: '0.9rem', outline: 'none', background: 'white' }}
+                      style={{ padding: '0.65rem 0.75rem', borderRadius: '8px', border: '1px solid #d1d1d6', fontSize: '0.9rem', outline: 'none', background: 'white' }}
                     />
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
-                    <label style={{ fontSize: '0.65rem', fontWeight: 700, color: '#555' }}>HORA TÉRMINO (Opcional)</label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flex: 1 }}>
+                    <label style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-secondary)' }}>HORA TÉRMINO (OPCIONAL)</label>
                     <input
                       type="time"
                       value={cameraEndTime}
                       onChange={(e) => setCameraEndTime(e.target.value)}
-                      style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid #e3e0d5', fontSize: '0.9rem', outline: 'none', background: 'white' }}
+                      style={{ padding: '0.65rem 0.75rem', borderRadius: '8px', border: '1px solid #d1d1d6', fontSize: '0.9rem', outline: 'none', background: 'white' }}
                     />
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                  <label style={{ fontSize: '0.65rem', fontWeight: 700, color: '#555' }}>TEMPO DE REVELAÇÃO</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                  <label style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-secondary)' }}>TEMPO DE REVELAÇÃO DAS FOTOS</label>
                   <select
                     value={revealDelay}
                     onChange={(e) => setRevealDelay(e.target.value)}
-                    style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid #e3e0d5', fontSize: '0.9rem', outline: 'none', background: 'white', cursor: 'pointer' }}
+                    style={{ padding: '0.65rem 0.75rem', borderRadius: '8px', border: '1px solid #d1d1d6', fontSize: '0.9rem', outline: 'none', background: 'white', cursor: 'pointer' }}
                   >
-                    <option value="immediate">Imediato (Tirou, revelou)</option>
-                    <option value="2h">2 horas após o término (ou fim do dia)</option>
-                    <option value="12h">12 horas depois</option>
+                    <option value="immediate">Revelação Imediata (Tirou, revelou)</option>
+                    <option value="2h">2 horas após o término</option>
+                    <option value="12h">12 horas após o término</option>
                     <option value="24h">No dia seguinte (24h)</option>
                     <option value="1w">1 semana depois</option>
                   </select>
@@ -938,7 +973,7 @@ export default function EventList() {
               </div>
 
               {/* Configurações de Gamificação */}
-              <div style={{ padding: '1rem', backgroundColor: '#fafafc', border: '1px solid #f0edf0', borderRadius: '16px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ padding: '1.25rem', backgroundColor: 'var(--bg-secondary)', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '1rem', border: '1px solid var(--glass-border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <input
                     type="checkbox"
@@ -947,14 +982,14 @@ export default function EventList() {
                     onChange={(e) => setGamificationEnabled(e.target.checked)}
                     style={{ width: '16px', height: '16px', cursor: 'pointer' }}
                   />
-                  <label htmlFor="gamification_toggle" style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1a1a2e', cursor: 'pointer' }}>
-                    Ativar Gamificação (Missões e Conquistas) 🎮
+                  <label htmlFor="gamification_toggle" style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', cursor: 'pointer' }}>
+                    Ativar conquistas e missões de fotos para convidados
                   </label>
                 </div>
                 
                 {gamificationEnabled && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', animation: 'fadeIn 0.2s' }}>
-                    <label style={{ fontSize: '0.65rem', fontWeight: 800, color: '#E8318A', letterSpacing: '0.05em' }}>META COLETIVA DE FOTOS (QR CODE)</label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', animation: 'fadeIn 0.15s ease-out' }}>
+                    <label style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '0.05em' }}>META COLETIVA DE FOTOS (FOTOS)</label>
                     <input
                       type="number"
                       min="10"
@@ -962,18 +997,18 @@ export default function EventList() {
                       value={photoGoal}
                       onChange={(e) => setPhotoGoal(parseInt(e.target.value) || 100)}
                       placeholder="Ex: 100"
-                      style={{ padding: '0.65rem 1rem', borderRadius: '50px', border: '1px solid #e8c8d4', fontSize: '0.85rem', color: '#1a1a2e', outline: 'none', background: 'white' }}
+                      style={{ padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #d1d1d6', fontSize: '0.95rem', color: 'var(--text-primary)', outline: 'none', background: 'white' }}
                     />
-                    <small style={{ color: 'var(--text-secondary)', fontSize: '0.7rem' }}>Exibe uma barra de progresso para os convidados atingirem juntos.</small>
+                    <small style={{ color: 'var(--text-tertiary)', fontSize: '0.7rem' }}>Exibe uma barra de progresso coletiva na câmera dos convidados.</small>
                   </div>
                 )}
               </div>
 
               {/* Foto de Capa */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                <label style={{ fontSize: '0.65rem', fontWeight: 800, color: '#E8318A', letterSpacing: '0.05em' }}>FOTO DE CAPA</label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>FOTO DE CAPA DO ÁLBUM</label>
                 {coverPhotoUrl ? (
-                  <div style={{ position: 'relative', width: '90px', height: '90px', borderRadius: '12px', overflow: 'hidden', border: '2px solid #e8c8d4', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
+                  <div style={{ position: 'relative', width: '80px', height: '80px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #d1d1d6', boxShadow: 'var(--shadow-sm)' }}>
                     <img src={coverPhotoUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Capa" />
                     <button 
                       type="button"
@@ -984,9 +1019,9 @@ export default function EventList() {
                     </button>
                   </div>
                 ) : (
-                  <label style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '90px', height: '90px', border: '2px dashed #e8c8d4', borderRadius: '12px', cursor: 'pointer', background: '#FFF0F5', transition: 'all 0.2s' }}>
-                    <span style={{ fontSize: '1.5rem', color: '#E8318A', lineHeight: 1 }}>+</span>
-                    <span style={{ fontSize: '0.6rem', color: '#999', fontWeight: 600 }}>Carregar</span>
+                  <label style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '80px', height: '80px', border: '1px dashed #d1d1d6', borderRadius: '8px', cursor: 'pointer', background: 'var(--bg-secondary)', transition: 'all 0.15s ease' }}>
+                    <span style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', lineHeight: 1 }}>+</span>
+                    <span style={{ fontSize: '0.6rem', color: 'var(--text-tertiary)', fontWeight: 600 }}>Carregar</span>
                     <input type="file" accept="image/*" onChange={handleCoverPhotoChange} style={{ display: 'none' }} />
                   </label>
                 )}
@@ -997,27 +1032,27 @@ export default function EventList() {
                 type="submit"
                 disabled={isCreating}
                 style={{
-                  padding: '0.9rem',
-                  backgroundColor: '#E8318A',
+                  padding: '0.85rem 1.5rem',
+                  backgroundColor: '#1d1d1f',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '50px',
+                  borderRadius: '8px',
                   fontWeight: 600,
                   fontSize: '0.95rem',
                   cursor: isCreating ? 'not-allowed' : 'pointer',
                   marginTop: '0.5rem',
-                  boxShadow: '0 4px 15px rgba(232, 49, 138, 0.25)',
-                  transition: 'all 0.2s',
+                  transition: 'all 0.15s ease',
+                  minHeight: '44px'
                 }}
-                onMouseOver={(e) => { if(!isCreating) e.currentTarget.style.backgroundColor = '#d42a7d'; }}
-                onMouseOut={(e) => { if(!isCreating) e.currentTarget.style.backgroundColor = '#E8318A'; }}
+                onMouseOver={(e) => { if(!isCreating) e.currentTarget.style.backgroundColor = '#000000'; }}
+                onMouseOut={(e) => { if(!isCreating) e.currentTarget.style.backgroundColor = '#1d1d1f'; }}
               >
-                {isCreating ? 'Abrindo álbum...' : 'Abra o álbum →'}
+                {isCreating ? 'Criando álbum...' : 'Criar Álbum'}
               </button>
               
               {/* Subtexto */}
-              <div style={{ textTransform: 'uppercase', fontSize: '0.55rem', letterSpacing: '0.12em', fontWeight: 700, color: '#999', textAlign: 'center', marginTop: '0.25rem' }}>
-                • AO VIVO EM 60 SEGUNDOS • SEM NECESSIDADE DE CARTÃO •
+              <div style={{ textTransform: 'uppercase', fontSize: '0.55rem', letterSpacing: '0.12em', fontWeight: 700, color: 'var(--text-tertiary)', textAlign: 'center', marginTop: '0.25rem' }}>
+                • Álbum Digital Analógico para Eventos •
               </div>
 
             </form>

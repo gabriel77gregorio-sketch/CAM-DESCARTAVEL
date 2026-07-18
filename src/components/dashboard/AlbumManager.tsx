@@ -38,11 +38,11 @@ type ViewMode = 'guests' | 'timeline' | 'filetype';
 
 // ─── Mapa de temas ────────────────────────────────────────────
 const themeMap: Record<string, { accent: string; light: string; gradient: string }> = {
-  lavanda: { accent: '#8E44AD', light: '#FFF0F5', gradient: 'linear-gradient(135deg, #F5EEF8 0%, #E8DAEF 100%)' },
-  rosa:    { accent: '#E8318A', light: '#fef2f6', gradient: 'linear-gradient(135deg, #FFF0F5 0%, #FCE4EC 100%)' },
-  menta:   { accent: '#27AE60', light: '#E8F8F5', gradient: 'linear-gradient(135deg, #E8F8F5 0%, #D1F2EB 100%)' },
-  azul:    { accent: '#2980B9', light: '#EBF5FB', gradient: 'linear-gradient(135deg, #EBF5FB 0%, #D6EAF8 100%)' },
-  sol:     { accent: '#E67E22', light: '#FDEDEC', gradient: 'linear-gradient(135deg, #FDEDEC 0%, #FADBD8 100%)' },
+  lavanda: { accent: '#1d1d1f', light: '#f5f5f7', gradient: 'linear-gradient(135deg, #ffffff 0%, #f5f5f7 100%)' }, // Classic Black
+  rosa:    { accent: '#c5a880', light: '#faf9f6', gradient: 'linear-gradient(135deg, #ffffff 0%, #faf9f6 100%)' }, // Champagne Gold
+  menta:   { accent: '#8fa89b', light: '#f2f6f4', gradient: 'linear-gradient(135deg, #ffffff 0%, #f2f6f4 100%)' }, // Sage Green
+  azul:    { accent: '#86868b', light: '#fbfbfd', gradient: 'linear-gradient(135deg, #ffffff 0%, #fbfbfd 100%)' }, // Silk White
+  sol:     { accent: '#b8a18f', light: '#faf7f5', gradient: 'linear-gradient(135deg, #ffffff 0%, #faf7f5 100%)' }, // Earth Oak
 };
 
 // ─── Componente Principal ──────────────────────────────────────
@@ -418,18 +418,18 @@ export default function AlbumManager() {
     return Array.from(map.entries()).sort((a, b) => b[1].length - a[1].length);
   }, [photos]);
 
-  // Nomes dos filtros
+  // Nomes dos filtros (sem emojis, paleta minimalista)
   const filterLabels: Record<string, { label: string; emoji: string; color: string }> = {
-    none: { label: 'Original', emoji: '🌟', color: '#3498DB' },
-    vintage: { label: 'Vintage', emoji: '📷', color: '#E67E22' },
-    bw: { label: 'Preto & Branco', emoji: '🖤', color: '#2C3E50' },
-    sepia: { label: 'Sépia', emoji: '🤎', color: '#8B6914' },
-    warm: { label: 'Quente', emoji: '🔥', color: '#E74C3C' },
-    cool: { label: 'Frio', emoji: '❄️', color: '#2980B9' },
-    vivid: { label: 'Vívido', emoji: '🌈', color: '#9B59B6' },
-    soft: { label: 'Suave', emoji: '🌸', color: '#E8318A' },
-    film: { label: 'Filme', emoji: '🎬', color: '#27AE60' },
-    dreamy: { label: 'Sonho', emoji: '✨', color: '#8E44AD' },
+    none: { label: 'Original', emoji: '', color: 'var(--accent)' },
+    vintage: { label: 'Vintage', emoji: '', color: 'var(--accent-wedding)' },
+    bw: { label: 'Preto & Branco', emoji: '', color: '#1d1d1f' },
+    sepia: { label: 'Sépia', emoji: '', color: '#8e7968' },
+    warm: { label: 'Quente', emoji: '', color: '#c5a880' },
+    cool: { label: 'Frio', emoji: '', color: '#8fa89b' },
+    vivid: { label: 'Vívido', emoji: '', color: '#1d1d1f' },
+    soft: { label: 'Suave', emoji: '', color: 'var(--accent-wedding)' },
+    film: { label: 'Filme', emoji: '', color: '#1d1d1f' },
+    dreamy: { label: 'Sonho', emoji: '', color: 'var(--accent-wedding)' },
   };
 
   const getFilterInfo = (key: string) =>
@@ -512,7 +512,7 @@ export default function AlbumManager() {
       {/* ─── Header do Álbum ──────────────────────────────── */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem' }}>
         <div>
-          <h2 style={{ fontSize: '2.2rem', fontFamily: 'var(--font-serif)', color: '#1a1a2e', fontWeight: 700, margin: 0, letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontSize: '2.2rem', fontFamily: 'var(--font-serif)', color: 'var(--text-primary)', fontWeight: 700, margin: 0, letterSpacing: '-0.02em' }}>
             Álbum de Fotos
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', marginTop: '0.3rem' }}>
@@ -522,15 +522,15 @@ export default function AlbumManager() {
 
         {/* Seletor de Evento e Botões */}
         {events.length > 0 && (
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
             {photos.length > 0 && (
               <button
                 onClick={downloadAllAsZip}
                 disabled={isDownloadingZip}
                 style={{
-                  padding: '0.7rem 1.5rem',
-                  borderRadius: '50px',
-                  background: theme.accent,
+                  padding: '0.7rem 1.25rem',
+                  borderRadius: '8px',
+                  background: 'var(--accent)',
                   color: 'white',
                   border: 'none',
                   fontWeight: 600,
@@ -540,50 +540,51 @@ export default function AlbumManager() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem',
-                  boxShadow: `0 4px 12px ${theme.accent}40`
+                  transition: 'all 0.15s ease'
                 }}
               >
-                {isDownloadingZip ? 'Compactando...' : '↓ Baixar Álbum (ZIP)'}
+                {isDownloadingZip ? 'Compactando...' : 'Baixar Álbum (ZIP)'}
               </button>
             )}
 
             <div style={{ position: 'relative' }}>
               <select
-              value={selectedEventId}
-              onChange={(e) => {
-                setSelectedEventId(e.target.value);
-                addLog(`Usuário alterou evento selecionado para: ${e.target.value}`);
-              }}
-              style={{
-                appearance: 'none',
-                padding: '0.7rem 2.5rem 0.7rem 1.25rem',
-                borderRadius: '50px',
-                border: '2px solid #f0edf0',
-                background: 'white',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                color: '#1a1a2e',
-                cursor: 'pointer',
-                outline: 'none',
-                transition: 'border-color 0.2s',
-                minWidth: '220px'
-              }}
-              onFocus={(e) => e.currentTarget.style.borderColor = theme.accent}
-              onBlur={(e) => e.currentTarget.style.borderColor = '#f0edf0'}
-            >
-              {events.map(ev => (
-                <option key={ev.id} value={ev.id}>
-                  {ev.isLocal ? '📍 [Local] ' : ''}{ev.event_name} — {formatFullDate(ev.event_date)}
-                </option>
-              ))}
-            </select>
-            <span style={{
-              position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)',
-              pointerEvents: 'none', color: '#999', fontSize: '0.7rem'
-            }}>▼</span>
+                value={selectedEventId}
+                onChange={(e) => {
+                  setSelectedEventId(e.target.value);
+                  addLog(`Usuário alterou evento selecionado para: ${e.target.value}`);
+                }}
+                style={{
+                  appearance: 'none',
+                  padding: '0.7rem 2.25rem 0.7rem 1rem',
+                  borderRadius: '8px',
+                  border: '1px solid #d1d1d6',
+                  background: 'white',
+                  fontSize: '0.9rem',
+                  fontWeight: 600,
+                  color: 'var(--text-primary)',
+                  cursor: 'pointer',
+                  outline: 'none',
+                  transition: 'border-color 0.15s ease',
+                  minWidth: '220px',
+                  minHeight: '38px'
+                }}
+                onFocus={(e) => e.currentTarget.style.borderColor = 'var(--text-primary)'}
+                onBlur={(e) => e.currentTarget.style.borderColor = '#d1d1d6'}
+              >
+                {events.map(ev => (
+                  <option key={ev.id} value={ev.id}>
+                    {ev.isLocal ? '[Local] ' : ''}{ev.event_name} — {formatFullDate(ev.event_date)}
+                  </option>
+                ))}
+              </select>
+              <span style={{
+                position: 'absolute', right: '0.85rem', top: '50%', transform: 'translateY(-50%)',
+                pointerEvents: 'none', color: 'var(--text-tertiary)', fontSize: '0.65rem'
+              }}>▼</span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
 
       {/* Erro não crítico do álbum selecionado */}
@@ -1142,22 +1143,22 @@ function StatCard({ label, value, accent, isSmall }: {
 }) {
   return (
     <div style={{
-      background: 'white', border: '1px solid #f0edf0', borderRadius: '18px',
+      background: 'white', border: '1px solid var(--glass-border)', borderRadius: '8px',
       padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.2rem',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.015)'
+      boxShadow: 'var(--shadow-sm)'
     }}>
       <span style={{
-        fontSize: '0.62rem', color: '#999', fontWeight: 700,
+        fontSize: '0.62rem', color: 'var(--text-tertiary)', fontWeight: 700,
         textTransform: 'uppercase' as const, letterSpacing: '0.08em'
       }}>
         {label}
       </span>
       <span style={{
-        fontSize: isSmall ? '1.05rem' : '2rem', fontWeight: 700,
-        color: isSmall ? '#1a1a2e' : '#1a1a2e',
-        borderLeft: isSmall ? `4px solid ${accent}` : 'none',
+        fontSize: isSmall ? '1rem' : '1.75rem', fontWeight: 700,
+        color: 'var(--text-primary)',
+        borderLeft: isSmall ? `3px solid var(--accent-wedding)` : 'none',
         paddingLeft: isSmall ? '8px' : '0',
-        fontFamily: 'var(--font-display)', lineHeight: 1.1
+        fontFamily: 'var(--font-sans)', lineHeight: 1.1
       }}>
         {value}
       </span>
@@ -1173,18 +1174,17 @@ function TabButton({ active, onClick, accent, icon, label }: {
       onClick={onClick}
       style={{
         flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        gap: '0.5rem', padding: '0.7rem 1rem', border: 'none', borderRadius: '11px',
+        gap: '0.5rem', padding: '0.7rem 1rem', border: 'none', borderRadius: '8px',
         background: active ? 'white' : 'transparent',
-        color: active ? '#1a1a2e' : '#999',
+        color: active ? 'var(--text-primary)' : 'var(--text-tertiary)',
         fontWeight: active ? 700 : 500,
         fontSize: '0.88rem', cursor: 'pointer',
-        boxShadow: active ? '0 2px 8px rgba(0,0,0,0.06)' : 'none',
-        transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)'
+        boxShadow: active ? 'var(--shadow-sm)' : 'none',
+        transition: 'all 0.15s ease'
       }}
-      onMouseOver={(e) => { if (!active) e.currentTarget.style.color = '#555'; }}
-      onMouseOut={(e) => { if (!active) e.currentTarget.style.color = '#999'; }}
+      onMouseOver={(e) => { if (!active) e.currentTarget.style.color = 'var(--text-primary)'; }}
+      onMouseOut={(e) => { if (!active) e.currentTarget.style.color = 'var(--text-tertiary)'; }}
     >
-      <span>{icon}</span>
       <span>{label}</span>
     </button>
   );
