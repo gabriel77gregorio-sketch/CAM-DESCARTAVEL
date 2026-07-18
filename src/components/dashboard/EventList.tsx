@@ -43,7 +43,7 @@ export default function EventList() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newEventName, setNewEventName] = useState('');
   const [newEventDate, setNewEventDate] = useState('');
-  const [newPhotoLimit, setNewPhotoLimit] = useState(10);
+  const [newPhotoLimit, setNewPhotoLimit] = useState(30);
   const [newThemeColor, setNewThemeColor] = useState('lavanda');
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [coverPhotoUrl, setCoverPhotoUrl] = useState('');
