@@ -83,6 +83,13 @@ const { title, activeLink = 'dashboard' } = Astro.props;
 
     <script>
       import { supabase } from '../lib/supabase';
+
+      // Proteção de Rota: Redirecionar para login se não estiver autenticado
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (!session) {
+          window.location.href = '/login';
+        }
+      });
       
       const logoutBtn = document.getElementById('logout-btn');
       if (logoutBtn) {

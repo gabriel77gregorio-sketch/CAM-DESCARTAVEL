@@ -84,20 +84,7 @@ export default function EventList() {
       addLog(`Sessão inicial resolvida: ${session ? 'Encontrada' : 'Nula'}`);
       
       if (!session) {
-        addLog('Sessão não encontrada. Tentando auto-login...');
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: 'teste@camdescartavel.com',
-          password: '123456'
-        });
-        if (error) {
-          addLog(`Erro no auto-login: ${error.message}`);
-        }
-        if (data?.session) {
-          addLog('Auto-login bem sucedido!');
-          session = data.session;
-        } else {
-          addLog('Auto-login retornou dados vazios.');
-        }
+        addLog('Sessão não encontrada. Usuário não autenticado.');
       }
 
       const user = session?.user;
