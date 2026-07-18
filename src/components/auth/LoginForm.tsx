@@ -81,129 +81,48 @@ export default function LoginForm() {
         Continuar com o Google
       </button>
 
-      <p style={{ textAlign: 'center', fontSize: '0.8rem', color: '#999', marginTop: '0.75rem' }}>
-        Mais rápido — faça login com um clique
-      </p>
-
-      {/* Divider */}
-      <div style={{ display: 'flex', alignItems: 'center', margin: '1.75rem 0', gap: '0.75rem' }}>
-        <div style={{ flex: 1, height: '1px', backgroundColor: '#e8c8d4' }} />
-        <span style={{ fontSize: '0.85rem', color: '#999' }}>ou use o e-mail</span>
-        <div style={{ flex: 1, height: '1px', backgroundColor: '#e8c8d4' }} />
+      {/* Botão de Login por Celular (Placeholder) */}
+      <div style={{ marginTop: '1rem' }}>
+        <button
+          type="button"
+          onClick={() => alert('O login por WhatsApp/SMS requer integração com um provedor (ex: Twilio ou Zenvia). Fale com o desenvolvedor para ativar!')}
+          disabled={loading}
+          style={{
+            width: '100%',
+            padding: '0.9rem 1.5rem',
+            backgroundColor: 'white',
+            color: '#1a1a2e',
+            border: '2px solid #f0edf0',
+            borderRadius: '50px',
+            fontSize: '1rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.75rem',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseOver={(e) => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#E8318A'; }}
+          onMouseOut={(e) => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#f0edf0'; }}
+        >
+          <span style={{ fontSize: '1.2rem' }}>📱</span>
+          Entrar com Celular
+        </button>
       </div>
 
       {/* Messages */}
       {errorMsg && (
-        <div style={{ padding: '0.75rem 1rem', backgroundColor: '#fee2e2', border: '1px solid #fca5a5', color: '#b91c1c', borderRadius: '12px', fontSize: '0.85rem', marginBottom: '1rem' }}>
+        <div style={{ padding: '0.75rem 1rem', backgroundColor: '#fee2e2', border: '1px solid #fca5a5', color: '#b91c1c', borderRadius: '12px', fontSize: '0.85rem', marginTop: '1.5rem' }}>
           {errorMsg}
         </div>
       )}
 
-      {successMsg && (
-        <div style={{ padding: '0.75rem 1rem', backgroundColor: '#d1fae5', border: '1px solid #6ee7b7', color: '#065f46', borderRadius: '12px', fontSize: '0.85rem', marginBottom: '1rem' }}>
-          {successMsg}
-        </div>
-      )}
-
-      {/* Email + Password Form */}
-      <form onSubmit={handleEmailSignIn} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <div>
-          <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 500, color: '#555', marginBottom: '0.5rem' }}>
-            Endereço de e-mail
-          </label>
-          <input
-            type="email"
-            required
-            placeholder="email@exemplo.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.85rem 1.25rem',
-              border: '2px solid #e8c8d4',
-              borderRadius: '50px',
-              fontSize: '0.95rem',
-              outline: 'none',
-              backgroundColor: 'white',
-              transition: 'border-color 0.2s',
-              color: '#1a1a2e',
-            }}
-            onFocus={(e) => (e.currentTarget.style.borderColor = '#E8318A')}
-            onBlur={(e) => (e.currentTarget.style.borderColor = '#e8c8d4')}
-          />
-        </div>
-
-        <div>
-          <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: 500, color: '#555', marginBottom: '0.5rem' }}>
-            Senha
-          </label>
-          <input
-            type="password"
-            required
-            placeholder="Digite sua senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.85rem 1.25rem',
-              border: '2px solid #e8c8d4',
-              borderRadius: '50px',
-              fontSize: '0.95rem',
-              outline: 'none',
-              backgroundColor: 'white',
-              transition: 'border-color 0.2s',
-              color: '#1a1a2e',
-            }}
-            onFocus={(e) => (e.currentTarget.style.borderColor = '#E8318A')}
-            onBlur={(e) => (e.currentTarget.style.borderColor = '#e8c8d4')}
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            width: '100%',
-            padding: '0.85rem 1.5rem',
-            backgroundColor: 'white',
-            color: '#E8318A',
-            border: '2px solid #E8318A',
-            borderRadius: '50px',
-            fontSize: '0.95rem',
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
-          }}
-          onMouseOver={(e) => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#fef2f6'; }}
-          onMouseOut={(e) => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'white'; }}
-        >
-          {loading ? 'Entrando...' : 'Entrar com e-mail'}
-        </button>
-      </form>
-
-      {/* Test Credentials Banner */}
-      <div style={{ marginTop: '2rem', padding: '1.25rem', backgroundColor: '#fef2f6', border: '1px dashed #e8c8d4', borderRadius: '16px', fontSize: '0.85rem', color: 'var(--text-primary)' }}>
-        <div style={{ fontWeight: 700, color: '#E8318A', marginBottom: '0.4rem' }}>🔑 CREDENCIAIS DE TESTE:</div>
-        <p style={{ margin: '0.2rem 0', color: '#555' }}>Use estes dados para testar o painel imediatamente:</p>
-        <div style={{ marginTop: '0.5rem', fontFamily: 'monospace', background: 'white', padding: '0.5rem', borderRadius: '8px', border: '1px solid #fce4ec' }}>
-          <strong>E-mail:</strong> teste@camdescartavel.com<br />
-          <strong>Senha:</strong> 123456
-        </div>
-      </div>
-
       {/* Terms */}
-      <p style={{ textAlign: 'center', fontSize: '0.78rem', color: '#999', marginTop: '1.5rem', lineHeight: 1.5 }}>
+      <p style={{ textAlign: 'center', fontSize: '0.78rem', color: '#999', marginTop: '2rem', lineHeight: 1.5 }}>
         Ao iniciar sessão, você concorda com nossos{' '}
         <a href="#" style={{ color: '#E8318A', textDecoration: 'none' }}>Termos de Serviço</a>.
       </p>
-
-      {/* Link to register */}
-      <div style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.875rem' }}>
-        <span style={{ color: '#999' }}>Não tem uma conta? </span>
-        <a href="/registro" style={{ color: '#E8318A', fontWeight: 600, textDecoration: 'none' }}>Cadastre-se</a>
-      </div>
     </div>
   );
 }
