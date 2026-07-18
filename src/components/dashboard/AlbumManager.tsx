@@ -13,6 +13,7 @@ interface Event {
   is_active: boolean;
   theme_color?: string;
   isLocal?: boolean; // Identificar se é local
+  reveal_time?: string;
 }
 
 interface Photo {
@@ -59,6 +60,7 @@ export default function AlbumManager() {
   const [debugLogs, setDebugLogs] = useState<string[]>([]);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [showDebugPanel, setShowDebugPanel] = useState(false);
+  const [forceReveal, setForceReveal] = useState(false);
 
   const addLog = (msg: string) => {
     console.log(`[AlbumDebug] ${msg}`);
@@ -636,21 +638,64 @@ export default function AlbumManager() {
         </div>
       )}
 
-      {/* ─── Estado vazio do álbum ───────────────────────── */}
-      {!loading && photos.length === 0 && (
-        <div style={{
-          background: 'white', borderRadius: '24px', border: '1px dashed #e8c8d4',
-          padding: '5rem 2rem', textAlign: 'center'
-        }}>
-          <div style={{ fontSize: '3.5rem', marginBottom: '1rem', animation: 'pulse 2s infinite' }}>📷</div>
-          <h4 style={{ fontSize: '1.3rem', fontFamily: 'var(--font-serif)', color: '#1a1a2e' }}>Nenhuma foto no álbum ainda</h4>
-          <p style={{ color: 'var(--text-secondary)', marginTop: '0.4rem', fontSize: '0.92rem' }}>
-            {selectedEvent?.isLocal 
-              ? 'Abra a câmera do evento local e capture fotos para que elas apareçam aqui.'
-              : 'Compartilhe o QR Code do evento com os convidados para começar a receber fotos!'}
-          </p>
-        </div>
-      )}
+      {/* ─── Checagem de Revelação ───────────────────────── */}
+      {(() => {
+        const now = new Date();
+        const revealTime = selectedEvent?.reveal_time ? new Date(selectedEvent.reveal_time) : null;
+        const isLocked = revealTime && revealTime > now && !forceReveal;
+
+        if (!loading && photos.length > 0 && isLocked) {
+          return (
+            <div style={{
+              background: 'white', borderRadius: '24px', border: '1px solid #f0edf0',
+              padding: '4rem 2rem', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
+              marginTop: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center'
+            }}>
+              <div style={{ fontSize: '4rem', marginBottom: '1rem', opacity: 0.9 }}>⏳</div>
+              <h4 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-serif)', color: '#1a1a2e', marginBottom: '0.5rem' }}>
+                As fotos estão sendo reveladas...
+              </h4>
+              <p style={{ color: 'var(--text-secondary)', maxWidth: '400px', margin: '0 auto 2rem auto', lineHeight: 1.6 }}>
+                A janela da câmera encerrou! As fotos estão passando pelo processo de revelação digital e estarão disponíveis em breve.
+              </p>
+              
+              <div style={{ background: '#f8f6f9', padding: '1rem 2rem', borderRadius: '12px', marginBottom: '2rem' }}>
+                <span style={{ fontSize: '0.8rem', color: '#888', fontWeight: 700, letterSpacing: '0.05em' }}>DATA DA REVELAÇÃO</span>
+                <div style={{ fontSize: '1.2rem', fontWeight: 800, color: theme.accent, marginTop: '0.2rem' }}>
+                  {revealTime.toLocaleString()}
+                </div>
+              </div>
+
+              <button
+                onClick={() => setForceReveal(true)}
+                style={{
+                  background: 'none', border: 'none', color: theme.accent, fontSize: '0.85rem',
+                  fontWeight: 600, textDecoration: 'underline', cursor: 'pointer', opacity: 0.8
+                }}
+              >
+                Forçar Revelação Antecipada (Apenas Organizador)
+              </button>
+            </div>
+          );
+        }
+
+        return (
+          <>
+            {/* ─── Estado vazio do álbum ───────────────────────── */}
+            {!loading && photos.length === 0 && (
+              <div style={{
+                background: 'white', borderRadius: '24px', border: '1px dashed #e8c8d4',
+                padding: '5rem 2rem', textAlign: 'center'
+              }}>
+                <div style={{ fontSize: '3.5rem', marginBottom: '1rem', animation: 'pulse 2s infinite' }}>📷</div>
+                <h4 style={{ fontSize: '1.3rem', fontFamily: 'var(--font-serif)', color: '#1a1a2e' }}>Nenhuma foto no álbum ainda</h4>
+                <p style={{ color: 'var(--text-secondary)', marginTop: '0.4rem', fontSize: '0.92rem' }}>
+                  {selectedEvent?.isLocal 
+                    ? 'Abra a câmera do evento local e capture fotos para que elas apareçam aqui.'
+                    : 'Compartilhe o QR Code do evento com os convidados para começar a receber fotos!'}
+                </p>
+              </div>
+            )}
 
       {/* ═══════════ MODO: POR CONVIDADOS ═══════════════════ */}
       {!loading && photos.length > 0 && viewMode === 'guests' && (
@@ -995,6 +1040,11 @@ export default function AlbumManager() {
           </div>
         </div>
       )}
+      
+      {/* Fechamento do bloco condicional da revelação */}
+      </>
+      );
+      })()}
 
       {/* ═══════════ LIGHTBOX MODAL ═════════════════════════ */}
       {lightboxPhoto && (

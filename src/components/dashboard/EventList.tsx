@@ -10,6 +10,9 @@ interface Event {
   photo_limit_per_user: number;
   slug: string;
   is_active: boolean;
+  camera_start_time?: string;
+  camera_end_time?: string;
+  reveal_time?: string;
   created_at: string;
 }
 
@@ -46,6 +49,11 @@ export default function EventList() {
   const [coverPhotoUrl, setCoverPhotoUrl] = useState('');
   const [isCreating, setIsCreating] = useState(false);
   const [createError, setCreateError] = useState('');
+  
+  // Timing / Reveal
+  const [cameraStartTime, setCameraStartTime] = useState('');
+  const [cameraEndTime, setCameraEndTime] = useState('');
+  const [revealDelay, setRevealDelay] = useState('immediate');
   const [gamificationEnabled, setGamificationEnabled] = useState(true);
   const [photoGoal, setPhotoGoal] = useState<number>(100);
 
@@ -206,6 +214,31 @@ export default function EventList() {
           }
         }
 
+        let startIso = null;
+        let endIso = null;
+        let revealIso = null;
+
+        if (newEventDate && cameraStartTime) {
+          startIso = new Date(`${newEventDate}T${cameraStartTime}:00`).toISOString();
+        }
+        if (newEventDate && cameraEndTime) {
+          const endDateObj = new Date(`${newEventDate}T${cameraEndTime}:00`);
+          if (cameraStartTime && cameraEndTime < cameraStartTime) {
+            endDateObj.setDate(endDateObj.getDate() + 1); // Passou da meia noite
+          }
+          endIso = endDateObj.toISOString();
+        }
+
+        if (revealDelay !== 'immediate') {
+          // Se tiver endIso, calcula a partir dele. Senão, calcula a partir do final do dia do evento.
+          const baseDate = endIso ? new Date(endIso) : new Date(`${newEventDate}T23:59:59`);
+          if (revealDelay === '2h') baseDate.setHours(baseDate.getHours() + 2);
+          if (revealDelay === '12h') baseDate.setHours(baseDate.getHours() + 12);
+          if (revealDelay === '24h') baseDate.setHours(baseDate.getHours() + 24);
+          if (revealDelay === '1w') baseDate.setDate(baseDate.getDate() + 7);
+          revealIso = baseDate.toISOString();
+        }
+
         const localEvents = JSON.parse(localStorage.getItem('local_events') || '[]');
         const newLocalEvent = {
           id: `local-${Date.now()}`,
@@ -214,6 +247,9 @@ export default function EventList() {
           photo_limit_per_user: newPhotoLimit,
           slug,
           is_active: true,
+          camera_start_time: startIso,
+          camera_end_time: endIso,
+          reveal_time: revealIso,
           cover_photo_url: localCoverBase64 || null,
           theme_color: newThemeColor,
           photo_goal: photoGoal || null,
@@ -263,6 +299,9 @@ export default function EventList() {
           photo_limit_per_user: newPhotoLimit,
           slug,
           is_active: true,
+          camera_start_time: startIso,
+          camera_end_time: endIso,
+          reveal_time: revealIso,
           cover_photo_url: uploadedCoverUrl || null,
           theme_color: newThemeColor,
           photo_goal: photoGoal || null,
@@ -837,6 +876,47 @@ export default function EventList() {
                   </div>
                 </div>
 
+              </div>
+
+              {/* Configurações de Tempo e Suspensense */}
+              <div style={{ padding: '1rem', backgroundColor: '#fafafc', border: '1px solid #f0edf0', borderRadius: '16px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <label style={{ fontSize: '0.8rem', fontWeight: 800, color: '#1a1a2e', letterSpacing: '0.05em' }}>⏱️ JANELA DA CÂMERA & REVELAÇÃO</label>
+                
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
+                    <label style={{ fontSize: '0.65rem', fontWeight: 700, color: '#555' }}>HORA INÍCIO (Opcional)</label>
+                    <input
+                      type="time"
+                      value={cameraStartTime}
+                      onChange={(e) => setCameraStartTime(e.target.value)}
+                      style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid #e3e0d5', fontSize: '0.9rem', outline: 'none', background: 'white' }}
+                    />
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
+                    <label style={{ fontSize: '0.65rem', fontWeight: 700, color: '#555' }}>HORA TÉRMINO (Opcional)</label>
+                    <input
+                      type="time"
+                      value={cameraEndTime}
+                      onChange={(e) => setCameraEndTime(e.target.value)}
+                      style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid #e3e0d5', fontSize: '0.9rem', outline: 'none', background: 'white' }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  <label style={{ fontSize: '0.65rem', fontWeight: 700, color: '#555' }}>TEMPO DE REVELAÇÃO</label>
+                  <select
+                    value={revealDelay}
+                    onChange={(e) => setRevealDelay(e.target.value)}
+                    style={{ padding: '0.75rem', borderRadius: '12px', border: '1px solid #e3e0d5', fontSize: '0.9rem', outline: 'none', background: 'white', cursor: 'pointer' }}
+                  >
+                    <option value="immediate">Imediato (Tirou, revelou)</option>
+                    <option value="2h">2 horas após o término (ou fim do dia)</option>
+                    <option value="12h">12 horas depois</option>
+                    <option value="24h">No dia seguinte (24h)</option>
+                    <option value="1w">1 semana depois</option>
+                  </select>
+                </div>
               </div>
 
               {/* Configurações de Gamificação */}

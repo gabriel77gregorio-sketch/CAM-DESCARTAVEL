@@ -71,6 +71,24 @@ import CameraLayout from '../layouts/CameraLayout.astro';
           return;
         }
 
+        const now = new Date();
+        
+        if (event.camera_start_time) {
+          const startTime = new Date(event.camera_start_time);
+          if (now < startTime) {
+            showError(`A câmera será liberada apenas em: ${startTime.toLocaleString()}`);
+            return;
+          }
+        }
+
+        if (event.camera_end_time) {
+          const endTime = new Date(event.camera_end_time);
+          if (now > endTime) {
+            showError(`A janela da câmera já se encerrou! As fotos do evento estão sendo reveladas.`);
+            return;
+          }
+        }
+
         // Renderizar o componente React
         if (loadingEl) loadingEl.style.display = 'none';
         if (containerEl) {
