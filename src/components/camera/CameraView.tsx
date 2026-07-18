@@ -391,6 +391,7 @@ export default function CameraView({ event }: Props) {
       let newPhotoId = `local_photo_${Date.now()}`;
 
       // Se for evento local (testando), pula o Supabase
+      // Se for evento local (testando), pula o Supabase
       if (!(event as any).isLocal) {
         const { error: uploadError } = await supabase.storage
           .from('event-photos')
@@ -412,6 +413,20 @@ export default function CameraView({ event }: Props) {
 
         if (dbError) throw dbError;
         newPhotoId = newPhoto.id;
+      } else {
+        // Evento Local: salvar no localStorage para o painel conseguir ver
+        const localPhotosRaw = localStorage.getItem(`local_photos_${event.id}`);
+        const localPhotos = localPhotosRaw ? JSON.parse(localPhotosRaw) : [];
+        const newLocalPhoto = {
+          id: newPhotoId,
+          event_id: event.id,
+          guest_id: guestId,
+          filter_used: filter,
+          storage_path: localPreviewUrl,
+          created_at: new Date().toISOString()
+        };
+        localPhotos.unshift(newLocalPhoto);
+        localStorage.setItem(`local_photos_${event.id}`, JSON.stringify(localPhotos));
       }
 
       setPhotosTaken((prev) => prev + 1);
@@ -504,6 +519,7 @@ export default function CameraView({ event }: Props) {
       let newPhotoId = `local_photo_${Date.now()}`;
 
       // Se for evento local (testando), pula o Supabase
+      // Se for evento local (testando), pula o Supabase
       if (!(event as any).isLocal) {
         const { error: uploadError } = await supabase.storage
           .from('event-photos')
@@ -525,6 +541,20 @@ export default function CameraView({ event }: Props) {
 
         if (dbError) throw dbError;
         newPhotoId = newPhoto.id;
+      } else {
+        // Evento Local: salvar no localStorage
+        const localPhotosRaw = localStorage.getItem(`local_photos_${event.id}`);
+        const localPhotos = localPhotosRaw ? JSON.parse(localPhotosRaw) : [];
+        const newLocalPhoto = {
+          id: newPhotoId,
+          event_id: event.id,
+          guest_id: guestId,
+          filter_used: filter,
+          storage_path: localPreviewUrl,
+          created_at: new Date().toISOString()
+        };
+        localPhotos.unshift(newLocalPhoto);
+        localStorage.setItem(`local_photos_${event.id}`, JSON.stringify(localPhotos));
       }
 
       setPhotosTaken((prev) => prev + 1);
