@@ -68,6 +68,16 @@ export default function EventList() {
   const fetchEvents = async () => {
     try {
       addLog('Iniciando fetchEvents...');
+
+      // 1. Carregar eventos locais
+      addLog('Verificando eventos locais...');
+      const localEventsStr = localStorage.getItem('local_events');
+      let markedLocalEvents: Event[] = [];
+      if (localEventsStr) {
+        const parsedLocal = JSON.parse(localEventsStr) as Event[];
+        markedLocalEvents = parsedLocal.map(e => ({ ...e, isLocal: true }));
+        addLog(`Eventos locais encontrados: ${markedLocalEvents.length}`);
+      }
       
       addLog('Verificando sessão atual...');
       let { data: { session } } = await supabase.auth.getSession();
@@ -91,44 +101,65 @@ export default function EventList() {
       }
 
       const user = session?.user;
-      if (!user) {
-        addLog('Nenhum usuário logado. Abortando fetchEvents.');
-        setLoading(false);
-        return;
+      let dbEvents: Event[] = [];
+
+      if (user) {
+        addLog(`Buscando eventos para o usuário: ${user.id}...`);
+        const { data: eventsData, error: eventsError } = await supabase
+          .from('events')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('event_date', { ascending: true });
+          
+        if (eventsError) throw eventsError;
+        dbEvents = eventsData || [];
+        addLog(`Eventos remotos retornados: ${dbEvents.length}`);
+      } else {
+        addLog('Nenhum usuário logado. Ignorando busca no Supabase.');
       }
 
-      addLog(`Buscando eventos para o usuário: ${user.id}...`);
-      const { data: eventsData, error: eventsError } = await supabase
-        .from('events')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('event_date', { ascending: true });
-
-      addLog(`Eventos retornados: ${eventsData?.length || 0}`);
-      const loadedEvents = eventsData || [];
+      const loadedEvents = [...markedLocalEvents, ...dbEvents];
       setEvents(loadedEvents);
 
       if (loadedEvents.length > 0) {
         setSelectedEventId(loadedEvents[0].id);
         
-        const eventIds = loadedEvents.map(e => e.id);
-        addLog(`Buscando fotos para os eventos: ${eventIds.join(', ')}...`);
-        const { data: photosData, error: photosError } = await supabase
-          .from('photos')
-          .select('event_id');
-
-        if (photosError) throw photosError;
-        addLog(`Fotos retornadas: ${photosData?.length || 0}`);
-
         const counts: Record<string, number> = {};
-        eventIds.forEach(id => {
-          counts[id] = 0;
+        const remoteEventIds = dbEvents.map(e => e.id);
+        
+        // Conta fotos remotas se houver
+        if (remoteEventIds.length > 0) {
+          addLog(`Buscando fotos para os eventos remotos...`);
+          const { data: photosData, error: photosError } = await supabase
+            .from('photos')
+            .select('event_id');
+
+          if (photosError) throw photosError;
+          addLog(`Fotos remotas retornadas: ${photosData?.length || 0}`);
+
+          remoteEventIds.forEach(id => {
+            counts[id] = 0;
+          });
+          photosData?.forEach(p => {
+            if (counts[p.event_id] !== undefined) {
+              counts[p.event_id]++;
+            }
+          });
+        }
+        
+        // Conta fotos locais
+        markedLocalEvents.forEach(e => {
+            let total = 0;
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith(`photos_${e.id}_`)) {
+                    const photos = JSON.parse(localStorage.getItem(key) || '[]');
+                    total += photos.length;
+                }
+            }
+            counts[e.id] = total;
         });
-        photosData?.forEach(p => {
-          if (counts[p.event_id] !== undefined) {
-            counts[p.event_id]++;
-          }
-        });
+
         setPhotoCounts(counts);
       } else {
         setSelectedEventId('manual');
