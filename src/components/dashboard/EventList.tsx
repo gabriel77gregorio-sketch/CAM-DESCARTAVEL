@@ -211,6 +211,31 @@ export default function EventList() {
         throw new Error('O nome do evento é inválido.');
       }
 
+      // Calcular datas e tempos ISO no escopo pai
+      let startIso: string | null = null;
+      let endIso: string | null = null;
+      let revealIso: string | null = null;
+
+      if (newEventDate && cameraStartTime) {
+        startIso = new Date(`${newEventDate}T${cameraStartTime}:00`).toISOString();
+      }
+      if (newEventDate && cameraEndTime) {
+        const endDateObj = new Date(`${newEventDate}T${cameraEndTime}:00`);
+        if (cameraStartTime && cameraEndTime < cameraStartTime) {
+          endDateObj.setDate(endDateObj.getDate() + 1); // Passou da meia noite
+        }
+        endIso = endDateObj.toISOString();
+      }
+
+      if (revealDelay !== 'immediate') {
+        const baseDate = endIso ? new Date(endIso) : new Date(`${newEventDate}T23:59:59`);
+        if (revealDelay === '2h') baseDate.setHours(baseDate.getHours() + 2);
+        if (revealDelay === '12h') baseDate.setHours(baseDate.getHours() + 12);
+        if (revealDelay === '24h') baseDate.setHours(baseDate.getHours() + 24);
+        if (revealDelay === '1w') baseDate.setDate(baseDate.getDate() + 7);
+        revealIso = baseDate.toISOString();
+      }
+
       // Timeout de 1 segundo para a chamada do Supabase, para evitar travamentos
       const userPromise = supabase.auth.getUser();
       const timeoutPromise = new Promise<{ data: { user: null } }>((resolve) => 
@@ -230,31 +255,6 @@ export default function EventList() {
           } catch (err) {
             console.error('Erro ao converter imagem de capa:', err);
           }
-        }
-
-        let startIso = null;
-        let endIso = null;
-        let revealIso = null;
-
-        if (newEventDate && cameraStartTime) {
-          startIso = new Date(`${newEventDate}T${cameraStartTime}:00`).toISOString();
-        }
-        if (newEventDate && cameraEndTime) {
-          const endDateObj = new Date(`${newEventDate}T${cameraEndTime}:00`);
-          if (cameraStartTime && cameraEndTime < cameraStartTime) {
-            endDateObj.setDate(endDateObj.getDate() + 1); // Passou da meia noite
-          }
-          endIso = endDateObj.toISOString();
-        }
-
-        if (revealDelay !== 'immediate') {
-          // Se tiver endIso, calcula a partir dele. Senão, calcula a partir do final do dia do evento.
-          const baseDate = endIso ? new Date(endIso) : new Date(`${newEventDate}T23:59:59`);
-          if (revealDelay === '2h') baseDate.setHours(baseDate.getHours() + 2);
-          if (revealDelay === '12h') baseDate.setHours(baseDate.getHours() + 12);
-          if (revealDelay === '24h') baseDate.setHours(baseDate.getHours() + 24);
-          if (revealDelay === '1w') baseDate.setDate(baseDate.getDate() + 7);
-          revealIso = baseDate.toISOString();
         }
 
         const localEvents = JSON.parse(localStorage.getItem('local_events') || '[]');

@@ -19,6 +19,9 @@ interface Event {
   is_active: boolean;
   gamification_enabled?: boolean;
   photo_goal?: number | null;
+  camera_start_time?: string | null;
+  camera_end_time?: string | null;
+  reveal_time?: string | null;
 }
 
 interface Props {
