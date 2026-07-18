@@ -616,7 +616,20 @@ export default function CameraView({ event }: Props) {
     );
   }
 
-  // STEP 2: ESCOLHER AÇÃO (TIRAR FOTO OU SUBIR ARQUIVO)
+  // Solicita permissão da câmera ativamente durante o clique do usuário (necessário para iOS/Safari não bloquear)
+  const handleOpenCameraClick = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      // Para o stream temporário, a inicialização real ocorre no useEffect com os constraints corretos
+      stream.getTracks().forEach(track => track.stop());
+      setViewStep('live_camera');
+    } catch (err) {
+      console.error('Permissão negada ou erro na câmera:', err);
+      alert('⚠️ Para tirar fotos, você precisa permitir o acesso à câmera no seu navegador.');
+    }
+  };
+
+  // STEP 2: ESCOLHER AÇÃO (Tirar Foto ou Galeria)
   if (viewStep === 'choose_action') {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#fef2f6', padding: '1rem 1rem 3rem', fontFamily: 'var(--font-sans)', overflowY: 'auto' }}>
@@ -683,7 +696,7 @@ export default function CameraView({ event }: Props) {
               <>
                 {/* Opção A: Câmera */}
                 <button
-                  onClick={() => setViewStep('live_camera')}
+                  onClick={handleOpenCameraClick}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
