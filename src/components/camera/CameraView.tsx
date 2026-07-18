@@ -43,7 +43,7 @@ export default function CameraView({ event }: Props) {
   const [errorMsg, setErrorMsg] = useState('');
   const [cameraReady, setCameraReady] = useState(false);
   const [flashOn, setFlashOn] = useState(false);
-  const [zoom, setZoom] = useState<0.5 | 1.0 | 2.0>(1.0);
+  const [zoom, setZoom] = useState<1.0 | 1.5 | 2.0>(1.0);
 
   // Estados de Gamificação
   const [gamificationEnabled, setGamificationEnabled] = useState(false);
@@ -85,6 +85,13 @@ export default function CameraView({ event }: Props) {
     if (!guestId || !event.id) return;
 
     async function fetchGuestPhotosCount() {
+      if ((event as any).isLocal) {
+        const photosCountStr = localStorage.getItem(`photos_${event.id}_${guestId}`);
+        const localCount = photosCountStr ? JSON.parse(photosCountStr).length : 0;
+        setPhotosTaken(localCount);
+        return;
+      }
+
       try {
         const { count, error } = await supabase
           .from('photos')
@@ -541,7 +548,8 @@ export default function CameraView({ event }: Props) {
     }
   };
 
-  const remainingPhotos = Math.max(0, event.photo_limit_per_user - photosTaken);
+  const photoLimit = event.photo_limit_per_user || 30;
+  const remainingPhotos = Math.max(0, photoLimit - photosTaken);
 
   // ================= RENDER DE ACORDO COM O STEP =================
 
@@ -934,16 +942,16 @@ export default function CameraView({ event }: Props) {
           {/* Zoom pills */}
           <div className="cam-zoom-pills">
             <button
-              className={`cam-zoom-pill ${zoom === 0.5 ? 'active' : ''}`}
-              onClick={() => setZoom(0.5)}
-            >
-              0.5×
-            </button>
-            <button
               className={`cam-zoom-pill ${zoom === 1.0 ? 'active' : ''}`}
               onClick={() => setZoom(1.0)}
             >
               1×
+            </button>
+            <button
+              className={`cam-zoom-pill ${zoom === 1.5 ? 'active' : ''}`}
+              onClick={() => setZoom(1.5)}
+            >
+              1.5×
             </button>
             <button
               className={`cam-zoom-pill ${zoom === 2.0 ? 'active' : ''}`}
