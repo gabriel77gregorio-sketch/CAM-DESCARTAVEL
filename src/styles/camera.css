@@ -108,42 +108,50 @@
 /* ── Controles flutuantes ───────────────────────── */
 .cam-floating-controls {
   position: absolute;
-  bottom: 110px;
+  bottom: 120px; /* Acima da bottom bar */
   left: 0;
   right: 0;
   z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 24px;
 }
 
 /* Pills de zoom */
 .cam-zoom-pills {
   display: flex;
-  gap: 4px;
-  background: rgba(0,0,0,0.40);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  gap: 0px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 999px;
-  padding: 4px 6px;
+  padding: 4px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .cam-zoom-pill {
-  padding: 3px 12px;
-  border-radius: 999px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
   border: none;
   background: transparent;
-  color: rgba(255,255,255,0.75);
-  font-size: 0.78rem;
-  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cam-zoom-pill.active {
-  background: rgba(255,255,255,0.9);
-  color: #000;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-weight: 700;
 }
 
 /* ── BottomBar ──────────────────────────────────── */
@@ -152,64 +160,72 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 110px;
-  background: #000;
+  height: 120px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
   z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px env(safe-area-inset-bottom, 0);
+  padding: 0 24px env(safe-area-inset-bottom, 12px);
 }
 
-/* Contador de fotos (estilo rolo de filme) */
-.cam-film-counter {
+/* Contador Esquerdo (Referência) */
+.cam-left-counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  min-width: 80px;
+}
+.cam-left-counter-num {
+  font-size: 2.2rem;
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+}
+.cam-left-counter-text {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  color: white;
-  min-width: 52px;
-}
-
-.cam-film-icon {
-  font-size: 1.1rem;
-  opacity: 0.8;
-}
-
-.cam-film-number {
-  font-size: 1.6rem;
-  font-weight: 800;
-  font-family: var(--font-mono, monospace);
-  line-height: 1;
-  color: white;
-}
-
-.cam-film-label {
   font-size: 0.6rem;
-  opacity: 0.5;
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  opacity: 0.9;
 }
 
 /* Botão Shutter */
 .cam-shutter {
-  width: 72px;
-  height: 72px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
-  background: white;
-  border: none;
-  /* anel externo */
-  box-shadow: 0 0 0 4px rgba(255,255,255,0.25);
-  outline: 3px solid rgba(255,255,255,0.5);
-  outline-offset: 4px;
+  background: transparent;
+  border: 4px solid rgba(255,255,255,0.6);
   cursor: pointer;
   transition: transform 0.1s, opacity 0.1s;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cam-shutter::after {
+  content: '';
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+  transition: background 0.15s;
 }
 
 .cam-shutter:active {
   transform: scale(0.91);
-  opacity: 0.88;
+}
+.cam-shutter:active::after {
+  background: rgba(255,255,255,0.6);
 }
 
 .cam-shutter:disabled {
@@ -218,29 +234,28 @@
   transform: none;
 }
 
-/* Thumbnail da última foto */
-.cam-last-thumb {
-  width: 52px;
-  height: 52px;
-  border-radius: 8px;
-  object-fit: cover;
-  border: 2px solid rgba(255,255,255,0.7);
+/* Polaroids stack */
+.cam-polaroids-stack {
+  position: relative;
+  width: 48px;
+  height: 60px;
   cursor: pointer;
-  transition: transform 0.15s;
 }
-
-.cam-last-thumb:active {
-  transform: scale(0.93);
+.cam-polaroids-stack img, .cam-polaroids-stack .polaroid-placeholder {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.2);
+  object-fit: cover;
+  transition: transform 0.2s;
 }
-
-.cam-thumb-empty {
-  width: 52px;
-  height: 52px;
-  border-radius: 8px;
-  border: 2px dashed rgba(255,255,255,0.25);
-  background: rgba(255,255,255,0.05);
-  min-width: 52px;
+.cam-polaroids-stack:active img, .cam-polaroids-stack:active .polaroid-placeholder {
+  transform: scale(0.95);
 }
+.cam-polaroids-stack .layer-1 { transform: rotate(-8deg); z-index: 1; opacity: 0.6; }
+.cam-polaroids-stack .layer-2 { transform: rotate(-4deg); z-index: 2; left: 4px; opacity: 0.8; }
+.cam-polaroids-stack .layer-3 { transform: rotate(0deg); z-index: 3; left: 8px; border: 2px solid rgba(255,255,255,0.6); }
 
 /* ── Overlay de loading/revelando ───────────────── */
 .cam-overlay {

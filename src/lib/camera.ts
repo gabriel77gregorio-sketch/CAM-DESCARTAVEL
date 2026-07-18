@@ -12,10 +12,10 @@ export async function initCamera(
   const constraints: MediaStreamConstraints = {
     video: {
       facingMode: facingMode,
-      // Solicita resolução em portrait 9:16
-      width: { ideal: 1080 },
-      height: { ideal: 1920 },
-      aspectRatio: { ideal: 9 / 16 },
+      // Relaxado para usar o sensor inteiro e não cortar com "zoom" forçado do SO.
+      // O recorte final será visualmente pelo CSS (object-fit: cover) ou pelo canvas
+      width: { ideal: 1920 },
+      height: { ideal: 1080 }
     },
     audio: false,
   };

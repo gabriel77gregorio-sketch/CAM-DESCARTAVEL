@@ -885,46 +885,17 @@ export default function CameraView({ event }: Props) {
 
         {/* ── TopBar ── */}
         <div className="cam-topbar">
-          <button className="cam-icon-btn" onClick={() => setViewStep('choose_action')}>
-            ←
+          <button className="cam-icon-btn" style={{ background: 'transparent', border: 'none', fontSize: '1.5rem', boxShadow: 'none' }} onClick={() => setViewStep('choose_action')}>
+            ✕
           </button>
 
           <div className="cam-topbar-center">
             <span className="cam-topbar-title">{event.event_name}</span>
-            <span className="cam-topbar-sub">{remainingPhotos} foto{remainingPhotos !== 1 ? 's' : ''} restante{remainingPhotos !== 1 ? 's' : ''}</span>
+            <span className="cam-topbar-sub">Termina às {event.camera_end_time ? new Date(event.camera_end_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '23:59'}</span>
           </div>
 
-          {/* Indicador de câmera pronta */}
-          <div className="cam-icon-btn" style={{
-            background: cameraReady ? 'rgba(34,197,94,0.25)' : 'rgba(0,0,0,0.35)',
-            borderColor: cameraReady ? 'rgba(34,197,94,0.6)' : 'rgba(255,255,255,0.18)',
-          }}>
-            <span style={{ fontSize: '0.65rem', fontWeight: 800, color: cameraReady ? '#4ade80' : 'rgba(255,255,255,0.5)' }}>
-              {cameraReady ? '●' : '○'}
-            </span>
-          </div>
-        </div>
-
-        {/* ── Seletor de filtros (pills acima da bottombar) ── */}
-        <div className="cam-filters-row">
-          <button
-            onClick={() => setFilter('disposable')}
-            className={`cam-filter-pill ${filter === 'disposable' ? 'active' : ''}`}
-          >
-            🎞️ Disposable
-          </button>
-          <button
-            onClick={() => setFilter('kodak_gold')}
-            className={`cam-filter-pill ${filter === 'kodak_gold' ? 'active' : ''}`}
-          >
-            💛 Kodak
-          </button>
-          <button
-            onClick={() => setFilter('fuji_superia')}
-            className={`cam-filter-pill ${filter === 'fuji_superia' ? 'active' : ''}`}
-          >
-            💚 Fuji
-          </button>
+          {/* Placeholder invisível para centralizar flex-between */}
+          <div style={{ width: '36px' }}></div>
         </div>
 
         {/* ── Controles flutuantes (flash · zoom · flip) ── */}
@@ -933,7 +904,7 @@ export default function CameraView({ event }: Props) {
           <button
             className="cam-icon-btn"
             onClick={() => setFlashOn((v) => !v)}
-            style={{ fontSize: '1.1rem', background: flashOn ? 'rgba(255,210,0,0.3)' : 'rgba(0,0,0,0.35)', borderColor: flashOn ? 'rgba(255,210,0,0.7)' : 'rgba(255,255,255,0.18)' }}
+            style={{ fontSize: '1.1rem', background: flashOn ? 'rgba(255,210,0,0.3)' : 'transparent', border: 'none', boxShadow: 'none' }}
             title="Flash"
           >
             {flashOn ? '⚡' : '🔕'}
@@ -948,16 +919,10 @@ export default function CameraView({ event }: Props) {
               1×
             </button>
             <button
-              className={`cam-zoom-pill ${zoom === 1.5 ? 'active' : ''}`}
-              onClick={() => setZoom(1.5)}
-            >
-              1.5×
-            </button>
-            <button
               className={`cam-zoom-pill ${zoom === 2.0 ? 'active' : ''}`}
               onClick={() => setZoom(2.0)}
             >
-              2×
+              2
             </button>
           </div>
 
@@ -967,7 +932,7 @@ export default function CameraView({ event }: Props) {
             onClick={handleSwitchCamera}
             disabled={!cameraReady || isUploading}
             title="Alternar câmera"
-            style={{ fontSize: '1.1rem' }}
+            style={{ fontSize: '1.2rem', background: 'transparent', border: 'none', boxShadow: 'none' }}
           >
             🔄
           </button>
@@ -975,11 +940,13 @@ export default function CameraView({ event }: Props) {
 
         {/* ── BottomBar ── */}
         <div className="cam-bottombar">
-          {/* Contador de fotos estilo rolo */}
-          <div className="cam-film-counter">
-            <span className="cam-film-icon">🎞️</span>
-            <span className="cam-film-number">{String(photosTaken).padStart(2, '0')}</span>
-            <span className="cam-film-label">fotos</span>
+          {/* Contador de fotos (Referência visual iOS) */}
+          <div className="cam-left-counter">
+            <span className="cam-left-counter-num">{remainingPhotos}</span>
+            <div className="cam-left-counter-text">
+              <span>FOTOS</span>
+              <span>RESTANTES</span>
+            </div>
           </div>
 
           {/* Shutter */}
@@ -990,16 +957,16 @@ export default function CameraView({ event }: Props) {
             title="Tirar foto"
           />
 
-          {/* Thumbnail da última foto */}
-          {previewUrl ? (
-            <img
-              src={previewUrl}
-              className="cam-last-thumb"
-              alt="Última foto"
-            />
-          ) : (
-            <div className="cam-thumb-empty" />
-          )}
+          {/* Thumbnail da última foto (Polaroids Stack) */}
+          <div className="cam-polaroids-stack" onClick={() => previewUrl && setViewStep('upload_preview')}>
+            <div className="polaroid-placeholder layer-1"></div>
+            <div className="polaroid-placeholder layer-2"></div>
+            {previewUrl ? (
+              <img src={previewUrl} className="layer-3" alt="Última foto" />
+            ) : (
+              <div className="polaroid-placeholder layer-3" style={{ background: 'rgba(255,255,255,0.4)' }}></div>
+            )}
+          </div>
         </div>
       </div>
     );
