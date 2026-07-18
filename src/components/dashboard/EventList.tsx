@@ -161,10 +161,16 @@ export default function EventList() {
     });
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) return '';
-    const [year, month, day] = dateString.split('-');
-    return `${day}/${month}/${year}`;
+    try {
+      const parts = dateString.split('-');
+      if (parts.length < 3) return dateString;
+      const [year, month, day] = parts;
+      return `${day}/${month}/${year}`;
+    } catch (e) {
+      return dateString || '';
+    }
   };
 
   // Criar Evento

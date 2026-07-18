@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
 import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
+import fileSaver from 'file-saver';
+const { saveAs } = fileSaver;
 
 // ─── Interfaces ────────────────────────────────────────────────
 interface Event {
@@ -579,7 +580,8 @@ export default function AlbumManager() {
               pointerEvents: 'none', color: '#999', fontSize: '0.7rem'
             }}>▼</span>
           </div>
-        )}
+        </div>
+      )}
       </div>
 
       {/* Erro não crítico do álbum selecionado */}

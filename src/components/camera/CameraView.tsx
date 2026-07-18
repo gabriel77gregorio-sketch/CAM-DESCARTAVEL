@@ -381,35 +381,41 @@ export default function CameraView({ event }: Props) {
       const photoId = `photo_${Math.random().toString(36).substring(2, 15)}_${Date.now()}`;
       const storagePath = `${event.id}/${photoId}.jpg`;
 
-      const { error: uploadError } = await supabase.storage
-        .from('event-photos')
-        .upload(storagePath, photoBlob, {
-          contentType: 'image/jpeg',
-          cacheControl: '3600',
-        });
+      let newPhotoId = `local_photo_${Date.now()}`;
 
-      if (uploadError) throw uploadError;
+      // Se for evento local (testando), pula o Supabase
+      if (!(event as any).isLocal) {
+        const { error: uploadError } = await supabase.storage
+          .from('event-photos')
+          .upload(storagePath, photoBlob, {
+            contentType: 'image/jpeg',
+            cacheControl: '3600',
+          });
 
-      const { data: newPhoto, error: dbError } = await supabase.from('photos').insert([
-        {
-          event_id: event.id,
-          storage_path: storagePath,
-          guest_id: guestId,
-          filter_used: filter,
-        },
-      ]).select().single();
+        if (uploadError) throw uploadError;
 
-      if (dbError) throw dbError;
+        const { data: newPhoto, error: dbError } = await supabase.from('photos').insert([
+          {
+            event_id: event.id,
+            storage_path: storagePath,
+            guest_id: guestId,
+            filter_used: filter,
+          },
+        ]).select().single();
+
+        if (dbError) throw dbError;
+        newPhotoId = newPhoto.id;
+      }
 
       setPhotosTaken((prev) => prev + 1);
 
       if (gamificationEnabled && challenges.length > 0) {
-        setRecentPhotoId(newPhoto.id);
+        setRecentPhotoId(newPhotoId);
         setRecentPhotoUrl(localPreviewUrl);
         setIsUploading(false);
         setShowMissionPicker(true);
       } else {
-        await handleFinishPhotoFlow(null, newPhoto.id);
+        await handleFinishPhotoFlow(null, newPhotoId);
       }
     } catch (err: any) {
       console.error(err);
@@ -488,36 +494,42 @@ export default function CameraView({ event }: Props) {
       const photoId = `photo_${Math.random().toString(36).substring(2, 15)}_${Date.now()}`;
       const storagePath = `${event.id}/${photoId}.jpg`;
 
-      const { error: uploadError } = await supabase.storage
-        .from('event-photos')
-        .upload(storagePath, photoBlob, {
-          contentType: 'image/jpeg',
-          cacheControl: '3600',
-        });
+      let newPhotoId = `local_photo_${Date.now()}`;
 
-      if (uploadError) throw uploadError;
+      // Se for evento local (testando), pula o Supabase
+      if (!(event as any).isLocal) {
+        const { error: uploadError } = await supabase.storage
+          .from('event-photos')
+          .upload(storagePath, photoBlob, {
+            contentType: 'image/jpeg',
+            cacheControl: '3600',
+          });
 
-      const { data: newPhoto, error: dbError } = await supabase.from('photos').insert([
-        {
-          event_id: event.id,
-          storage_path: storagePath,
-          guest_id: guestId,
-          filter_used: filter,
-        },
-      ]).select().single();
+        if (uploadError) throw uploadError;
 
-      if (dbError) throw dbError;
+        const { data: newPhoto, error: dbError } = await supabase.from('photos').insert([
+          {
+            event_id: event.id,
+            storage_path: storagePath,
+            guest_id: guestId,
+            filter_used: filter,
+          },
+        ]).select().single();
+
+        if (dbError) throw dbError;
+        newPhotoId = newPhoto.id;
+      }
 
       setPhotosTaken((prev) => prev + 1);
 
       if (gamificationEnabled && challenges.length > 0) {
-        setRecentPhotoId(newPhoto.id);
+        setRecentPhotoId(newPhotoId);
         setRecentPhotoUrl(localPreviewUrl);
         setIsUploading(false);
         setGalleryImageSrc(null);
         setShowMissionPicker(true);
       } else {
-        await handleFinishPhotoFlow(null, newPhoto.id);
+        await handleFinishPhotoFlow(null, newPhotoId);
       }
     } catch (err: any) {
       console.error(err);

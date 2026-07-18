@@ -25,13 +25,27 @@ interface Photo {
 }
 
 interface Props {
-  slug: string;
+  slug?: string;
 }
 
 // URL de produção — sempre fixa para o QR Code funcionar para qualquer convidado
 const PRODUCTION_URL = 'https://cam-descartavel.vercel.app';
 
-export default function EventDetailsManager({ slug }: Props) {
+export default function EventDetailsManager({ slug: propSlug }: Props) {
+  const [slug, setSlug] = useState<string | null>(propSlug || null);
+  
+  useEffect(() => {
+    if (!slug) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlSlug = urlParams.get('slug');
+      if (urlSlug) {
+        setSlug(urlSlug);
+      } else {
+        window.location.href = '/painel';
+      }
+    }
+  }, [slug]);
+
   const [event, setEvent] = useState<Event | null>(null);
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -286,9 +300,16 @@ export default function EventDetailsManager({ slug }: Props) {
     return data.publicUrl;
   };
 
-  const formatDate = (dateString: string) => {
-    const [year, month, day] = dateString.split('-');
-    return `${day}/${month}/${year}`;
+  const formatDate = (dateString: string | null | undefined) => {
+    if (!dateString) return '';
+    try {
+      const parts = dateString.split('-');
+      if (parts.length < 3) return dateString;
+      const [year, month, day] = parts;
+      return `${day}/${month}/${year}`;
+    } catch (e) {
+      return dateString || '';
+    }
   };
 
   if (loading) {
