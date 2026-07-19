@@ -296,7 +296,7 @@ export default function CameraView({ event }: Props) {
       setShowMissionPicker(false);
       setRecentPhotoId(null);
       setRecentPhotoUrl(null);
-      setViewStep('choose_action');
+      setViewStep(prev => prev === 'upload_preview' ? 'choose_action' : prev);
       setTimeout(() => {
         setPreviewUrl(null);
       }, 3000);
@@ -344,12 +344,21 @@ export default function CameraView({ event }: Props) {
     };
   }, []);
 
-  // Salvar nome do convidado
-  const handleSaveName = (e: React.FormEvent) => {
+  // Salvar nome do convidado e pedir permissão direto
+  const handleSaveName = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!guestName.trim()) return;
     localStorage.setItem('guest_name', guestName.trim());
-    setViewStep('choose_action');
+    
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.getTracks().forEach(track => track.stop());
+      setViewStep('live_camera');
+    } catch (err) {
+      console.error('Permissão negada ou erro na câmera:', err);
+      alert('⚠️ Para tirar fotos, você precisa permitir o acesso à câmera no seu navegador.');
+      setViewStep('choose_action');
+    }
   };
 
   // Alternar câmera frontal/traseira — reinicia o stream com a nova câmera
@@ -988,19 +997,10 @@ export default function CameraView({ event }: Props) {
           </div>
         )}
 
-        {/* ── Preview da última foto (breve) ── */}
-        {previewUrl && !isUploading && (
-          <div className="cam-preview-flash">
-            <img src={previewUrl} alt="Preview" />
-            <span className="cam-preview-badge">Revelando... 📸</span>
-          </div>
-        )}
-
-        {/* ── Overlay de upload/revelando ── */}
+        {/* ── Aviso sutil de que está salvando (não bloqueante) ── */}
         {isUploading && (
-          <div className="cam-overlay">
-            <div className="cam-overlay-spinner" />
-            <span className="cam-overlay-text">Revelando...</span>
+          <div style={{ position: 'absolute', top: '16px', left: '50%', transform: 'translateX(-50%)', backgroundColor: 'rgba(0,0,0,0.6)', color: 'white', padding: '6px 16px', borderRadius: '20px', fontSize: '0.8rem', zIndex: 40, backdropFilter: 'blur(4px)' }}>
+            Salvando...
           </div>
         )}
 
