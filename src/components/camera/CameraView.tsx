@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
-import { initCamera, stopCamera, captureFrame, setTorch, hasTorchSupport } from '../../lib/camera';
+import { initCamera, stopCamera, captureFrame } from '../../lib/camera';
 import { applyAnalogFilter, type FilterPreset } from '../../lib/filters';
 import { compressImage } from '../../lib/compression';
 import MissionCard from './MissionCard';
@@ -33,6 +33,8 @@ type ViewStep = 'get_name' | 'choose_action' | 'live_camera' | 'upload_preview';
 export default function CameraView({ event }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Ref que mantém o stream ativo entre mudanças de step (evita bloqueio da câmera pelo navegador)
+  const activeStreamRef = useRef<MediaStream | null>(null);
 
   const [viewStep, setViewStep] = useState<ViewStep>('get_name');
   const [guestName, setGuestName] = useState('');
@@ -46,7 +48,6 @@ export default function CameraView({ event }: Props) {
   const [errorMsg, setErrorMsg] = useState('');
   const [cameraReady, setCameraReady] = useState(false);
   const [flashOn, setFlashOn] = useState(false);
-  const [torchSupported, setTorchSupported] = useState(false);
   const [screenFlashVisible, setScreenFlashVisible] = useState(false);
   const [zoom, setZoom] = useState<1.0 | 1.5 | 2.0>(1.0);
 
@@ -302,45 +303,46 @@ export default function CameraView({ event }: Props) {
     }
   };
 
-  // 3. Inicializar a Câmera (apenas se estiver no passo live_camera)
-  useEffect(() => {
-    if (viewStep !== 'live_camera') {
-      if (videoRef.current) stopCamera(videoRef.current);
-      setCameraReady(false);
-      return;
-    }
-
+  // Helper: inicia câmera e salva o stream no ref
+  const startCameraStream = async () => {
     if (!videoRef.current) return;
-
-    let activeStream: MediaStream | null = null;
-
-    async function startCamera() {
-      try {
-        setErrorMsg('');
-        setCameraReady(false);
-        if (videoRef.current) {
-          activeStream = await initCamera(videoRef.current, facingMode);
-          setCameraReady(true);
-          // Verificar se o dispositivo suporta torch (flash da lanterna)
-          const supportsTorch = hasTorchSupport(videoRef.current);
-          setTorchSupported(supportsTorch);
-        }
-      } catch (err: any) {
-        console.error(err);
-        setErrorMsg(
-          'Não foi possível acessar a câmera. Verifique se deu permissão de acesso ao navegador.'
-        );
-      }
+    // Parar stream anterior se existir
+    if (activeStreamRef.current) {
+      activeStreamRef.current.getTracks().forEach(t => t.stop());
+      activeStreamRef.current = null;
     }
+    try {
+      setErrorMsg('');
+      setCameraReady(false);
+      const stream = await initCamera(videoRef.current, facingMode);
+      activeStreamRef.current = stream;
+      setCameraReady(true);
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg('Não foi possível acessar a câmera. Verifique se deu permissão de acesso ao navegador.');
+    }
+  };
 
-    startCamera();
-
-    return () => {
-      if (videoRef.current) {
-        stopCamera(videoRef.current);
-      }
-    };
+  // 3. Inicializar a câmera — mantém o stream vivo entre steps para não bloquear navegador
+  useEffect(() => {
+    // Só inicia/reinicia quando está no live_camera e não tem stream ativo
+    if (viewStep === 'live_camera' && !activeStreamRef.current) {
+      startCameraStream();
+    }
+    // Cleanup: só mata o stream quando o componente desmonta de verdade
+    return () => {};
   }, [facingMode, viewStep]);
+
+  // Cleanup final quando o componente sai da DOM
+  useEffect(() => {
+    return () => {
+      if (activeStreamRef.current) {
+        activeStreamRef.current.getTracks().forEach(t => t.stop());
+        activeStreamRef.current = null;
+      }
+      if (videoRef.current) stopCamera(videoRef.current);
+    };
+  }, []);
 
   // Salvar nome do convidado
   const handleSaveName = (e: React.FormEvent) => {
@@ -350,9 +352,16 @@ export default function CameraView({ event }: Props) {
     setViewStep('choose_action');
   };
 
-  // Alternar câmera frontal/traseira
+  // Alternar câmera frontal/traseira — reinicia o stream com a nova câmera
   const handleSwitchCamera = () => {
     setFacingMode((prev) => (prev === 'environment' ? 'user' : 'environment'));
+    // Forçar limpeza do stream para que o useEffect reinicie com novo facingMode
+    if (activeStreamRef.current) {
+      activeStreamRef.current.getTracks().forEach(t => t.stop());
+      activeStreamRef.current = null;
+    }
+    if (videoRef.current) videoRef.current.srcObject = null;
+    setCameraReady(false);
   };
 
   // Obter filtro CSS correspondente para o visor de preview em tempo real
@@ -381,16 +390,33 @@ export default function CameraView({ event }: Props) {
     setIsCapturing(true);
     setTimeout(() => setIsCapturing(false), 300);
 
-    // Flash real: ativar torch (câmera traseira) ou screen flash (câmera frontal)
-    let torchWasActivated = false;
+    // Flash: câmera traseira usa torch reiniciando stream; frontal usa screen flash
     if (flashOn && videoRef.current) {
-      if (facingMode === 'environment' && torchSupported) {
-        // Flash da lanterna do celular (câmera traseira)
-        torchWasActivated = await setTorch(videoRef.current, true);
-        // Aguardar a lanterna estabilizar antes de capturar
-        if (torchWasActivated) await new Promise(r => setTimeout(r, 150));
+      if (facingMode === 'environment' && activeStreamRef.current) {
+        // Tenta ativar torch via applyConstraints
+        try {
+          const track = activeStreamRef.current.getVideoTracks()[0];
+          await track?.applyConstraints({ advanced: [{ torch: true } as any] });
+          await new Promise(r => setTimeout(r, 150));
+        } catch {
+          // Torch não suportado — tenta reiniciar stream com torch nas constraints
+          try {
+            if (activeStreamRef.current) {
+              activeStreamRef.current.getTracks().forEach(t => t.stop());
+            }
+            const torchStream = await navigator.mediaDevices.getUserMedia({
+              video: { facingMode: 'environment', advanced: [{ torch: true }] } as any
+            });
+            activeStreamRef.current = torchStream;
+            if (videoRef.current) {
+              videoRef.current.srcObject = torchStream;
+              await videoRef.current.play();
+            }
+            await new Promise(r => setTimeout(r, 200));
+          } catch { /* dispositivo não suporta torch */ }
+        }
       } else if (facingMode === 'user') {
-        // Screen flash: tela branca brilhante para iluminar o rosto
+        // Screen flash para selfie
         setScreenFlashVisible(true);
         await new Promise(r => setTimeout(r, 200));
       }
@@ -398,9 +424,12 @@ export default function CameraView({ event }: Props) {
 
     captureFrame(videoRef.current, canvasRef.current);
 
-    // Desligar flash após captura
-    if (torchWasActivated && videoRef.current) {
-      await setTorch(videoRef.current, false);
+    // Desligar torch após captura
+    if (flashOn && facingMode === 'environment' && activeStreamRef.current) {
+      try {
+        const track = activeStreamRef.current.getVideoTracks()[0];
+        await track?.applyConstraints({ advanced: [{ torch: false } as any] });
+      } catch { /* silencioso */ }
     }
     if (screenFlashVisible) {
       setScreenFlashVisible(false);
