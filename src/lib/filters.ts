@@ -60,8 +60,8 @@ export async function applyAnalogFilter(
       // Adicionar grão (ruído) diretamente nas cores
       let grainIntensity = 0;
       if (preset === 'kodak_gold') grainIntensity = 12;
-      if (preset === 'fuji_superia') grainIntensity = 18;
-      if (preset === 'disposable') grainIntensity = 28;
+      if (preset === 'fuji_superia') grainIntensity = 10;
+      if (preset === 'disposable') grainIntensity = 14;
 
       if (grainIntensity > 0) {
         const noise = (Math.random() - 0.5) * grainIntensity;

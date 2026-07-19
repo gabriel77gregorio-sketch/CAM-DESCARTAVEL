@@ -386,7 +386,7 @@ export default function CameraView({ event }: Props) {
       const localPreviewUrl = canvas.toDataURL('image/jpeg', 0.6);
       setPreviewUrl(localPreviewUrl);
 
-      const photoBlob = await compressImage(canvas, 0.8, 1920);
+      const photoBlob = await compressImage(canvas, 0.92, 2400);
 
       const photoId = `photo_${Math.random().toString(36).substring(2, 15)}_${Date.now()}`;
       const storagePath = `${event.id}/${photoId}.jpg`;
@@ -514,7 +514,7 @@ export default function CameraView({ event }: Props) {
       setPreviewUrl(localPreviewUrl);
 
       // Comprimir
-      const photoBlob = await compressImage(canvas, 0.8, 1920);
+      const photoBlob = await compressImage(canvas, 0.92, 2400);
 
       const photoId = `photo_${Math.random().toString(36).substring(2, 15)}_${Date.now()}`;
       const storagePath = `${event.id}/${photoId}.jpg`;
@@ -589,59 +589,64 @@ export default function CameraView({ event }: Props) {
   // STEP 1: SOLICITAR NOME DO CONVIDADO
   if (viewStep === 'get_name') {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fef2f6', padding: '1.5rem', fontFamily: 'var(--font-sans)' }}>
-        <div style={{ width: '100%', maxWidth: '380px', background: 'white', borderRadius: '24px', padding: '2.5rem 2rem', boxShadow: 'var(--shadow-premium)', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '1.5rem' }} className="animate-fade-in">
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f5f5f7', padding: '1.5rem', fontFamily: 'var(--font-sans)' }}>
+        <div style={{ width: '100%', maxWidth: '380px', background: 'white', borderRadius: '16px', padding: '2.5rem 2rem', boxShadow: 'var(--shadow-premium)', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '1.5rem', border: '1px solid rgba(0,0,0,0.05)' }} className="animate-fade-in">
           <div>
-            <span style={{ fontSize: '2.5rem' }}>🎉</span>
-            <h3 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-display)', color: 'var(--text-primary)', marginTop: '0.5rem', lineHeight: 1.2 }}>
-              Bem-vindo ao evento!
+            <div style={{ width: '56px', height: '56px', margin: '0 auto', backgroundColor: '#f9f9fa', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', border: '1px solid #eaeaea' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#c5a880' }}><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+            </div>
+            <h3 style={{ fontSize: '1.75rem', fontFamily: 'var(--font-serif)', color: 'var(--text-primary)', marginTop: '0.5rem', lineHeight: 1.2 }}>
+              Bem-vindo ao evento
             </h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.25rem' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.5rem', fontWeight: 500 }}>
               {event.event_name}
             </p>
           </div>
 
           <form onSubmit={handleSaveName} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div style={{ textAlign: 'left' }}>
-              <label style={{ fontSize: '0.85rem', fontWeight: 600, color: '#555', display: 'block', marginBottom: '0.5rem' }}>
+              <label style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--text-secondary)', display: 'block', marginBottom: '0.5rem' }}>
                 Como podemos te chamar?
               </label>
               <input
                 type="text"
                 required
-                placeholder="Digite seu nome"
+                placeholder="Seu nome"
                 value={guestName}
                 onChange={(e) => setGuestName(e.target.value)}
                 style={{
                   width: '100%',
                   padding: '0.85rem 1.25rem',
-                  border: '2px solid #e8c8d4',
-                  borderRadius: '50px',
+                  border: '1px solid #e5e5e5',
+                  borderRadius: '12px',
                   fontSize: '0.95rem',
                   outline: 'none',
-                  backgroundColor: 'white',
-                  transition: 'border-color 0.2s',
-                  color: '#1a1a2e',
+                  backgroundColor: '#fafafa',
+                  transition: 'all 0.2s',
+                  color: 'var(--text-primary)',
                 }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = '#E8318A')}
-                onBlur={(e) => (e.currentTarget.style.borderColor = '#e8c8d4')}
+                onFocus={(e) => { e.currentTarget.style.borderColor = '#1d1d1f'; e.currentTarget.style.backgroundColor = 'white'; }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = '#e5e5e5'; e.currentTarget.style.backgroundColor = '#fafafa'; }}
               />
             </div>
             <button
               type="submit"
               style={{
                 width: '100%',
-                padding: '0.85rem',
-                backgroundColor: '#E8318A',
+                padding: '0.9rem',
+                backgroundColor: '#1d1d1f',
                 color: 'white',
                 border: 'none',
-                borderRadius: '50px',
+                borderRadius: '12px',
                 fontWeight: 600,
+                fontSize: '0.95rem',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(232, 49, 138, 0.25)',
+                transition: 'background-color 0.2s',
               }}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#000')}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#1d1d1f')}
             >
-              Acessar Álbum
+              Acessar Câmera
             </button>
           </form>
         </div>
@@ -665,8 +670,8 @@ export default function CameraView({ event }: Props) {
   // STEP 2: ESCOLHER AÇÃO (Tirar Foto ou Galeria)
   if (viewStep === 'choose_action') {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#fef2f6', padding: '1rem 1rem 3rem', fontFamily: 'var(--font-sans)', overflowY: 'auto' }}>
-        <div style={{ width: '100%', maxWidth: '400px', background: 'white', borderRadius: '24px', padding: '1.5rem', boxShadow: 'var(--shadow-premium)', display: 'flex', flexDirection: 'column', gap: '1.25rem', margin: '0 auto' }} className="animate-fade-in">
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#f5f5f7', padding: '1rem 1rem 3rem', fontFamily: 'var(--font-sans)', overflowY: 'auto' }}>
+        <div style={{ width: '100%', maxWidth: '400px', background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: 'var(--shadow-premium)', display: 'flex', flexDirection: 'column', gap: '1.25rem', margin: '0 auto', border: '1px solid rgba(0,0,0,0.05)' }} className="animate-fade-in">
           
           {/* Alerta de conquista */}
           {achievementToast && (
@@ -688,43 +693,47 @@ export default function CameraView({ event }: Props) {
 
           {/* Sucesso imediato após tirar/subir foto (revelando) */}
           {isUploading && (
-            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(255,255,255,0.9)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', borderRadius: '24px', zIndex: 10 }}>
-              <div style={{ width: '40px', height: '40px', border: '4px solid #fce4ec', borderTopColor: '#E8318A', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-              <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>Revelando no laboratório...</span>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Sua foto vintage está sendo revelada.</p>
+            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(255,255,255,0.95)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', borderRadius: '16px', zIndex: 10 }}>
+              <div style={{ width: '40px', height: '40px', border: '3px solid #eaeaea', borderTopColor: '#1d1d1f', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+              <div style={{ textAlign: 'center' }}>
+                <span style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', fontFamily: 'var(--font-sans)', display: 'block' }}>Revelando foto...</span>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '4px' }}>Aguarde um momento.</p>
+              </div>
             </div>
           )}
 
           {previewUrl && (
-            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', borderRadius: '24px', zIndex: 10, padding: '2rem' }}>
-              <span style={{ fontSize: '2.5rem' }}>📸</span>
-              <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#E8318A', fontFamily: 'var(--font-display)' }}>Foto Revelada!</span>
-              <img src={previewUrl} style={{ width: '180px', height: '240px', objectFit: 'cover', borderRadius: '12px', border: '8px solid white', boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }} alt="Foto revelada" />
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Enviada com sucesso para o álbum!</p>
+            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', borderRadius: '16px', zIndex: 10, padding: '2rem' }}>
+              <div style={{ width: '56px', height: '56px', backgroundColor: '#f9f9fa', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #eaeaea' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#10b981' }}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <span style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1d1d1f', fontFamily: 'var(--font-serif)' }}>Prontinho!</span>
+              <img src={previewUrl} style={{ width: '180px', height: '240px', objectFit: 'cover', borderRadius: '8px', border: '8px solid white', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} alt="Foto revelada" />
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 500 }}>Sua foto já está no álbum.</p>
             </div>
           )}
 
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ fontSize: '1.3rem', fontFamily: 'var(--font-display)', color: 'var(--text-primary)', lineHeight: 1.2 }}>
-              Olá, <span style={{ color: '#E8318A' }}>{guestName}</span>!
+          <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
+            <h3 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-serif)', color: 'var(--text-primary)', lineHeight: 1.2 }}>
+              Olá, <span style={{ color: '#c5a880' }}>{guestName}</span>.
             </h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginTop: '0.25rem' }}>
-              Compartilhe suas memórias do dia com o casal.
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginTop: '0.35rem' }}>
+              Grave suas memórias deste dia especial.
             </p>
           </div>
 
           {/* Contador de Fotos */}
-          <div style={{ background: '#fef2f6', borderRadius: '16px', padding: '1rem', textAlign: 'center', border: '1px solid #fce4ec' }}>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 700, letterSpacing: '0.05em' }}>SUAS FOTOS CAPTURADAS</div>
-            <div style={{ fontSize: '2.2rem', fontWeight: 800, color: '#E8318A', fontFamily: 'var(--font-display)', margin: '0.1rem 0' }}>
-              {photosTaken} <span style={{ fontSize: '1rem', fontWeight: 500, color: '#999' }}>/ {event.photo_limit_per_user}</span>
+          <div style={{ background: '#f9f9fa', borderRadius: '12px', padding: '1.25rem 1rem', textAlign: 'center', border: '1px solid #eaeaea' }}>
+            <div style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Cliques Feitos</div>
+            <div style={{ fontSize: '2rem', fontWeight: 400, color: '#1d1d1f', fontFamily: 'var(--font-serif)', margin: '0.25rem 0' }}>
+              {photosTaken} <span style={{ fontSize: '1rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-sans)' }}>/ {event.photo_limit_per_user}</span>
             </div>
-            <div style={{ fontSize: '0.75rem', color: '#999' }}>
-              Você ainda tem {remainingPhotos} cliques disponíveis.
+            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
+              Você ainda tem {remainingPhotos} fotos disponíveis.
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
             {remainingPhotos > 0 ? (
               <>
                 {/* Opção A: Câmera */}
@@ -734,21 +743,22 @@ export default function CameraView({ event }: Props) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.75rem',
+                    gap: '0.5rem',
                     padding: '0.95rem',
-                    backgroundColor: '#E8318A',
+                    backgroundColor: '#1d1d1f',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '50px',
+                    borderRadius: '12px',
                     fontSize: '0.95rem',
-                    fontWeight: 600,
+                    fontWeight: 500,
                     cursor: 'pointer',
-                    transition: 'transform 0.2s',
-                    boxShadow: '0 4px 12px rgba(232, 49, 138, 0.2)',
+                    transition: 'background-color 0.2s',
                   }}
+                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#000')}
+                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#1d1d1f')}
                 >
-                  <span style={{ fontSize: '1.1rem' }}>📷</span>
-                  Tirar uma foto vintage
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                  Abrir a Câmera
                 </button>
 
                 {/* Opção B: Enviar do arquivo */}
@@ -758,20 +768,22 @@ export default function CameraView({ event }: Props) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '0.75rem',
+                    gap: '0.5rem',
                     padding: '0.95rem',
                     backgroundColor: 'white',
-                    color: '#E8318A',
-                    border: '2px solid #E8318A',
-                    borderRadius: '50px',
+                    color: '#1d1d1f',
+                    border: '1px solid #eaeaea',
+                    borderRadius: '12px',
                     fontSize: '0.95rem',
-                    fontWeight: 600,
+                    fontWeight: 500,
                     cursor: 'pointer',
-                    transition: 'transform 0.2s',
+                    transition: 'background-color 0.2s',
                   }}
+                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#f9f9fa')}
+                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'white')}
                 >
-                  <span style={{ fontSize: '1.1rem' }}>🖼️</span>
-                  Enviar foto do rolo
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  Enviar do Rolo de Câmera
                 </button>
                 <input
                   type="file"
@@ -782,8 +794,8 @@ export default function CameraView({ event }: Props) {
                 />
               </>
             ) : (
-              <div style={{ textAlign: 'center', color: '#ef4444', fontWeight: 600, fontSize: '0.9rem', padding: '0.75rem' }}>
-                🚫 Você esgotou todos os seus cliques para este evento! Obrigado por colaborar.
+              <div style={{ textAlign: 'center', color: '#1d1d1f', fontWeight: 500, fontSize: '0.9rem', padding: '1rem', backgroundColor: '#f9f9fa', borderRadius: '8px', border: '1px solid #eaeaea' }}>
+                Você esgotou todos os seus cliques para este evento!
               </div>
             )}
           </div>
@@ -817,10 +829,10 @@ export default function CameraView({ event }: Props) {
               )}
 
               {/* Minhas Conquistas */}
-              <div className="gamification-card" style={{ padding: '1.25rem', background: 'white', borderRadius: '20px', border: '1px solid #e8ede9', boxShadow: '0 4px 20px rgba(0,0,0,0.03)', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              <div className="gamification-card" style={{ padding: '1.25rem', background: 'white', borderRadius: '16px', border: '1px solid #eaeaea', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                 <div>
-                  <span style={{ fontSize: '0.65rem', color: '#E8318A', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block' }}>🏅 MINHAS CONQUISTAS</span>
-                  <h4 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '2px 0 0', color: '#1a1a2e' }}>Badges Desbloqueados</h4>
+                  <span style={{ fontSize: '0.65rem', color: '#c5a880', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', display: 'block' }}>Conquistas</span>
+                  <h4 style={{ fontSize: '1.1rem', fontWeight: 600, margin: '2px 0 0', color: '#1d1d1f', fontFamily: 'var(--font-serif)' }}>Seus Badges</h4>
                 </div>
                 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', justifyContent: 'center' }}>
@@ -834,8 +846,8 @@ export default function CameraView({ event }: Props) {
                           width: '52px',
                           height: '52px',
                           borderRadius: '50%',
-                          backgroundColor: isUnlocked ? '#FFF0F5' : '#f1f5f9',
-                          border: isUnlocked ? '2px solid #E8318A' : '2px dashed #cbd5e1',
+                          backgroundColor: isUnlocked ? '#fdfbf7' : '#f9f9fa',
+                          border: isUnlocked ? '1px solid #c5a880' : '1px dashed #d1d5db',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -848,7 +860,7 @@ export default function CameraView({ event }: Props) {
                       >
                         {ach.emoji}
                         {isUnlocked && (
-                          <div style={{ position: 'absolute', bottom: '-2px', right: '-2px', backgroundColor: '#E8318A', color: 'white', fontSize: '0.55rem', fontWeight: 'bold', padding: '1px 3px', borderRadius: '50px', lineHeight: 1 }}>
+                          <div style={{ position: 'absolute', bottom: '-2px', right: '-2px', backgroundColor: '#1d1d1f', color: 'white', fontSize: '0.55rem', fontWeight: 'bold', padding: '1px 4px', borderRadius: '4px', lineHeight: 1 }}>
                             +{ach.xp}
                           </div>
                         )}
@@ -1021,31 +1033,33 @@ export default function CameraView({ event }: Props) {
   // STEP 4: PREVIEW DE UPLOAD DA GALERIA
   if (viewStep === 'upload_preview') {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fef2f6', padding: '1.5rem', fontFamily: 'var(--font-sans)' }}>
-        <div style={{ width: '100%', maxWidth: '380px', background: 'white', borderRadius: '24px', padding: '2rem', boxShadow: 'var(--shadow-premium)', display: 'flex', flexDirection: 'column', gap: '1.25rem', textAlign: 'center' }} className="animate-fade-in">
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f5f5f7', padding: '1.5rem', fontFamily: 'var(--font-sans)' }}>
+        <div style={{ width: '100%', maxWidth: '380px', background: 'white', borderRadius: '16px', padding: '2rem', boxShadow: 'var(--shadow-premium)', display: 'flex', flexDirection: 'column', gap: '1.25rem', textAlign: 'center', border: '1px solid rgba(0,0,0,0.05)' }} className="animate-fade-in">
           
           {isUploading && (
-            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(255,255,255,0.9)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', borderRadius: '24px', zIndex: 10 }}>
-              <div style={{ width: '40px', height: '40px', border: '4px solid #fce4ec', borderTopColor: '#E8318A', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-              <span style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>Revelando no laboratório...</span>
+            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(255,255,255,0.95)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', borderRadius: '16px', zIndex: 10 }}>
+              <div style={{ width: '40px', height: '40px', border: '3px solid #eaeaea', borderTopColor: '#1d1d1f', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+              <span style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)' }}>Revelando foto...</span>
             </div>
           )}
 
           {previewUrl && (
-            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', borderRadius: '24px', zIndex: 10, padding: '2rem' }}>
-              <span style={{ fontSize: '2.5rem' }}>📸</span>
-              <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#E8318A', fontFamily: 'var(--font-display)' }}>Foto Revelada!</span>
-              <img src={previewUrl} style={{ width: '180px', height: '240px', objectFit: 'cover', borderRadius: '12px', border: '8px solid white', boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }} alt="Foto revelada" />
+            <div style={{ position: 'absolute', inset: 0, backgroundColor: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', borderRadius: '16px', zIndex: 10, padding: '2rem' }}>
+              <div style={{ width: '56px', height: '56px', backgroundColor: '#f9f9fa', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #eaeaea' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#10b981' }}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <span style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1d1d1f', fontFamily: 'var(--font-serif)' }}>Prontinho!</span>
+              <img src={previewUrl} style={{ width: '180px', height: '240px', objectFit: 'cover', borderRadius: '8px', border: '8px solid white', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }} alt="Foto revelada" />
             </div>
           )}
 
           <div>
-            <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>Visualização da Foto</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>Escolha um filtro analógico para aplicar na sua foto.</p>
+            <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-serif)', color: 'var(--text-primary)' }}>Ajustar Visual</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginTop: '0.25rem' }}>Escolha a película analógica.</p>
           </div>
 
           {/* Imagem a ser revelada com filtro CSS aplicado */}
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '16px', overflow: 'hidden', backgroundColor: '#f3f4f6', boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.06)' }}>
+          <div style={{ position: 'relative', width: '100%', aspectRatio: '4/5', borderRadius: '12px', overflow: 'hidden', backgroundColor: '#f3f4f6', border: '1px solid #eaeaea' }}>
             {galleryImageSrc && (
               <img
                 src={galleryImageSrc}
@@ -1067,49 +1081,52 @@ export default function CameraView({ event }: Props) {
               onClick={() => setFilter('disposable')}
               style={{
                 flex: 1,
-                padding: '0.5rem',
-                borderRadius: '12px',
-                border: filter === 'disposable' ? '2px solid #E8318A' : '1px solid #e8c8d4',
+                padding: '0.6rem 0.25rem',
+                borderRadius: '8px',
+                border: filter === 'disposable' ? '1px solid #1d1d1f' : '1px solid #eaeaea',
                 fontSize: '0.75rem',
-                fontWeight: 600,
-                backgroundColor: filter === 'disposable' ? '#fef2f6' : 'white',
-                color: filter === 'disposable' ? '#E8318A' : 'var(--text-secondary)',
+                fontWeight: 500,
+                backgroundColor: filter === 'disposable' ? '#1d1d1f' : 'white',
+                color: filter === 'disposable' ? 'white' : 'var(--text-secondary)',
                 cursor: 'pointer',
+                transition: 'all 0.2s',
               }}
             >
-              🎞️ Disposable
+              Disposable
             </button>
             <button
               onClick={() => setFilter('kodak_gold')}
               style={{
                 flex: 1,
-                padding: '0.5rem',
-                borderRadius: '12px',
-                border: filter === 'kodak_gold' ? '2px solid #E8318A' : '1px solid #e8c8d4',
+                padding: '0.6rem 0.25rem',
+                borderRadius: '8px',
+                border: filter === 'kodak_gold' ? '1px solid #1d1d1f' : '1px solid #eaeaea',
                 fontSize: '0.75rem',
-                fontWeight: 600,
-                backgroundColor: filter === 'kodak_gold' ? '#fef2f6' : 'white',
-                color: filter === 'kodak_gold' ? '#E8318A' : 'var(--text-secondary)',
+                fontWeight: 500,
+                backgroundColor: filter === 'kodak_gold' ? '#1d1d1f' : 'white',
+                color: filter === 'kodak_gold' ? 'white' : 'var(--text-secondary)',
                 cursor: 'pointer',
+                transition: 'all 0.2s',
               }}
             >
-              💛 Kodak Gold
+              Kodak Gold
             </button>
             <button
               onClick={() => setFilter('fuji_superia')}
               style={{
                 flex: 1,
-                padding: '0.5rem',
-                borderRadius: '12px',
-                border: filter === 'fuji_superia' ? '2px solid #E8318A' : '1px solid #e8c8d4',
+                padding: '0.6rem 0.25rem',
+                borderRadius: '8px',
+                border: filter === 'fuji_superia' ? '1px solid #1d1d1f' : '1px solid #eaeaea',
                 fontSize: '0.75rem',
-                fontWeight: 600,
-                backgroundColor: filter === 'fuji_superia' ? '#fef2f6' : 'white',
-                color: filter === 'fuji_superia' ? '#E8318A' : 'var(--text-secondary)',
+                fontWeight: 500,
+                backgroundColor: filter === 'fuji_superia' ? '#1d1d1f' : 'white',
+                color: filter === 'fuji_superia' ? 'white' : 'var(--text-secondary)',
                 cursor: 'pointer',
+                transition: 'all 0.2s',
               }}
             >
-              💚 Fuji
+              Fuji
             </button>
           </div>
 
@@ -1123,13 +1140,17 @@ export default function CameraView({ event }: Props) {
               style={{
                 flex: 1,
                 padding: '0.85rem',
-                backgroundColor: 'white',
-                color: '#555',
-                border: '1px solid #e8c8d4',
-                borderRadius: '50px',
-                fontWeight: 600,
+                backgroundColor: '#f9f9fa',
+                color: '#1d1d1f',
+                border: '1px solid #eaeaea',
+                borderRadius: '12px',
+                fontWeight: 500,
+                fontSize: '0.9rem',
                 cursor: 'pointer',
+                transition: 'background-color 0.2s',
               }}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#f9f9fa')}
             >
               Cancelar
             </button>
@@ -1139,16 +1160,19 @@ export default function CameraView({ event }: Props) {
               style={{
                 flex: 1.5,
                 padding: '0.85rem',
-                backgroundColor: '#E8318A',
+                backgroundColor: '#c5a880',
                 color: 'white',
                 border: 'none',
-                borderRadius: '50px',
+                borderRadius: '12px',
                 fontWeight: 600,
+                fontSize: '0.9rem',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(232, 49, 138, 0.25)',
+                transition: 'background-color 0.2s',
               }}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#b3966f')}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#c5a880')}
             >
-              Revelar Foto ✨
+              Revelar Foto
             </button>
           </div>
         </div>

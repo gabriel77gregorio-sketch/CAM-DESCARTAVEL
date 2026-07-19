@@ -4,8 +4,8 @@
 
 export async function compressImage(
   canvas: HTMLCanvasElement,
-  quality: number = 0.8,
-  maxWidth: number = 2048
+  quality: number = 0.92,
+  maxWidth: number = 2400
 ): Promise<Blob> {
   return new Promise((resolve, reject) => {
     let targetCanvas = canvas;

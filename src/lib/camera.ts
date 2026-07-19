@@ -14,8 +14,9 @@ export async function initCamera(
       facingMode: facingMode,
       // Relaxado para usar o sensor inteiro e não cortar com "zoom" forçado do SO.
       // O recorte final será visualmente pelo CSS (object-fit: cover) ou pelo canvas
-      width: { ideal: 1920 },
-      height: { ideal: 1080 }
+      width: { ideal: 3840, min: 1280 },
+      height: { ideal: 2160, min: 720 },
+      frameRate: { ideal: 30 }
     },
     audio: false,
   };
