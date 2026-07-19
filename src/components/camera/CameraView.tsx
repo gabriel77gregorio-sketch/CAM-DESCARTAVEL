@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
-import { initCamera, stopCamera, captureFrame } from '../../lib/camera';
+import { initCamera, stopCamera, captureFrame, setTorch, hasTorchSupport } from '../../lib/camera';
 import { applyAnalogFilter, type FilterPreset } from '../../lib/filters';
 import { compressImage } from '../../lib/compression';
 import MissionCard from './MissionCard';
@@ -46,6 +46,8 @@ export default function CameraView({ event }: Props) {
   const [errorMsg, setErrorMsg] = useState('');
   const [cameraReady, setCameraReady] = useState(false);
   const [flashOn, setFlashOn] = useState(false);
+  const [torchSupported, setTorchSupported] = useState(false);
+  const [screenFlashVisible, setScreenFlashVisible] = useState(false);
   const [zoom, setZoom] = useState<1.0 | 1.5 | 2.0>(1.0);
 
   // Estados de Gamificação
@@ -319,6 +321,9 @@ export default function CameraView({ event }: Props) {
         if (videoRef.current) {
           activeStream = await initCamera(videoRef.current, facingMode);
           setCameraReady(true);
+          // Verificar se o dispositivo suporta torch (flash da lanterna)
+          const supportsTorch = hasTorchSupport(videoRef.current);
+          setTorchSupported(supportsTorch);
         }
       } catch (err: any) {
         console.error(err);
@@ -376,7 +381,31 @@ export default function CameraView({ event }: Props) {
     setIsCapturing(true);
     setTimeout(() => setIsCapturing(false), 300);
 
+    // Flash real: ativar torch (câmera traseira) ou screen flash (câmera frontal)
+    let torchWasActivated = false;
+    if (flashOn && videoRef.current) {
+      if (facingMode === 'environment' && torchSupported) {
+        // Flash da lanterna do celular (câmera traseira)
+        torchWasActivated = await setTorch(videoRef.current, true);
+        // Aguardar a lanterna estabilizar antes de capturar
+        if (torchWasActivated) await new Promise(r => setTimeout(r, 150));
+      } else if (facingMode === 'user') {
+        // Screen flash: tela branca brilhante para iluminar o rosto
+        setScreenFlashVisible(true);
+        await new Promise(r => setTimeout(r, 200));
+      }
+    }
+
     captureFrame(videoRef.current, canvasRef.current);
+
+    // Desligar flash após captura
+    if (torchWasActivated && videoRef.current) {
+      await setTorch(videoRef.current, false);
+    }
+    if (screenFlashVisible) {
+      setScreenFlashVisible(false);
+    }
+
     setIsUploading(true);
 
     try {
@@ -911,8 +940,13 @@ export default function CameraView({ event }: Props) {
         )}
         <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-        {/* ── Flash de captura ── */}
+        {/* ── Flash de captura (animação) ── */}
         <div className={`flash-effect ${isCapturing ? 'flash-active' : ''}`} />
+
+        {/* ── Screen Flash (tela branca para selfie flash) ── */}
+        {screenFlashVisible && (
+          <div style={{ position: 'absolute', inset: 0, backgroundColor: '#ffffff', zIndex: 35, pointerEvents: 'none' }} />
+        )}
 
         {/* ── Erro de câmera ── */}
         {errorMsg && (
@@ -962,10 +996,14 @@ export default function CameraView({ event }: Props) {
           <button
             className="cam-icon-btn"
             onClick={() => setFlashOn((v) => !v)}
-            style={{ fontSize: '1.1rem', background: flashOn ? 'rgba(255,210,0,0.3)' : 'transparent', border: 'none', boxShadow: 'none' }}
+            style={{ background: flashOn ? 'rgba(255,210,0,0.25)' : 'transparent', border: 'none', boxShadow: 'none' }}
             title="Flash"
           >
-            {flashOn ? '⚡' : '🔕'}
+            {flashOn ? (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#fbbf24' }}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'rgba(255,255,255,0.7)' }}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/><line x1="1" y1="1" x2="23" y2="23" stroke="rgba(255,255,255,0.7)" strokeWidth="2"/></svg>
+            )}
           </button>
 
           {/* Zoom pills */}
@@ -990,9 +1028,9 @@ export default function CameraView({ event }: Props) {
             onClick={handleSwitchCamera}
             disabled={!cameraReady || isUploading}
             title="Alternar câmera"
-            style={{ fontSize: '1.2rem', background: 'transparent', border: 'none', boxShadow: 'none' }}
+            style={{ background: 'transparent', border: 'none', boxShadow: 'none' }}
           >
-            🔄
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'white' }}><path d="M16 3h5v5"/><path d="M8 21H3v-5"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
           </button>
         </div>
 

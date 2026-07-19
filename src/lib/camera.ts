@@ -86,3 +86,37 @@ export function captureFrame(videoElement: HTMLVideoElement, canvasElement: HTML
   ctx.clearRect(0, 0, outW, outH);
   ctx.drawImage(videoElement, srcX, srcY, srcW, srcH, 0, 0, outW, outH);
 }
+
+/**
+ * Verifica se a track de vídeo ativa suporta torch (flash/lanterna).
+ * Só funciona na câmera traseira e em navegadores compatíveis (Chrome Android).
+ */
+export function hasTorchSupport(videoElement: HTMLVideoElement): boolean {
+  try {
+    const stream = videoElement.srcObject as MediaStream | null;
+    if (!stream) return false;
+    const track = stream.getVideoTracks()[0];
+    if (!track) return false;
+    const capabilities = track.getCapabilities?.();
+    return !!(capabilities && (capabilities as any).torch);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Liga ou desliga o flash (torch/lanterna) da câmera traseira.
+ * Retorna true se conseguiu aplicar, false caso contrário.
+ */
+export async function setTorch(videoElement: HTMLVideoElement, on: boolean): Promise<boolean> {
+  try {
+    const stream = videoElement.srcObject as MediaStream | null;
+    if (!stream) return false;
+    const track = stream.getVideoTracks()[0];
+    if (!track) return false;
+    await track.applyConstraints({ advanced: [{ torch: on } as any] });
+    return true;
+  } catch {
+    return false;
+  }
+}
