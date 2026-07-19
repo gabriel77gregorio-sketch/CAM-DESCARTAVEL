@@ -448,9 +448,10 @@ export default function CameraView({ event }: Props) {
 
     try {
       const canvas = canvasRef.current;
-      await applyAnalogFilter(canvas, filter);
+      // Filtros removidos conforme pedido do usuário para manter a qualidade original
+      // await applyAnalogFilter(canvas, filter);
 
-      const localPreviewUrl = canvas.toDataURL('image/jpeg', 0.6);
+      const localPreviewUrl = canvas.toDataURL('image/jpeg', 0.95);
       setPreviewUrl(localPreviewUrl);
 
       const photoBlob = await compressImage(canvas, 0.92, 2400);
@@ -574,10 +575,10 @@ export default function CameraView({ event }: Props) {
       ctx?.drawImage(img, 0, 0, w, h);
 
       // Aplicar o filtro vintage
-      await applyAnalogFilter(canvas, filter);
+      // await applyAnalogFilter(canvas, filter);
 
       // Criar URL de preview rápido
-      const localPreviewUrl = canvas.toDataURL('image/jpeg', 0.6);
+      const localPreviewUrl = canvas.toDataURL('image/jpeg', 0.95);
       setPreviewUrl(localPreviewUrl);
 
       // Comprimir
