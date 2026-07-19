@@ -778,37 +778,13 @@ export default function EventList() {
         </div>
       </div>
 
-
       {/* 3. MODAL DE CRIAÇÃO DE ÁLBUM */}
       {showCreateModal && (
-        <div style={{ 
-          position: 'fixed', inset: 0, 
-          backgroundColor: 'rgba(0,0,0,0.4)', 
-          display: 'flex', 
-          alignItems: window.innerWidth < 640 ? 'flex-end' : 'center', 
-          justifyContent: 'center', 
-          zIndex: 100, 
-          padding: window.innerWidth < 640 ? '0' : '1rem', 
-          backdropFilter: 'blur(8px)' 
-        }}>
-          <div style={{ 
-            background: 'white', 
-            borderRadius: window.innerWidth < 640 ? '16px 16px 0 0' : '16px', 
-            padding: '2rem 1.5rem', 
-            paddingBottom: `max(2rem, env(safe-area-inset-bottom, 2rem))`,
-            width: '100%', 
-            maxWidth: '480px', 
-            maxHeight: window.innerWidth < 640 ? '90dvh' : '85vh', 
-            overflowY: 'auto', 
-            boxShadow: 'var(--shadow-lg)', 
-            display: 'flex', flexDirection: 'column', gap: '1.5rem', 
-            position: 'relative' 
-          }} className="animate-fade-in">
+        <div className="modal-overlay" style={{ zIndex: 3000 }}>
+          <div className="modal-content animate-fade-in" style={{ maxWidth: '500px', display: 'flex', flexDirection: 'column', gap: '1.5rem', position: 'relative', border: '1px solid var(--glass-border)', boxShadow: 'var(--shadow-lg)' }}>
 
             {/* Drag handle (mobile) */}
-            {window.innerWidth < 640 && (
-              <div style={{ width: '36px', height: '4px', background: '#e5e5e7', borderRadius: '999px', margin: '0 auto -0.75rem' }} />
-            )}
+            <div className="modal-drag-handle" />
             
             {/* Botão Fechar */}
             <button
@@ -875,7 +851,7 @@ export default function EventList() {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
                 
                 {/* Data */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', flex: 1 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', flex: '1 1 180px' }}>
                   <label style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>DATA DO CASAMENTO</label>
                   <input
                     type="date"
@@ -887,7 +863,7 @@ export default function EventList() {
                 </div>
 
                 {/* Vibração */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', flex: 1, position: 'relative' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', flex: '1 1 180px', position: 'relative' }}>
                   <label style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>TEMA VISUAL</label>
                   <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                     <div style={{
@@ -936,7 +912,7 @@ export default function EventList() {
                 <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.02em' }}>JANELA DA CÂMERA & REVELAÇÃO</label>
                 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flex: 1 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flex: '1 1 130px' }}>
                     <label style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-secondary)' }}>HORA INÍCIO (OPCIONAL)</label>
                     <input
                       type="time"
@@ -945,7 +921,7 @@ export default function EventList() {
                       style={{ padding: '0.65rem 0.75rem', borderRadius: '8px', border: '1px solid #d1d1d6', fontSize: '0.9rem', outline: 'none', background: 'white' }}
                     />
                   </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flex: 1 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', flex: '1 1 130px' }}>
                     <label style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-secondary)' }}>HORA TÉRMINO (OPCIONAL)</label>
                     <input
                       type="time"
